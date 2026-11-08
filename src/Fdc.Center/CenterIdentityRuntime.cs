@@ -40,6 +40,8 @@ public static class CenterIdentityRuntime
         builder.Services.AddScoped<IManagementReadAuthority, PendingManagementReadAuthority>();
         builder.Services.AddScoped<IManagementQueries, SqlManagementQueries>(); builder.Services.AddScoped<ManagementQueryService>();
         builder.Services.AddSingleton<IReviewedPermissionPolicy, PendingPermissionPolicy>();
+        builder.Services.AddSingleton<IOperationMappingReleaseVerifier, PendingOperationMappingReleaseVerifier>();
+        builder.Services.AddSingleton<OperationPermissionResolver>();
         builder.Services.AddSingleton<ITrustedResourceResolver, PendingCenterResourceResolver>();
         builder.Services.AddScoped<ICurrentAuthorityReader, SqlCurrentAuthorityReader>();
         builder.Services.AddSingleton<PermissionEvaluator>(); builder.Services.AddScoped<Fdc.Identity.Application.AuthorizationService>();
