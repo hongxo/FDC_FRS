@@ -52,22 +52,26 @@ public sealed class SqlRoleCrudService(IamDbContext db, IAuthorizedCommitBoundar
             var versions = await CurrentAuthorityAsync(actor, token);
             var row = await db.Set<RoleChangeRequestRow>().SingleOrDefaultAsync(r => r.Id == requestId, token) ?? throw new InvalidOperationException("Request not available.");
             await db.Entry(row).ReloadAsync(token);
-            await authority.DemandReviewedRequestAsync(actor, row, token);
             if (row.Revision != revision || row.Digest != digest) throw new InvalidOperationException("Revision conflict.");
             var payload = JsonSerializer.Deserialize<RoleChangePayload>(row.PayloadJson) ?? throw new InvalidOperationException("Invalid stored payload.");
-            var targetId = payload.Kind is RoleChangeKind.Create or RoleChangeKind.Clone ? row.Id : row.RoleId ?? throw new InvalidOperationException("Target role required.");
-            if (row.EffectiveStatus == "Applied")
-            {
-                var applied = await db.Set<RoleRow>().SingleAsync(r => r.Id == targetId, token);
-                return new RoleApplyResult(row.Id, targetId, applied.Version, true);
-            }
-            if (row.ApprovalStatus != "Approved" || row.EffectiveStatus != "NotApplied" || row.PolicyVersion != actor.PolicyVersion ||
-                row.CatalogVersion != actor.CatalogVersion || clock.GetUtcNow() >= row.ExpiresAt || !row.RowVersion.AsSpan().SequenceEqual(expectedRowVersion))
-                throw new InvalidOperationException("Unapproved, expired or stale request.");
+            if (!Enum.IsDefined(payload.Kind) || row.RoleId != payload.RoleId || row.BaseRoleVersion != payload.BaseVersion || row.CatalogVersion != payload.CatalogVersion)
+                throw new InvalidOperationException("Request metadata does not match immutable payload.");
             var requester = await (from u in db.Set<UserRow>() join p in db.Set<PersonReferenceRow>() on u.PersonReferenceId equals p.Id
                                    where u.Id == row.RequesterUserId && u.Active select p.PersonKey).SingleOrDefaultAsync(token);
             if (requester is null || new RoleChangeRequest(requester, payload, row.Revision, row.ExpiresAt).Digest != row.Digest)
                 throw new InvalidOperationException("Immutable requester/payload binding changed.");
+            await authority.DemandReviewedRequestAsync(actor, row, token);
+            var targetId = payload.Kind is RoleChangeKind.Create or RoleChangeKind.Clone ? row.Id : row.RoleId ?? throw new InvalidOperationException("Target role required.");
+            if (row.EffectiveStatus == "Applied")
+            {
+                var appliedVersion = await db.Set<RoleHistoryRow>().AsNoTracking().Where(h => h.RequestId == row.Id && h.Revision == row.Revision && h.RoleId == targetId && h.Digest == row.Digest)
+                    .Select(h => h.Version).SingleOrDefaultAsync(token);
+                if (appliedVersion < 1) throw new InvalidOperationException("Applied result history unavailable.");
+                return new RoleApplyResult(row.Id, targetId, appliedVersion, true);
+            }
+            if (row.ApprovalStatus != "Approved" || row.EffectiveStatus != "NotApplied" || row.PolicyVersion != actor.PolicyVersion ||
+                row.CatalogVersion != actor.CatalogVersion || clock.GetUtcNow() >= row.ExpiresAt || !row.RowVersion.AsSpan().SequenceEqual(expectedRowVersion))
+                throw new InvalidOperationException("Unapproved, expired or stale request.");
             var preview = await PreviewAsync(payload, actor, token);
             var now = clock.GetUtcNow();
             RoleRow role;
