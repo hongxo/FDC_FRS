@@ -1,9 +1,11 @@
 using System.Data;
+using System.Data.Common;
 using System.Diagnostics;
 using Fdc.Identity.Application;
 using Fdc.Identity.Infrastructure;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Fdc.Identity.Tests;
 
@@ -11,6 +13,19 @@ namespace Fdc.Identity.Tests;
 // No session/user/role/grant is created. Test plan provider does not become a runtime D09 approval.
 public sealed class CommitGateSqlLabTests
 {
+    [SqlLabFact] public async Task Lost_ack_after_real_sql_commit_is_unknown_outcome_not_safe_retry()
+    {
+        await using var fixture = await Probe.CreateAsync(); await using var db = fixture.Context(failCommitAcknowledgement: true); var actor = Guid.NewGuid();
+        await Assert.ThrowsAsync<CommitOutcomeUnknownException>(() => new SqlAuthorityCommitBoundary(db, fixture.Plan(actor, true)).CommitAsync(actor, async ct =>
+        {
+            await db.Set<AuthorityVersionRow>().Where(x => x.Id == fixture.Id).ExecuteUpdateAsync(s => s.SetProperty(x => x.CatalogVersion, 2), ct);
+            return "must-not-return-success-or-retry";
+        }, default));
+        await using var inspect = fixture.Context();
+        Assert.Equal(2, await inspect.Set<AuthorityVersionRow>().Where(x => x.Id == fixture.Id).Select(x => x.CatalogVersion).SingleAsync());
+        Assert.Empty(db.ChangeTracker.Entries());
+        await fixture.EvidenceAsync("P41-GATE-06", "Test hook threw after actual SQL commit; durable effect2 verified; caller received CommitOutcomeUnknownException, no automatic retry");
+    }
     [SqlLabFact] public async Task Exclusive_policy_change_blocks_mutation_by_another_actor()
     {
         await using var fixture = await Probe.CreateAsync();
@@ -129,12 +144,22 @@ public sealed class CommitGateSqlLabTests
     private static async Task Drain(Task task) { try { await task.WaitAsync(TimeSpan.FromSeconds(12)); } catch { /* Assertion path retains original test failure. */ } }
     private sealed class PlanProvider(SqlCommitGatePlan plan) : ISqlCommitGatePlanProvider
     { public Task<SqlCommitGatePlan> ResolveAsync(Guid actorId, CancellationToken ct) => Task.FromResult(plan); }
+    private sealed class LostCommitAcknowledgement : DbTransactionInterceptor
+    {
+        public override Task TransactionCommittedAsync(DbTransaction transaction, TransactionEndEventData eventData, CancellationToken cancellationToken = default)
+            => throw new InvalidOperationException("Synthetic lost commit acknowledgement, test only.");
+    }
     private sealed class Probe(string connection) : IAsyncDisposable
     {
         public Guid Id { get; } = Guid.NewGuid();
         private string Key => "GateProbe-" + Id.ToString("N");
         private string Prefix => "FdcTest." + Id.ToString("N");
-        public IamDbContext Context() => new(new DbContextOptionsBuilder<IamDbContext>().UseSqlServer(connection).Options);
+        public IamDbContext Context(bool failCommitAcknowledgement = false)
+        {
+            var options = new DbContextOptionsBuilder<IamDbContext>().UseSqlServer(connection);
+            if (failCommitAcknowledgement) options.AddInterceptors(new LostCommitAcknowledgement());
+            return new(options.Options);
+        }
         public ISqlCommitGatePlanProvider Plan(Guid actor, bool exclusive, int timeout = 5000, bool exclusivePolicy = false)
         {
             return new PlanProvider(new(Prefix, exclusivePolicy, [new(actor, exclusive)], timeout, IsolationLevel.ReadCommitted));
