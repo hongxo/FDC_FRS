@@ -1,0 +1,10 @@
+.plot {
+  margin: 1rem 0;
+  border: 1px solid var(--axl-border);
+  border-radius: var(--axl-radius);
+  padding: .75rem;
+}
+.plot h3 { font-size: .95rem; margin: 0 0 .65rem; }
+.plot canvas { display: block; width: 100%; height: 180px; touch-action: none; }
+.plot.digital canvas { height: 90px; }
+#channels label { padding: .3rem .6rem; background: var(--axl-surface-blue); border-radius: .5rem; }
