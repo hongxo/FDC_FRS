@@ -16,6 +16,8 @@ public static class CenterApplication
         var builder = WebApplication.CreateBuilder(startup);
         builder.Configuration.AddJsonFile(Environment.GetEnvironmentVariable("FDC_CONFIG") ?? "appsettings.Local.json", true).AddEnvironmentVariables();
         configure?.Invoke(builder);
+        if (builder.Configuration.GetValue<bool>("CenterDatabase:Enabled") && !builder.Configuration.GetValue<bool>("IdentityRuntime:Enabled"))
+            throw new InvalidOperationException("Center SQL integration requires the isolated Human lab profile; no legacy-key fallback.");
         if (builder.Configuration.GetValue<bool>("IdentityRuntime:Enabled")) return CenterIdentityRuntime.Build(builder);
         var options = builder.Configuration.GetSection("Center").Get<CenterOptions>() ?? new();
         options.DataRoot = Path.GetFullPath(options.DataRoot, builder.Environment.ContentRootPath);

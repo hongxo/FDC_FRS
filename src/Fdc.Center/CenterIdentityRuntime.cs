@@ -27,6 +27,7 @@ public static class CenterIdentityRuntime
             if (new SqlConnectionStringBuilder(connection).ApplicationIntent != ApplicationIntent.ReadWrite) throw new ArgumentException();
         }
         catch (ArgumentException) { throw new InvalidOperationException("A valid primary-only IAM SQL connection is required."); }
+        builder.AddCenterLabPersistence(connection);
         // Per Human lane, not global RequireCertificate inherited from legacy machine setup.
         builder.WebHost.ConfigureKestrel(server => server.ConfigureHttpsDefaults(https => https.ClientCertificateMode = ClientCertificateMode.AllowCertificate));
         builder.Services.AddDbContextFactory<IamDbContext>(options => options.UseSqlServer(connection).EnableSensitiveDataLogging(false).EnableDetailedErrors(false));

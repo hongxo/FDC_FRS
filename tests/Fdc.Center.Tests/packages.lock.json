@@ -458,6 +458,14 @@
       "fdc.center": {
         "type": "Project",
         "dependencies": {
+          "Fdc.Center.Persistence": "[1.0.0, )",
+          "Fdc.Core": "[1.0.0, )",
+          "Fdc.Identity": "[1.0.0, )"
+        }
+      },
+      "fdc.center.persistence": {
+        "type": "Project",
+        "dependencies": {
           "Fdc.Core": "[1.0.0, )",
           "Fdc.Identity": "[1.0.0, )"
         }

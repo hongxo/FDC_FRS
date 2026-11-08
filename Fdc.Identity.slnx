@@ -5,4 +5,6 @@
   <Project Path="tests/Fdc.Identity.Tests/Fdc.Identity.Tests.csproj" />
   <Project Path="tests/Fdc.Center.Tests/Fdc.Center.Tests.csproj" />
   <Project Path="tools/Fdc.Identity.Schema/Fdc.Identity.Schema.csproj" />
+  <Project Path="src/Fdc.Center.Persistence/Fdc.Center.Persistence.csproj" />
+  <Project Path="tools/Fdc.Center.Database/Fdc.Center.Database.csproj" />
 </Solution>

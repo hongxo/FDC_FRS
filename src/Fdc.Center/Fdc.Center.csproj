@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Fdc.Core\Fdc.Core.csproj" />
     <ProjectReference Include="..\Fdc.Identity\Fdc.Identity.csproj" />
+    <ProjectReference Include="..\Fdc.Center.Persistence\Fdc.Center.Persistence.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

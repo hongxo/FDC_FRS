@@ -1,0 +1,42 @@
+IF DB_NAME()<>N'FDC_Center_Lab' OR CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))<>N'XOTH-ETC-2' OR COALESCE(TRY_CONVERT(bit,SESSION_CONTEXT(N'Fdc.ConfirmedDisposableLab')),0)<>1 OR COALESCE(CONVERT(nvarchar(128),SESSION_CONTEXT(N'Fdc.ExpectedLabDatabase')),N'')<>DB_NAME() THROW 51100,'Exact confirmed Center lab required.',1;
+CREATE TABLE [ops].[StationSoeEvent] (
+    [Id] uniqueidentifier NOT NULL,
+    [StationId] uniqueidentifier NOT NULL,
+    [IedId] uniqueidentifier NOT NULL,
+    [SourceEventId] nvarchar(200) NOT NULL,
+    [RcbReference] nvarchar(200) NOT NULL,
+    [DataReference] nvarchar(200) NOT NULL,
+    [Value] nvarchar(200) NOT NULL,
+    [Source] nvarchar(200) NOT NULL,
+    [ReceivedAtUtc] datetimeoffset NOT NULL,
+    [IedTimestampUtc] datetimeoffset NULL,
+    [TimeSource] nvarchar(200) NOT NULL,
+    [TimeQuality] tinyint NULL,
+    [Quality] nvarchar(200) NULL,
+    [Reason] int NOT NULL,
+    [EntryId] nvarchar(200) NULL,
+    [Sequence] int NULL,
+    [ConfRev] bigint NULL,
+    [BufferOverflow] bit NOT NULL,
+    [SubSequence] int NULL,
+    [MoreSegments] bit NOT NULL,
+    [CreatedAtUtc] datetimeoffset NOT NULL,
+    [UpdatedAtUtc] datetimeoffset NULL,
+    [RowVersion] rowversion NOT NULL,
+    [IsSynthetic] bit NOT NULL,
+    CONSTRAINT [PK_StationSoeEvent] PRIMARY KEY ([Id]),
+    CONSTRAINT [CK_StationSoeEvent_DataReference_Required] CHECK (LEN([DataReference])>0),
+    CONSTRAINT [CK_StationSoeEvent_Range] CHECK (([Sequence] IS NULL OR [Sequence] BETWEEN 0 AND 65535) AND ([SubSequence] IS NULL OR [SubSequence] BETWEEN 0 AND 65535) AND ([ConfRev] IS NULL OR [ConfRev] BETWEEN 0 AND 4294967295)),
+    CONSTRAINT [CK_StationSoeEvent_RcbReference_Required] CHECK (LEN([RcbReference])>0),
+    CONSTRAINT [CK_StationSoeEvent_Source_Required] CHECK (LEN([Source])>0),
+    CONSTRAINT [CK_StationSoeEvent_SourceEventId_Required] CHECK (LEN([SourceEventId])>0),
+    CONSTRAINT [CK_StationSoeEvent_TimeSource_Required] CHECK (LEN([TimeSource])>0),
+    CONSTRAINT [CK_StationSoeEvent_Utc] CHECK (DATEPART(TZOFFSET,[CreatedAtUtc])=0 AND ([UpdatedAtUtc] IS NULL OR DATEPART(TZOFFSET,[UpdatedAtUtc])=0)),
+    CONSTRAINT [CK_StationSoeEvent_Utc_IedTimestampUtc] CHECK ([IedTimestampUtc] IS NULL OR DATEPART(TZOFFSET,[IedTimestampUtc])=0),
+    CONSTRAINT [CK_StationSoeEvent_Utc_ReceivedAtUtc] CHECK ([ReceivedAtUtc] IS NULL OR DATEPART(TZOFFSET,[ReceivedAtUtc])=0),
+    CONSTRAINT [CK_StationSoeEvent_Value_Required] CHECK (LEN([Value])>0),
+    CONSTRAINT [FK_StationSoeEvent_IedDevice_IedId_StationId] FOREIGN KEY ([IedId], [StationId]) REFERENCES [catalog].[IedDevice] ([Id], [StationId]) ON DELETE NO ACTION
+);
+CREATE INDEX [IX_StationSoeEvent_IedId_StationId] ON [ops].[StationSoeEvent] ([IedId], [StationId]);
+CREATE UNIQUE INDEX [IX_StationSoeEvent_StationId_IedId_SourceEventId] ON [ops].[StationSoeEvent] ([StationId], [IedId], [SourceEventId]);
+CREATE INDEX [IX_StationSoeEvent_StationId_ReceivedAtUtc_Id] ON [ops].[StationSoeEvent] ([StationId], [ReceivedAtUtc], [Id]);
