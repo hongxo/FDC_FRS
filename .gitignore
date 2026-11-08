@@ -1,0 +1,12 @@
+**/bin/
+**/obj/
+tmp/
+**/data/
+*.db*
+*.binlog
+.env
+.env.*
+*.pfx
+*.p12
+*.key
+appsettings*.json

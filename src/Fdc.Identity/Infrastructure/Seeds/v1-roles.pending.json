@@ -1,0 +1,49 @@
+{
+  "manifestId": "v1-default-roles-PENDING",
+  "catalogVersion": 0,
+  "approvalReference": null,
+  "roles": [
+    {
+      "roleId": null,
+      "roleCode": null,
+      "roleName": "System Administrator",
+      "permissionCodes": []
+    },
+    {
+      "roleId": null,
+      "roleCode": null,
+      "roleName": "Security Administrator",
+      "permissionCodes": []
+    },
+    {
+      "roleId": null,
+      "roleCode": null,
+      "roleName": "Engineering Operator",
+      "permissionCodes": []
+    },
+    {
+      "roleId": null,
+      "roleCode": null,
+      "roleName": "Reviewer",
+      "permissionCodes": []
+    },
+    {
+      "roleId": null,
+      "roleCode": null,
+      "roleName": "Approver",
+      "permissionCodes": []
+    },
+    {
+      "roleId": null,
+      "roleCode": null,
+      "roleName": "Auditor",
+      "permissionCodes": []
+    },
+    {
+      "roleId": null,
+      "roleCode": null,
+      "roleName": "Viewer",
+      "permissionCodes": []
+    }
+  ]
+}
