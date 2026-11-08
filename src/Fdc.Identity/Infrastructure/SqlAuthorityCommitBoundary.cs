@@ -13,6 +13,8 @@ public sealed class SqlAuthorityCommitBoundary(IamDbContext db, ISqlCommitGatePl
         var plan = (await plans.ResolveAsync(actorUserId, ct)).Normalize(actorUserId);
         if (db.Database.CurrentTransaction is not null || System.Transactions.Transaction.Current is not null)
             throw new InvalidOperationException("Authority boundary must own the transaction; nesting is forbidden.");
+        if (db.ChangeTracker.Entries().Any(x => x.State is EntityState.Added or EntityState.Modified or EntityState.Deleted))
+            throw new InvalidOperationException("Authority boundary cannot flush mutations prepared outside its gate.");
         await using var transaction = await BeginAsync(plan, ct);
         var committing = false;
         try

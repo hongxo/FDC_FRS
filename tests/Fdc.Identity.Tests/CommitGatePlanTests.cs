@@ -34,4 +34,16 @@ public sealed class CommitGatePlanTests
         await Assert.ThrowsAsync<OwnerDecisionRequiredException>(() => new SqlAuthorityCommitBoundary(db, new PendingSqlCommitGatePlanProvider()).CommitAsync(Guid.NewGuid(), _ => { called = true; return Task.FromResult(1); }, default));
         Assert.False(called); Assert.Null(db.Database.CurrentTransaction);
     }
+    [Fact] public async Task Preexisting_uncommitted_mutation_is_not_flushed_under_a_new_actor()
+    {
+        using var db = new IamDbContext(new DbContextOptionsBuilder<IamDbContext>().UseSqlServer("Server=unconfigured.invalid;Database=NeverConnect;Integrated Security=true").Options);
+        db.Add(new RoleRow { Id = Guid.NewGuid(), CreatedAt = DateTimeOffset.UtcNow, RoleCode = "uncommitted", RoleName = "Must not flush" });
+        var actor = Guid.NewGuid(); var called = false;
+        await Assert.ThrowsAsync<InvalidOperationException>(() => new SqlAuthorityCommitBoundary(db, new FixturePlan(actor)).CommitAsync(actor, _ => { called = true; return Task.FromResult(1); }, default));
+        Assert.False(called); Assert.Equal(EntityState.Added, Assert.Single(db.ChangeTracker.Entries()).State);
+    }
+    private sealed class FixturePlan(Guid actor) : ISqlCommitGatePlanProvider
+    {
+        public Task<SqlCommitGatePlan> ResolveAsync(Guid actorId, CancellationToken ct) => Task.FromResult(new SqlCommitGatePlan("Fixture", false, [new(actor, false)], 1000, IsolationLevel.ReadCommitted));
+    }
 }
