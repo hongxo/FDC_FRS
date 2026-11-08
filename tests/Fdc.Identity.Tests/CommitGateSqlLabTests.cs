@@ -11,6 +11,29 @@ namespace Fdc.Identity.Tests;
 // No session/user/role/grant is created. Test plan provider does not become a runtime D09 approval.
 public sealed class CommitGateSqlLabTests
 {
+    [SqlLabFact] public async Task Exclusive_policy_change_blocks_mutation_by_another_actor()
+    {
+        await using var fixture = await Probe.CreateAsync();
+        await using var writerDb = fixture.Context(); await using var readerDb = fixture.Context();
+        await readerDb.Database.OpenConnectionAsync();
+        var readerSpid = await readerDb.Database.SqlQueryRaw<int>("SELECT CONVERT(int,@@SPID) AS [Value]").SingleAsync();
+        var entered = NewSignal(); var release = NewSignal(); var writerActor = Guid.NewGuid();
+        var writer = new SqlAuthorityCommitBoundary(writerDb, fixture.Plan(writerActor, true, exclusivePolicy: true)).CommitAsync(writerActor,
+            async ct => { entered.SetResult(); await release.Task.WaitAsync(TimeSpan.FromSeconds(10), ct);
+                await writerDb.Set<AuthorityVersionRow>().Where(x => x.Id == fixture.Id).ExecuteUpdateAsync(s => s.SetProperty(x => x.PolicyVersion, 2), ct); return 1; }, default);
+        Task<long>? reader = null;
+        try
+        {
+            await entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            var otherActor = Guid.NewGuid();
+            reader = new SqlAuthorityCommitBoundary(readerDb, fixture.Plan(otherActor, false)).CommitAsync(otherActor, async ct =>
+                await readerDb.Set<AuthorityVersionRow>().AsNoTracking().Where(x => x.Id == fixture.Id).Select(x => x.PolicyVersion).SingleAsync(ct), default);
+            await fixture.RequireWaitingApplicationLock(readerSpid);
+            release.TrySetResult(); Assert.Equal(1, await writer.WaitAsync(TimeSpan.FromSeconds(10))); Assert.Equal(2, await reader.WaitAsync(TimeSpan.FromSeconds(10)));
+            await fixture.EvidenceAsync("P41-GATE-05", "Exclusive policy writer blocked distinct-actor policy Shared mutation; SQL WAIT observed before release");
+        }
+        finally { release.TrySetResult(); await Drain(writer); if (reader is not null) await Drain(reader); }
+    }
     [SqlLabFact] public async Task Mutation_holds_gate_revoke_waits_then_observes_committed_mutation()
     {
         await using var fixture = await Probe.CreateAsync();
@@ -112,8 +135,10 @@ public sealed class CommitGateSqlLabTests
         private string Key => "GateProbe-" + Id.ToString("N");
         private string Prefix => "FdcTest." + Id.ToString("N");
         public IamDbContext Context() => new(new DbContextOptionsBuilder<IamDbContext>().UseSqlServer(connection).Options);
-        public ISqlCommitGatePlanProvider Plan(Guid actor, bool exclusive, int timeout = 5000) =>
-            new PlanProvider(new(Prefix, false, [new(actor, exclusive)], timeout, IsolationLevel.ReadCommitted));
+        public ISqlCommitGatePlanProvider Plan(Guid actor, bool exclusive, int timeout = 5000, bool exclusivePolicy = false)
+        {
+            return new PlanProvider(new(Prefix, exclusivePolicy, [new(actor, exclusive)], timeout, IsolationLevel.ReadCommitted));
+        }
         public static async Task<Probe> CreateAsync()
         {
             var connection = Environment.GetEnvironmentVariable("FDC_IAM_LAB_CONNECTION") ?? throw new InvalidOperationException("Lab connection required.");
