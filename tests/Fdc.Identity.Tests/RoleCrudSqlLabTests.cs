@@ -9,6 +9,46 @@ namespace Fdc.Identity.Tests;
 // SQL DML/integrity tests with explicitly test-only authority/gate fixtures. Not runtime policy or D09 race acceptance.
 public sealed class RoleCrudSqlLabTests
 {
+    [SqlLabFact] public async Task P4_D001_request_target_must_match_immutable_payload_target()
+    {
+        await using var db = Context(); await Target(db); await using var tx = await db.Database.BeginTransactionAsync();
+        try
+        {
+            var auth = await Fixtures(db); var service = new SqlRoleCrudService(db, new FixtureBoundary(), auth, TimeProvider.System);
+            var now = DateTimeOffset.UtcNow;
+            var intended = new RoleRow { Id = Guid.NewGuid(), CreatedAt = now, RoleCode = "intended", RoleName = "Intended" };
+            var unrelated = new RoleRow { Id = Guid.NewGuid(), CreatedAt = now, RoleCode = "unrelated", RoleName = "Unrelated" };
+            db.AddRange(intended, unrelated); await db.SaveChangesAsync();
+            var actor = await auth.DemandAsync(RoleMutationOperation.SubmitRequest, default);
+            var payload = new RoleChangePayload(RoleChangeKind.Rename, intended.Id, null, "Changed", 1, 1, [], [], "synthetic target-binding test");
+            var proof = new RoleChangeRequest(actor.PersonKey, payload, 1, now.AddMinutes(5));
+            // Insert-only malformed fixture: the existing update trigger intentionally cannot repair/prevent this initial mismatch.
+            var request = new RoleChangeRequestRow { Id = proof.Id, CreatedAt = now, RequesterUserId = actor.UserId,
+                RoleId = unrelated.Id, Revision = 1, PayloadJson = proof.PayloadJson, Digest = proof.Digest,
+                IdempotencyKey = "target-binding-test", BaseRoleVersion = 1, PolicyVersion = 1, CatalogVersion = 1, ExpiresAt = proof.ExpiresAt };
+            db.Add(request); await db.SaveChangesAsync(); await Approve(db, auth, request.Id);
+            await Assert.ThrowsAsync<InvalidOperationException>(() => service.ApplyReviewedAsync(request.Id, 1, request.Digest, request.RowVersion, default));
+            Assert.Equal("Unrelated", await db.Set<RoleRow>().AsNoTracking().Where(x => x.Id == unrelated.Id).Select(x => x.RoleName).SingleAsync());
+            Assert.Equal(0, await db.Set<RoleHistoryRow>().CountAsync());
+        }
+        finally { await tx.RollbackAsync(); }
+    }
+    [SqlLabFact] public async Task P4_D002_idempotent_apply_result_uses_original_history_version()
+    {
+        await using var db = Context(); await Target(db); await using var tx = await db.Database.BeginTransactionAsync();
+        try
+        {
+            var auth = await Fixtures(db); var service = new SqlRoleCrudService(db, new FixtureBoundary(), auth, TimeProvider.System);
+            var created = await service.SubmitAsync(new(RoleChangeKind.Create, null, "replay-role", "Original", 0, 1, [], [], "synthetic"), "replay-create", default);
+            var first = await Apply(db, service, auth, created);
+            await Apply(db, service, auth, await service.SubmitAsync(new(RoleChangeKind.Rename, first.RoleId, null, "Later revision", 1, 1, [], [], "synthetic"), "later-rename", default));
+            var request = await db.Set<RoleChangeRequestRow>().SingleAsync(x => x.Id == created.RequestId);
+            var replay = await service.ApplyReviewedAsync(request.Id, request.Revision, request.Digest, request.RowVersion, default);
+            Assert.True(replay.Replayed); Assert.Equal(first.RoleVersion, replay.RoleVersion);
+            Assert.Equal(2, await db.Set<RoleHistoryRow>().CountAsync());
+        }
+        finally { await tx.RollbackAsync(); }
+    }
     [SqlLabFact] public async Task Real_sql_role_create_rename_activate_permissions_clone_deactivate_and_replay()
     {
         await using var db = Context(); await Target(db); await using var tx = await db.Database.BeginTransactionAsync();
