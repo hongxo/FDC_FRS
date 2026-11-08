@@ -35,7 +35,7 @@ public sealed class RoleCrudSqlLabTests
                 P50Milliseconds = P(.50), P95Milliseconds = P(.95), P99Milliseconds = P(.99), ThroughputPerSecond = 100 / total.Elapsed.TotalSeconds,
                 ErrorRate = 0.0, ClientCpuMilliseconds = (process.TotalProcessorTime - cpuBefore).TotalMilliseconds, ClientWorkingSetBytes = process.WorkingSet64,
                 ServerCpu = "NOT_MEASURED", DiskNetworkPoolDeadlocks = "NOT_MEASURED", AcceptanceThreshold = "PENDING", SamplesMilliseconds = durations };
-            var evidence = Path.Combine(Directory.GetCurrentDirectory(), "docs/auth-d12-backend-implementation/phase-4/evidence");
+            var evidence = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../docs/auth-d12-backend-implementation/phase-4/evidence"));
             Directory.CreateDirectory(evidence);
             await File.WriteAllTextAsync(Path.Combine(evidence, "scoped-query-profile.json"), System.Text.Json.JsonSerializer.Serialize(observation, new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
         }
