@@ -635,6 +635,11 @@
       "path": "source-inventory.json",
       "sha256": "1377438933ba93d851c044c83c480af6bddeb8e945f70ce8b98ed4a6faf058a6",
       "bytes": 13007
+    },
+    {
+      "path": "security-final.json",
+      "sha256": "38d480a0ec7f568a238398a9f1b9d01bf184722a1459752b035676ae1f45d725",
+      "bytes": 2158
     }
   ]
 }

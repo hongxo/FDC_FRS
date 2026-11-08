@@ -20,3 +20,5 @@ Approve exact D01 trust/routes and D04 mappings/custody; approve D02/D03/D05/D06
 ## Limits / next action
 
 D01–D10 applicable policy choices remain PENDING. Complete approved Human/Machine routing/PKI, D04 scope providers, D09 all-writer control, D10 archive/custody/restore-epoch acceptance and business analysis workflows before activation. No fake analysis or full DR01–DR29 PASS. Independent review required. No Production/IED/SCADA/firewall/Collector change. Code rollback by reviewed feature revert; database rollback follows guarded runbook, never restore stale effective authority.
+
+Observed GitHub delivery: Draft PR https://github.com/hongxo/FDC_FRS/pull/6; feature/fdc-center-lab-database stacked on unmerged PR5. Source a0a6096,tested final Center19 PASS; report package78135b7 plus delivery follow-up. No acceptance/readiness status changed.

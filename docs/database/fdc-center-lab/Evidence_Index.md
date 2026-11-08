@@ -66,3 +66,4 @@ Source a0a6096dbf2c192cc2c674175c17137f59a17e47. Local ignored evidence director
 | security-review.json | 1776 | dc6e36068de7147b1346c4c4f688ed4113a1f6345b0100a35c3be7f034fd8d36 |  |
 | SessionRevocationSqlLabTests.trx | 6376 | f784fcf1484f84f01d236954bfdd8a1d3df760b82ceb5fe6d2bf501340ec5126 | total=3, passed=3, failed=0, notExecuted=0 |
 | source-inventory.json | 13007 | 1377438933ba93d851c044c83c480af6bddeb8e945f70ce8b98ed4a6faf058a6 |  |
+| security-final.json | 2158 | 38d480a0ec7f568a238398a9f1b9d01bf184722a1459752b035676ae1f45d725 |280 reachable history blobs;0 secret matches;0 original source changes;applied SQL exact bytes preserved |
