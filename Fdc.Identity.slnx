@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="src/Fdc.Identity/Fdc.Identity.csproj" />
+  <Project Path="tests/Fdc.Identity.Tests/Fdc.Identity.Tests.csproj" />
+  <Project Path="tools/Fdc.Identity.Schema/Fdc.Identity.Schema.csproj" />
+</Solution>
