@@ -28,3 +28,5 @@ Actual build PASS;176 unit/component PASS,22 SQL/HTTPS cases PASS trong runs ri�
 No signing fields auto-filled or pending decision promoted. Existing P0/readiness unchanged. Coding độc lập được tiếp tục theo user authorization; không gán tất cả source gap thành chỉ thiếu approval, và không coi stub thành runtime complete.
 
 Rollback: revert isolated opt-in library/tests without schema down or restoring stale authority. No host registration to undo. Test probes/fixtures cleaned/rolled back; imported test certificates were disposable, no trusted-store install/production PKI modification. Raw evidence remains local; official delivery remains stacked/draft, no auto merge.
+
+Verified delivery: branch feature/d12-phase4-remediation pushed; Draft PR https://github.com/hongxo/FDC_FRS/pull/4 stacked on Phase4. Full B01–B05 acceptance remains open/partial; independent sign-off NOT_PROVIDED.
