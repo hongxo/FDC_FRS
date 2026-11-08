@@ -1,3 +1,4 @@
+using System.Data.Common;
 using Fdc.Identity.Application;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -38,6 +39,7 @@ public static class ManagementEndpoints
         try { return await action(); }
         catch (OwnerDecisionRequiredException) { return Results.Json(new { code = "BLOCKED_BY_D04", correlationId = context.TraceIdentifier }, statusCode: 503); }
         catch (AuthorityUnavailableException) { return Results.Json(new { code = "AUTHORITY_UNAVAILABLE", correlationId = context.TraceIdentifier }, statusCode: 503); }
+        catch (DbException) { return Results.Json(new { code = "AUTHORITY_UNAVAILABLE", correlationId = context.TraceIdentifier }, statusCode: 503); }
         catch (UnauthorizedAccessException) { return Results.Forbid(); }
         catch (ArgumentException) { return Results.BadRequest(new { code = "INVALID_REQUEST", correlationId = context.TraceIdentifier }); }
     }
