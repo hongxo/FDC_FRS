@@ -15,8 +15,8 @@ public sealed class PendingMachineRecordAuthority : IMachineRecordAuthority
 }
 public sealed class VerifiedRecordPackage
 {
- public Manifest Manifest { get; } public string ManifestSha256 { get; } public IReadOnlyDictionary<string,string> ObjectKeys { get; }
- private VerifiedRecordPackage(Manifest manifest,Dictionary<string,string> keys){Manifest=manifest with{Files=manifest.Files.ToArray()};ManifestSha256=Fdc.Core.Identity.Hash(JsonSerializer.Serialize(Manifest));ObjectKeys=keys.AsReadOnly();}
+ public Manifest Manifest { get; } public string ManifestJson { get; } public string ManifestSha256 { get; } public IReadOnlyDictionary<string,string> ObjectKeys { get; }
+ private VerifiedRecordPackage(Manifest manifest,Dictionary<string,string> keys){Manifest=manifest with{Files=manifest.Files.ToArray()};ManifestJson=JsonSerializer.Serialize(Manifest);if(System.Text.Encoding.UTF8.GetByteCount(ManifestJson)>64*1024)throw new InvalidDataException("Manifest metadata exceeds source64KiB bound.");ManifestSha256=Fdc.Core.Identity.Hash(ManifestJson);ObjectKeys=keys.AsReadOnly();}
  public static async Task<VerifiedRecordPackage> VerifyAsync(string storageRoot,Manifest input,CancellationToken ct)
  {
   if(!Path.IsPathFullyQualified(storageRoot)||!Fdc.Core.Identity.SafeId(input.StationId)||!Fdc.Core.Identity.SafeId(input.IedId)||input.Files.Count is <2 or >4||input.Id.Length!=64||input.Id.Any(c=>!char.IsAsciiHexDigit(c)||char.IsUpper(c)))throw new InvalidDataException("Invalid package identity.");
@@ -64,7 +64,7 @@ public sealed class SqlRecordIngestion(CenterDbContext db,IMachineRecordAuthorit
    if(row!=null&&row.ManifestSha256!=package.ManifestSha256)throw new InvalidDataException("Conflicting replay manifest.");
    if(row==null)
    {
-    row=new(){StationId=binding.StationId,IedId=binding.IedId,CollectorId=binding.CollectorId,ManifestId=m.Id,ManifestSha256=package.ManifestSha256,RemoteIdentity=m.RemoteIdentity,CollectedAtUtc=m.CollectedAt.ToUniversalTime(),SourceTimestampRaw=m.TriggerTimeRaw,TimeSource=m.TimeSource,State="Validated",CorrelationId=correlationId,IsSynthetic=synthetic,CreatedAtUtc=now};db.Add(row);
+    row=new(){StationId=binding.StationId,IedId=binding.IedId,CollectorId=binding.CollectorId,ManifestId=m.Id,ManifestSnapshotJson=package.ManifestJson,ManifestSha256=package.ManifestSha256,RemoteIdentity=m.RemoteIdentity,CollectedAtUtc=m.CollectedAt.ToUniversalTime(),SourceTimestampRaw=m.TriggerTimeRaw,TimeSource=m.TimeSource,State="Validated",CorrelationId=correlationId,IsSynthetic=synthetic,CreatedAtUtc=now};db.Add(row);
     foreach(var f in m.Files)db.Add(new RecordFile{StationId=binding.StationId,RecordId=row.Id,Name=f.Name,Extension=Path.GetExtension(f.Name).ToLowerInvariant(),SizeBytes=f.Size,Sha256=f.Sha256,StorageObjectKey=package.ObjectKeys[f.Name],ValidationStatus="Verified",IsSynthetic=synthetic,CreatedAtUtc=now});
     db.Add(new ProcessingOutbox{StationId=binding.StationId,RecordId=row.Id,Kind="RecordValidated",AvailableAtUtc=now,IsSynthetic=synthetic,CreatedAtUtc=now});db.Add(new RecordStatusHistory{StationId=binding.StationId,RecordId=row.Id,State="Validated",CorrelationId=correlationId,IsSynthetic=synthetic,CreatedAtUtc=now});
    }

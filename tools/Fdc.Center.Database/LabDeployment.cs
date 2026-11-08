@@ -9,13 +9,15 @@ public static class LabDeployment
 {
  public static async Task RunAsync(string[] args)
  {
-  if(args.Length!=5)throw new ArgumentException("deploy <reviewed-IAM-up-SHA256> <reviewed-Center-up-SHA256> <reviewed-UTC-up-SHA256> <reviewed-SOE-up-SHA256>");
+  if(args.Length!=6)throw new ArgumentException("deploy <reviewed-IAM-up-SHA256> <reviewed-Center-up-SHA256> <reviewed-UTC-up-SHA256> <reviewed-SOE-up-SHA256> <reviewed-snapshot-up-SHA256>");
   var connection=Environment.GetEnvironmentVariable("FDC_CENTER_LAB_CONNECTION")??throw new InvalidOperationException("External lab credential required.");
   var settings=new SqlConnectionStringBuilder(connection);
   if(settings.DataSource!="lpc:."||settings.InitialCatalog!="FDC_Center_Lab"||Environment.GetEnvironmentVariable("FDC_CENTER_CONFIRMED_LAB")!="FDC_Center_Lab")throw new InvalidOperationException("Exact confirmed lab required.");
   static string Resource(Type type,string suffix){var a=type.Assembly;using var s=a.GetManifestResourceStream(a.GetManifestResourceNames().Single(n=>n.EndsWith(suffix,StringComparison.Ordinal)))!;using var r=new StreamReader(s);return r.ReadToEnd();}
   var iam=Resource(typeof(IamDbContext),"001_IamFoundation.up.sql");var center=Resource(typeof(CenterDbContext),"002_CenterDomains.up.sql");
   string Hash(string text)=>Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(text)));
+  var snapshot=Resource(typeof(CenterDbContext),"005_RecordSourceSnapshot.up.sql");
+  if(!Hash(snapshot).Equals(args[5],StringComparison.OrdinalIgnoreCase))throw new InvalidOperationException("Snapshot migration hash mismatch.");
   var soe=Resource(typeof(CenterDbContext),"004_StationSoeEvents.up.sql");
   if(!Hash(soe).Equals(args[4],StringComparison.OrdinalIgnoreCase))throw new InvalidOperationException("SOE migration hash mismatch.");
   var utc=Resource(typeof(CenterDbContext),"003_UtcAndRuntimeMetadata.up.sql");

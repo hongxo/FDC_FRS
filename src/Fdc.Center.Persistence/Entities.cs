@@ -38,7 +38,7 @@ public sealed class CollectionAttempt : CenterRow { public Guid JobId { get; set
 public sealed class DisturbanceRecord : CenterRow
 {
     public Guid StationId { get; set; } public Guid IedId { get; set; } public Guid CollectorId { get; set; }
-    public required string ManifestId { get; set; } public required string ManifestSha256 { get; set; } public required string RemoteIdentity { get; set; }
+    public string? ManifestSnapshotJson { get; set; } public required string ManifestId { get; set; } public required string ManifestSha256 { get; set; } public required string RemoteIdentity { get; set; }
     public DateTimeOffset CollectedAtUtc { get; set; } public DateTimeOffset? EventAtUtc { get; set; } public string? SourceTimestampRaw { get; set; }
     public required string TimeSource { get; set; } public string State { get; set; } = "MetadataAccepted"; public required string CorrelationId { get; set; }
 }

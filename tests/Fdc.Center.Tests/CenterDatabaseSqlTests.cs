@@ -15,7 +15,7 @@ public sealed class CenterDatabaseSqlTests
   await using var f=await Fixture.Create();await using var db=f.Db();
   Assert.Equal(53,await db.Database.SqlQueryRaw<int>("SELECT COUNT(*) AS [Value] FROM sys.tables WHERE name<>N'__EFMigrationsHistory'").SingleAsync());
   Assert.Equal(3,await db.Database.SqlQueryRaw<int>("SELECT COUNT(*) AS [Value] FROM sys.views WHERE is_ms_shipped=0").SingleAsync());
-  Assert.Equal(4,await db.Database.SqlQueryRaw<int>("SELECT COUNT(*) AS [Value] FROM dbo.__EFMigrationsHistory").SingleAsync());
+  Assert.Equal(5,await db.Database.SqlQueryRaw<int>("SELECT COUNT(*) AS [Value] FROM dbo.__EFMigrationsHistory").SingleAsync());
  }
  [CenterFoundationFact] public async Task Composite_station_fk_checks_unique_and_rowversion_are_enforced()
  {
@@ -32,7 +32,7 @@ public sealed class CenterDatabaseSqlTests
   await using var f=await Fixture.Create();var package=await f.Package();
   async Task<IngestionReceipt> Send(){await using var db=f.Db();return await new SqlRecordIngestion(db,new FixtureMachine(f),TimeProvider.System).AcceptAsync(package,Guid.NewGuid().ToString("N"),true,default);}
   var first=await Send();Assert.False(first.Duplicate);var duplicates=await Task.WhenAll(Send(),Send());Assert.All(duplicates,r=>{Assert.True(r.Duplicate);Assert.Equal(first.RecordId,r.RecordId);});
-  await using var check=f.Db();Assert.Equal(1,await check.Set<DisturbanceRecord>().CountAsync());Assert.Equal(2,await check.Set<RecordFile>().CountAsync());Assert.Equal(3,await check.Set<IngestionAttempt>().CountAsync());Assert.Equal(1,await check.Set<ProcessingOutbox>().CountAsync());Assert.Equal(1,await check.Set<RecordStatusHistory>().CountAsync());
+  await using var check=f.Db();Assert.Equal(1,await check.Set<DisturbanceRecord>().CountAsync());Assert.Equal(package.ManifestJson,(await check.Set<DisturbanceRecord>().SingleAsync()).ManifestSnapshotJson);Assert.Equal(2,await check.Set<RecordFile>().CountAsync());Assert.Equal(3,await check.Set<IngestionAttempt>().CountAsync());Assert.Equal(1,await check.Set<ProcessingOutbox>().CountAsync());Assert.Equal(1,await check.Set<RecordStatusHistory>().CountAsync());
  }
  [CenterFoundationFact] public async Task Required_outbox_failure_rolls_back_record_files_attempt_and_history()
  {
