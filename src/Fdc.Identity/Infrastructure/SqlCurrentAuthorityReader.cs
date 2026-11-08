@@ -75,6 +75,6 @@ public sealed class SqlCurrentAuthorityReader(IDbContextFactory<IamDbContext> fa
             await tx.CommitAsync(ct);
             return (snapshot, resource);
         }
-        catch (DbException) { throw new AuthorityUnavailableException(); }
+        catch (Exception error) when (SqlAuthorityErrors.IsUnavailable(error)) { throw new AuthorityUnavailableException(); }
     }
 }

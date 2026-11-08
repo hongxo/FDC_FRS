@@ -1,4 +1,5 @@
 using Fdc.Identity.Application;
+using Fdc.Identity.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -24,10 +25,12 @@ public static class RoleEndpoints
     {
         context.Response.Headers.CacheControl = "no-store";
         // Scheme name must be supplied by the real server authentication handler, never a client header.
-        if (!context.User.Identities.Any(i => i.IsAuthenticated && i.AuthenticationType == "Fdc.Human")) return Results.Unauthorized();
+        if (!context.Request.IsHttps || context.Connection.ClientCertificate is not null ||
+            !context.User.Identities.Any(i => i.IsAuthenticated && i.AuthenticationType == "Fdc.Human")) return Results.Unauthorized();
         try { return await action(); }
         catch (OwnerDecisionRequiredException) { return Results.Json(new { code = "OWNER_POLICY_REQUIRED", correlationId = context.TraceIdentifier }, statusCode: 503); }
         catch (AuthorityUnavailableException) { return Results.Json(new { code = "AUTHORITY_UNAVAILABLE", correlationId = context.TraceIdentifier }, statusCode: 503); }
+        catch (Exception error) when (SqlAuthorityErrors.IsUnavailable(error)) { return Results.Json(new { code = "AUTHORITY_UNAVAILABLE", correlationId = context.TraceIdentifier }, statusCode: 503); }
         catch (UnauthorizedAccessException) { return Results.Forbid(); }
         catch (ArgumentException) { return Results.BadRequest(new { code = "INVALID_QUERY", correlationId = context.TraceIdentifier }); }
     }

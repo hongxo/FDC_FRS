@@ -26,7 +26,7 @@ public sealed class SqlSessionAuthorityReader(IDbContextFactory<IamDbContext> fa
             await RequireWritablePrimaryAsync(db, ct);
             return await ReadCoreAsync(db, digest, ct);
         }
-        catch (DbException) { throw new AuthorityUnavailableException(); }
+        catch (Exception error) when (SqlAuthorityErrors.IsUnavailable(error)) { throw new AuthorityUnavailableException(); }
     }
     internal static bool IsDigest(string digest) => digest.Length == 64 && digest.All(c => char.IsAsciiHexDigit(c) && !char.IsLower(c));
     internal static async Task RequireWritablePrimaryAsync(IamDbContext db, CancellationToken ct)
