@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; form-action 'none'; base-uri 'none'; object-src 'none'; frame-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>FDC/FRS · Quản trị truy cập</title>
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles/axl-base.css">
+  <link rel="stylesheet" href="styles/dashboard-base.css">
+  <link rel="stylesheet" href="styles/prototype.css">
+  <link rel="stylesheet" href="styles/live-management.css">
+  <script type="module" src="management.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">Chuyển đến nội dung chính</a>
+  <header class="management-header"><img src="assets/mark.svg" alt="" width="38" height="38"><strong>FDC/FRS</strong><span>Quản trị truy cập</span></header>
+  <main id="content" class="management-content">
+    <h1>Quản trị người dùng và quyền</h1>
+    <p class="muted">Dữ liệu được lấy từ máy chủ theo phiên đăng nhập hiện tại. Đề nghị được tiếp nhận hoặc phê duyệt chưa đồng nghĩa quyền đã có hiệu lực.</p>
+    <nav class="management-tabs" aria-label="Màn hình quản trị">
+      <button type="button" class="btn" data-screen="users" aria-pressed="true">S05 · Người dùng</button>
+      <button type="button" class="btn secondary" data-screen="roles" aria-pressed="false">S06 · Vai trò và quyền</button>
+      <button type="button" class="btn secondary" data-screen="grants" aria-pressed="false">S07 · Quyền truy cập trạm</button>
+      <button type="button" class="btn secondary" data-screen="audit" aria-pressed="false">S08 · Nhật ký bảo mật</button>
+    </nav>
+    <section class="card management-panel" aria-labelledby="screen-title">
+      <h2 id="screen-title">Người dùng</h2>
+      <div id="subject-fields" hidden>
+        <div class="form-field"><label for="subject-user">User ID</label><input id="subject-user" autocomplete="off" maxlength="36"></div>
+        <div class="form-field"><label for="subject-assignment">UserRole ID</label><input id="subject-assignment" autocomplete="off" maxlength="36"></div>
+        <p class="hint">Máy chủ kiểm tra người dùng, vai trò và phạm vi; mã nhập vào chỉ dùng để lọc.</p>
+      </div>
+      <div class="management-actions"><button class="btn" type="button" id="refresh">Tải dữ liệu</button><button class="btn secondary" type="button" id="previous" disabled>Trước</button><button class="btn secondary" type="button" id="next" disabled>Sau</button></div>
+      <p id="status" role="status" aria-live="polite">Chưa tải dữ liệu.</p>
+      <div id="results"></div>
+    </section>
+    <section class="card management-panel" aria-labelledby="request-title">
+      <h2 id="request-title">Theo dõi đề nghị</h2>
+      <div class="form-field"><label for="request-id">Mã đề nghị</label><input id="request-id" autocomplete="off" maxlength="36"></div>
+      <button class="btn secondary" type="button" id="request-read">Xem trạng thái</button>
+      <p id="request-status" role="status" aria-live="polite">Chưa có đề nghị được chọn.</p>
+      <p class="hint">Các thao tác tạo, sửa, cấp hoặc thu hồi quyền chưa được mở trong bản tích hợp này.</p>
+    </section>
+  </main>
+  <noscript>Cần JavaScript để tải dữ liệu quản trị từ máy chủ.</noscript>
+</body>
+</html>

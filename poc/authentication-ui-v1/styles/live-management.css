@@ -1,0 +1,5 @@
+.management-header{display:flex;align-items:center;gap:16px;padding:18px 5%;background:var(--shell-navy);color:white}
+.management-header span{margin-left:auto}.management-content{max-width:1200px;margin:32px auto;padding:0 20px}
+.management-tabs,.management-actions{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0}.management-panel{padding:24px;margin-bottom:24px;background:var(--axl-surface,#fff);border:1px solid var(--axl-border);border-radius:var(--axl-radius)}
+.management-panel input{max-width:520px}.management-tabs [aria-pressed=true]{outline:2px solid var(--axl-action);outline-offset:3px}
+@media(max-width:600px){.management-header{gap:10px;padding:16px}.management-header span{font-size:12px}.management-content{margin:20px auto;padding:0 12px}.management-panel{padding:16px}.management-tabs .btn{flex:1 1 45%}}
