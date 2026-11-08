@@ -11,3 +11,4 @@ tmp/
 *.key
 appsettings*.json
 docs/auth-d12-backend-implementation/phase-3/evidence/
+docs/auth-d12-backend-implementation/phase-4/evidence/
