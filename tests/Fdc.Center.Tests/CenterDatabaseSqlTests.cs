@@ -15,7 +15,7 @@ public sealed class CenterDatabaseSqlTests
   await using var f=await Fixture.Create();await using var db=f.Db();
   Assert.Equal(53,await db.Database.SqlQueryRaw<int>("SELECT COUNT(*) AS [Value] FROM sys.tables WHERE name<>N'__EFMigrationsHistory'").SingleAsync());
   Assert.Equal(3,await db.Database.SqlQueryRaw<int>("SELECT COUNT(*) AS [Value] FROM sys.views WHERE is_ms_shipped=0").SingleAsync());
-  Assert.Equal(5,await db.Database.SqlQueryRaw<int>("SELECT COUNT(*) AS [Value] FROM dbo.__EFMigrationsHistory").SingleAsync());
+  Assert.Equal(6,await db.Database.SqlQueryRaw<int>("SELECT COUNT(*) AS [Value] FROM dbo.__EFMigrationsHistory").SingleAsync());
  }
  [CenterFoundationFact] public async Task Composite_station_fk_checks_unique_and_rowversion_are_enforced()
  {
@@ -25,6 +25,7 @@ public sealed class CenterDatabaseSqlTests
   }
   await using(var db=f.Db()){db.Add(new IedDevice{StationId=f.Station,Code="IED-SYNTHETIC",DisplayName="duplicate",IsSynthetic=true});await Assert.ThrowsAsync<DbUpdateException>(()=>db.SaveChangesAsync());}
   await using(var db=f.Db()){db.Add(new CollectorHeartbeat{StationId=f.Station,CollectorId=f.Collector,ReceivedAtUtc=DateTimeOffset.UtcNow,Status="Healthy",QueueDepth=-1,IsSynthetic=true});await Assert.ThrowsAsync<DbUpdateException>(()=>db.SaveChangesAsync());}
+  await using(var orphan=f.Db()){await using var rollback=await orphan.Database.BeginTransactionAsync();orphan.Add(new OperationalEvent{StationId=Guid.NewGuid(),CollectorId=null,Code="SYNTHETIC",CorrelationId="SYNTHETIC",IsSynthetic=true});await Assert.ThrowsAsync<DbUpdateException>(()=>orphan.SaveChangesAsync());await rollback.RollbackAsync();}
   await using var a=f.Db();await using var b=f.Db();var first=await a.Set<IedDevice>().SingleAsync(x=>x.Id==f.Ied);var stale=await b.Set<IedDevice>().SingleAsync(x=>x.Id==f.Ied);first.DisplayName="edited";await a.SaveChangesAsync();stale.DisplayName="stale";await Assert.ThrowsAsync<DbUpdateConcurrencyException>(()=>b.SaveChangesAsync());
  }
  [CenterFoundationFact] public async Task Real_files_ingest_replay_and_concurrent_duplicates_are_atomic()
