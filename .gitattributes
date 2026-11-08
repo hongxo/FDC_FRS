@@ -1,0 +1,2 @@
+# Preserve exact reviewed/applied SQL resource bytes across Windows checkouts.
+src/Fdc.Center.Persistence/Migrations/*.sql -text whitespace=cr-at-eol,-blank-at-eof

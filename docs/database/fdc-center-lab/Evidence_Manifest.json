@@ -1,0 +1,640 @@
+{
+  "source": "a0a6096dbf2c192cc2c674175c17137f59a17e47",
+  "scope": "Executed local raw evidence remains ignored; no credential export",
+  "files": [
+    {
+      "path": "005-failed-transaction-postcheck.txt",
+      "sha256": "1b65b6b25638d3319fe371d1443f075eb1ba0aba97f1050d620c88aad483bad2",
+      "bytes": 6
+    },
+    {
+      "path": "005-first-attempt.sql",
+      "sha256": "5433a1c5a86bfe9faf936d21a2292bd628362250f4155e293f52ade4c39b677c",
+      "bytes": 641
+    },
+    {
+      "path": "AuthorityFailureSqlLabTests.trx",
+      "sha256": "af0ef1987828d5cb3d91a858b58600c317ca706abf2c39dce2e2654243573a77",
+      "bytes": 4581,
+      "counters": {
+        "total": "2",
+        "executed": "2",
+        "passed": "2",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "path": "backup-restore-005.txt",
+      "sha256": "c099e18b1336722e7a94845361a0a0a7fa8eb0ce91cd48ad14fb66c34dfa2c26",
+      "bytes": 424
+    },
+    {
+      "path": "backup-restore-006.txt",
+      "sha256": "0329c462c3e3e1e58283df6ae5085860bdb6678c3f85181cde3c9a11ab83efba",
+      "bytes": 424
+    },
+    {
+      "path": "backup-restore-final.txt",
+      "sha256": "0de69af765190c74a90ed747c73cd3648aa1717c5d6f81c0fdf8f3d01d25d3ab",
+      "bytes": 424
+    },
+    {
+      "path": "backup-restore-rollback.txt",
+      "sha256": "b8ba9a42ce9a7324f7e38f2f890c5defc74734442625f5f7257b6851c451d270",
+      "bytes": 424
+    },
+    {
+      "path": "build-final.txt",
+      "sha256": "650a6fa96ab448fcba592132c9923330bbfa3bf9af114e2ebd9ca01d17d0d09d",
+      "bytes": 1486
+    },
+    {
+      "path": "build-foundation.txt",
+      "sha256": "6f11c21f3862fedc38bc741c44a8715c2a30c7bd849e9319b79a4cd7c10a256a",
+      "bytes": 1486
+    },
+    {
+      "path": "center-all-regression.trx",
+      "sha256": "6408cd6f841a5aa24566a8ba28bab708a819588b20e166683ec90109dcffe6de",
+      "bytes": 29051,
+      "counters": {
+        "total": "18",
+        "executed": "18",
+        "passed": "18",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "path": "center-browser-traffic.json",
+      "sha256": "4e4e2af08ff7676e5fe9b0495e79f4aed3ab516e5a3bb46e9702df6ed85e7510",
+      "bytes": 9476
+    },
+    {
+      "path": "center-committed-3512fb0.trx",
+      "sha256": "c2e4f0d8ad077eb862626b976ad81f632352b6936e1cb2541dcf832eea592dcc",
+      "bytes": 30646,
+      "counters": {
+        "total": "19",
+        "executed": "19",
+        "passed": "19",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "path": "center-database-complete.trx",
+      "sha256": "5bfa4e1bcf9a24cbf3e32d1e31b90f64ad5a631d1a19e3ca7e25fea232a15631",
+      "bytes": 24392,
+      "counters": {
+        "total": "15",
+        "executed": "15",
+        "passed": "15",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "path": "center-database-final.trx",
+      "sha256": "d7c643b8cd463521525f3500ba15833aeb3becc440e06e3949eb91c9a2a17203",
+      "bytes": 22797,
+      "counters": {
+        "total": "14",
+        "executed": "14",
+        "passed": "14",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "path": "center-final-006.trx",
+      "sha256": "91e4e67e9dec9654f7eea2aa43eb528617f77735c86b53ae9b811fe6f9a4c9b3",
+      "bytes": 30646,
+      "counters": {
+        "total": "19",
+        "executed": "19",
+        "passed": "19",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "path": "center-final-snapshot.trx",
+      "sha256": "21cd29d30fad7fa2360b0dd818367bfa4db1d0fbda7dd0b5e441c0525a314eaf",
+      "bytes": 30646,
+      "counters": {
+        "total": "19",
+        "executed": "19",
+        "passed": "19",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "path": "center-live-browser.json",
+      "sha256": "bde2e636ebe1458c7094d0091dfde27b5a0bc0696deaf7332d82aa81f9115496",
+      "bytes": 1393
+    },
+    {
+      "path": "center-live-desktop.png",
+      "sha256": "fd55b860d87ccdb887c346ea8653954253f9fb940f87387cb03e4365cd8a4ba2",
+      "bytes": 44566
+    },
+    {
+      "path": "center-live-mobile.png",
+      "sha256": "369b3a55d22bbb86a734f987188b638482c579d6cb4f45e3425e8ac5c3c52e5a",
+      "bytes": 37737
+    },
+    {
+      "path": "center-live-tablet.png",
+      "sha256": "ffacc0b1e4b47a4d3d42903b7babe567f4f2e8369f37690e5170801bc925559e",
+      "bytes": 41312
+    },
+    {
+      "path": "center-postcheck-005.txt",
+      "sha256": "1d6cbd66953f631048c838320dc7bf1e403bcd1c4dc5b378f73a1a843a6b019f",
+      "bytes": 1975
+    },
+    {
+      "path": "center-postcheck-006.txt",
+      "sha256": "c4a910fe54562320678e27e68a804d7ad392b0f4c029319c16a7529adbaae3a0",
+      "bytes": 2021
+    },
+    {
+      "path": "center-postcheck-final.txt",
+      "sha256": "b30e8370f01229404f45cbe6e1dd5dfc52a8bc38494f24cfb5b35a964724434b",
+      "bytes": 1932
+    },
+    {
+      "path": "center-postcheck.txt",
+      "sha256": "b30e8370f01229404f45cbe6e1dd5dfc52a8bc38494f24cfb5b35a964724434b",
+      "bytes": 1932
+    },
+    {
+      "path": "CommitGateSqlLabTests.trx",
+      "sha256": "00dc64c21619f0b25152e3b39376653981fb16d020e0a7a4349a4f975b728f0c",
+      "bytes": 12077,
+      "counters": {
+        "total": "7",
+        "executed": "7",
+        "passed": "7",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "path": "current-model/002_CenterDomains.down.sql",
+      "sha256": "5aa4864b6b3fd6f1dd12e50f6038440d9cb885c54f93e2318579d7dff97cedb1",
+      "bytes": 5217
+    },
+    {
+      "path": "current-model/002_CenterDomains.up.sql",
+      "sha256": "ed5abce1157a18712dee2cc3d8a1567eeaad0f7f8e88a9e999fbb46375119a55",
+      "bytes": 86908
+    },
+    {
+      "path": "current-model/model.json",
+      "sha256": "85d76aea508e0afad9cc1019c91cb1225013b9ed1f4416abc93d9b697613bcc0",
+      "bytes": 49450
+    },
+    {
+      "path": "database-sql-retest1.trx",
+      "sha256": "7cde31077d70ecbea20b247935c29c7d0022aa5503765c0a77b56d592e648fd9",
+      "bytes": 10595,
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "6",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "path": "dependency-audit.json",
+      "sha256": "493431d8d1bba14f7c97a618c0f94d9c5d9586a2e111eab34a89325a204fea6d",
+      "bytes": 1523
+    },
+    {
+      "path": "deploy-003.txt",
+      "sha256": "55825278108b04fe42bb2c022b74686f58b95092166d36720f1d187f32a82a78",
+      "bytes": 290
+    },
+    {
+      "path": "deploy-004.txt",
+      "sha256": "8f478006359c395e44daae43c69de5938c4b0d7695d3f54da66b0d0a6715feb3",
+      "bytes": 290
+    },
+    {
+      "path": "deploy-005-retest.txt",
+      "sha256": "f2600f415d16cfe7d0536229e09d52e206a37514a9d1c1f27b9a35a12799f591",
+      "bytes": 315
+    },
+    {
+      "path": "deploy-006.txt",
+      "sha256": "4f3f4d7ac1b29fd38b849c1193d951e83cbe1441a6cc286ee9c32056b80bbb5f",
+      "bytes": 315
+    },
+    {
+      "path": "deploy-first.txt",
+      "sha256": "45465bcbf47726290f97a2ccc73208300ce59ce73a7d87420c83eb86327aaaaa",
+      "bytes": 290
+    },
+    {
+      "path": "export-schema.sql",
+      "sha256": "49eb32094d7c0ea433e4b13d12ad4a1d8cc7b475323f72eb7351d9618c5d1c4d",
+      "bytes": 2102
+    },
+    {
+      "path": "HumanHttpSqlLabTests.trx",
+      "sha256": "01f29fc0638906f3b891b48308a3af8be2127f349798d23f931d99f272632731",
+      "bytes": 3182,
+      "counters": {
+        "total": "1",
+        "executed": "1",
+        "passed": "1",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "path": "iam-after.txt",
+      "sha256": "27f49e963750049d34ea0b00d7484f0e6a77fa62bb6803c937a3f2ec65f1b32c",
+      "bytes": 58
+    },
+    {
+      "path": "iam-before.txt",
+      "sha256": "4b9c24e87f7e5c5f588d9933786bc0e8888286c446dde4bbb3b6f7fcce3aef17",
+      "bytes": 760
+    },
+    {
+      "path": "iam-components.trx",
+      "sha256": "d8e899b1b1458c752da660654d8a85567253aed2ead3245923c68872a14a3e25",
+      "bytes": 319376,
+      "counters": {
+        "total": "206",
+        "executed": "184",
+        "passed": "184",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "path": "ManagementSqlLabTests.trx",
+      "sha256": "1cfb99ab98ff806fafc05be879c044e993e99182afc8ea780e53c537c97dd7e7",
+      "bytes": 3155,
+      "counters": {
+        "total": "1",
+        "executed": "1",
+        "passed": "1",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "path": "migration-replay.txt",
+      "sha256": "43ed8ded13e14b6a8f5679017c8ff3ef7e3992c56da227f06c4725d2ded37fe3",
+      "bytes": 290
+    },
+    {
+      "path": "migration-review-005.json",
+      "sha256": "2104852ce99910a7b1009e9f0a60a822af6feef635bc178d6788e4bc213872a0",
+      "bytes": 888
+    },
+    {
+      "path": "migration-review-final.json",
+      "sha256": "17f0bdb7ba61083e9a8fa7a5471205df545f9c6edff291953c39d460018aafbf",
+      "bytes": 709
+    },
+    {
+      "path": "model-at-002.json",
+      "sha256": "882f68b00be22b95da6c23ad9376e378182d93a084248da41bfee689886251f6",
+      "bytes": 45838
+    },
+    {
+      "path": "model.trx",
+      "sha256": "f66e4aaa8881f1da5e6ca46a053a8b081c66a2fcc8f3027b4dc8e24f26267411",
+      "bytes": 6103,
+      "counters": {
+        "total": "3",
+        "executed": "3",
+        "passed": "3",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "path": "Phase2SqlLabTests.trx",
+      "sha256": "99937eb5bd001d22ef2db6c4fbd280decdce53d179552790b70e7bc9f039bfdb",
+      "bytes": 4605,
+      "counters": {
+        "total": "2",
+        "executed": "2",
+        "passed": "2",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "path": "postcheck.sql",
+      "sha256": "3267cf7d568b1870088d095861babd26921f8d744e2740a997320c4f617f80b5",
+      "bytes": 1654
+    },
+    {
+      "path": "query-profile.json",
+      "sha256": "df19e151c23e585b8663960f7cad4d3d2ae3a77774b7e5324318eb6699426f6c",
+      "bytes": 1214
+    },
+    {
+      "path": "query-profile.trx",
+      "sha256": "3482d64fdde3bcc137a067bd17fb56650631556bd754069f494d6540cfac52ff",
+      "bytes": 3094,
+      "counters": {
+        "total": "1",
+        "executed": "1",
+        "passed": "1",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "path": "replay-005-final.txt",
+      "sha256": "718ff6f35216441a00555bde703a7df2cc92b736f4a47a3377d2b6a374b9a595",
+      "bytes": 315
+    },
+    {
+      "path": "replay-006.txt",
+      "sha256": "b570cf2d1199652ba670b5ff3cbed26e7d3a51f63a15968d4758b5b85ac25f02",
+      "bytes": 315
+    },
+    {
+      "path": "reviewed-migrations-003.json",
+      "sha256": "472c4c195536d4d5a9929032380d7f9dae8d8573ddebcc11b26926c0bf545ac0",
+      "bytes": 326
+    },
+    {
+      "path": "reviewed-migrations.json",
+      "sha256": "30131533f936b317ece1a1c82420af319b86baef10f70fc3765001f8d1b694ef",
+      "bytes": 339
+    },
+    {
+      "path": "RoleCrudSqlLabTests.trx",
+      "sha256": "2bf20ca19396cab0267c6dd5ab8eb9a0318c3439fd35c8abaad38940b271e2a7",
+      "bytes": 11393,
+      "counters": {
+        "total": "6",
+        "executed": "5",
+        "passed": "5",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "path": "runtime-and-sql.trx",
+      "sha256": "aff0c140f5c8cdf05bcfbe11c768199fdba85c83e7eb09cb6c4eac3b5e390de8",
+      "bytes": 15269,
+      "counters": {
+        "total": "9",
+        "executed": "9",
+        "passed": "9",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "path": "runtime-principal.txt",
+      "sha256": "9cd2255c25a671f46cf6c71e1e3b1992481c50534a481faf4ac5249b2ca70916",
+      "bytes": 364
+    },
+    {
+      "path": "schema.json",
+      "sha256": "081aa498ab491e727f5bba99223092f3ce9e87529528f7b86718bd0606b267c1",
+      "bytes": 241590
+    },
+    {
+      "path": "scoped-query-plan.sqlplan",
+      "sha256": "48e3e257bb39f26e47a4df2d009721460ee6bebbc76934f5655d9d46041b30d8",
+      "bytes": 8370
+    },
+    {
+      "path": "security-review.json",
+      "sha256": "dc6e36068de7147b1346c4c4f688ed4113a1f6345b0100a35c3be7f034fd8d36",
+      "bytes": 1776
+    },
+    {
+      "path": "SessionRevocationSqlLabTests.trx",
+      "sha256": "f784fcf1484f84f01d236954bfdd8a1d3df760b82ceb5fe6d2bf501340ec5126",
+      "bytes": 6376,
+      "counters": {
+        "total": "3",
+        "executed": "3",
+        "passed": "3",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "path": "source-inventory.json",
+      "sha256": "1377438933ba93d851c044c83c480af6bddeb8e945f70ce8b98ed4a6faf058a6",
+      "bytes": 13007
+    }
+  ]
+}

@@ -5,6 +5,7 @@
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
     <ProjectReference Include="../../src/Fdc.Center/Fdc.Center.csproj" />
+    <ProjectReference Include="../../src/Fdc.Center.Persistence/Fdc.Center.Persistence.csproj" />
     <Using Include="Xunit" />
   </ItemGroup>
 </Project>
