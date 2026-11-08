@@ -9,6 +9,38 @@ namespace Fdc.Identity.Tests;
 // SQL DML/integrity tests with explicitly test-only authority/gate fixtures. Not runtime policy or D09 race acceptance.
 public sealed class RoleCrudSqlLabTests
 {
+    [SqlProfileFact] public async Task P4_scoped_user_query_profile_observation_only()
+    {
+        await using var db = Context(); await Target(db); await using var tx = await db.Database.BeginTransactionAsync();
+        try
+        {
+            await Fixtures(db);
+            var visible = (await db.Set<UserRow>().Select(x => x.Id).ToListAsync()).ToImmutableHashSet();
+            var scope = new ManagementReadScope(visible, [], [], [], [], [], ImmutableHashSet<string>.Empty);
+            var queries = new SqlManagementQueries(db);
+            for (var i = 0; i < 10; i++) Assert.Equal(3, (await queries.UsersAsync(scope, null, null, new(0, 50), default)).Items.Count);
+            var durations = new List<double>(); var process = System.Diagnostics.Process.GetCurrentProcess();
+            var cpuBefore = process.TotalProcessorTime; var started = DateTimeOffset.UtcNow;
+            var total = System.Diagnostics.Stopwatch.StartNew();
+            for (var i = 0; i < 100; i++)
+            {
+                var sample = System.Diagnostics.Stopwatch.StartNew();
+                Assert.Equal(3, (await queries.UsersAsync(scope, null, null, new(0, 50), default)).Items.Count);
+                durations.Add(sample.Elapsed.TotalMilliseconds);
+            }
+            total.Stop(); process.Refresh(); var ordered = durations.Order().ToArray();
+            double P(double percentile) => ordered[(int)Math.Ceiling(percentile * ordered.Length) - 1];
+            var observation = new { TestId = "P4-PERF-01", SourceCommit = Environment.GetEnvironmentVariable("FDC_IAM_SOURCE_SHA"), StartedUtc = started,
+                EndedUtc = DateTimeOffset.UtcNow, Workload = "100 sequential scoped SQL user-list reads; 10 warmup; 3 synthetic users; one connection/transaction; no HTTP/login/authority-resolution cost",
+                P50Milliseconds = P(.50), P95Milliseconds = P(.95), P99Milliseconds = P(.99), ThroughputPerSecond = 100 / total.Elapsed.TotalSeconds,
+                ErrorRate = 0.0, ClientCpuMilliseconds = (process.TotalProcessorTime - cpuBefore).TotalMilliseconds, ClientWorkingSetBytes = process.WorkingSet64,
+                ServerCpu = "NOT_MEASURED", DiskNetworkPoolDeadlocks = "NOT_MEASURED", AcceptanceThreshold = "PENDING", SamplesMilliseconds = durations };
+            var evidence = Path.Combine(Directory.GetCurrentDirectory(), "docs/auth-d12-backend-implementation/phase-4/evidence");
+            Directory.CreateDirectory(evidence);
+            await File.WriteAllTextAsync(Path.Combine(evidence, "scoped-query-profile.json"), System.Text.Json.JsonSerializer.Serialize(observation, new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
+        }
+        finally { await tx.RollbackAsync(); }
+    }
     [SqlLabFact] public async Task P4_D001_request_target_must_match_immutable_payload_target()
     {
         await using var db = Context(); await Target(db); await using var tx = await db.Database.BeginTransactionAsync();
@@ -196,5 +228,14 @@ public sealed class RoleCrudSqlLabTests
     {
         var ok = await db.Database.SqlQueryRaw<int>("SELECT CASE WHEN CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND DB_NAME()=N'FdcIam_DevelopmentLab' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) THEN 1 ELSE 0 END AS [Value]").SingleAsync();
         Assert.Equal(1, ok); Assert.False(await db.Set<UserRow>().AnyAsync()); Assert.False(await db.Set<RoleRow>().AnyAsync());
+    }
+}
+
+public sealed class SqlProfileFactAttribute : FactAttribute
+{
+    public SqlProfileFactAttribute()
+    {
+        if (Environment.GetEnvironmentVariable("FDC_IAM_CONFIRMED_LAB") != "FdcIam_DevelopmentLab" || Environment.GetEnvironmentVariable("FDC_IAM_RUN_PROFILE") != "1")
+            Skip = "Explicit local lab and observation-only profile required.";
     }
 }
