@@ -3,7 +3,7 @@ const { chromium } = require('playwright');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
-const evidence = path.resolve(root, '../../docs/auth-d12-backend-implementation/phase-3/evidence');
+const evidence = process.env.FDC_UI_EVIDENCE ? path.resolve(process.env.FDC_UI_EVIDENCE) : path.resolve(root, '../../docs/auth-d12-backend-implementation/phase-3/evidence');
 const results = [];
 const check = (condition, reason) => { if (!condition) throw new Error(reason); };
 (async () => {
