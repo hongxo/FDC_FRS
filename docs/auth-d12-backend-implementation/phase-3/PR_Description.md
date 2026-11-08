@@ -15,3 +15,6 @@ Stable .NET10 build passed.159 unit/component tests passed;3 real SQL lab cases 
 ## Limitations
 
 PARTIALLY_COMPLETED/BLOCKED_BY_POLICY. No live login/MFA host, full user/role CRUD, durable request/review/apply SQL, effective assignment/grant/delegation mutation, audit atomicity or D09 race proof. The lifecycle is role-domain only and not an approved canonical status mapping. Live authenticated UI integration is not accepted. Do not activate handlers, declare P0-IAM READY or merge automatically.
+
+## CRUD continuation
+Adds real SQL role request/CRUD apply service (create, rename, activate/deactivate, clone, permission diffs) behind pending current-authority and commit gates. Default suite164 PASS;3 new actual SQL rollback-only cases PASS, including stale-version rejection and outbox-failure rollback. These use test-only authority/gate fixtures and do not establish live policy/MFA or D09 ordering. No new HTTP/UI write surface is activated; see CRUD_Progress_Report.md.

@@ -1,3 +1,5 @@
+> Update 2026-11-08: Role SQL CRUD service and actual rollback tests now implemented; runtime activation remains blocked. See [CRUD progress](CRUD_Progress_Report.md). Statements below describing missing CRUD are the earlier checkpoint.
+
 # Dynamic role management
 
 Existing SQL role list/detail/current-permission queries reused. New RoleProposalValidator creates inactive zero-permission previews, validates unique occupied/retired codes using server-supplied set, rejects unsupported/wildcard/OT permissions, validates base version/catalog and explicit permission-diff kind. Clone gets new ID/code, no seed provenance, stays inactive and carries only supported role configuration, never UserRole/StationGrant/delegation.

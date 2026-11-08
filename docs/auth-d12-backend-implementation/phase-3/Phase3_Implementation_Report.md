@@ -1,3 +1,5 @@
+> Update 2026-11-08: Role SQL CRUD service and actual rollback tests now implemented; runtime activation remains blocked. See [CRUD progress](CRUD_Progress_Report.md). Statements below describing missing CRUD are the earlier checkpoint.
+
 # D12 Phase 3 — actual implementation
 
 2026-11-08 Asia/Bangkok. PARTIALLY_COMPLETED / BLOCKED_BY_POLICY. No P0-IAM, owner decision or production-readiness status changed.
