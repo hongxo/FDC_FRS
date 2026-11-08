@@ -24,3 +24,5 @@ All29 full DR blocked, B01–B05 partial/open, reviewer absent. Missing implemen
 ## Remaining conditions / next action
 
 D01 runtime/route/trust release, D04 explicit permission/scope/delegation/custody, D02/D03/D05/D06 authentication values, D09 all-writer protocol and D10 archive/restore/principals still pending. Missing dependent issuers/providers/writers/UI remain IMPLEMENTATION gaps, not merely approval gaps. Separate restore/HA/multi-host environments absent. Independent review NOT_PROVIDED. Revert isolated feature commits for code rollback; no schema down, stale-authority restore or Human fallback to legacy keys.
+
+Observed delivery: Draft PR https://github.com/hongxo/FDC_FRS/pull/5, stacked on unmerged PR4. Source d21f352; reports a3fe2c5 plus delivery follow-up. No readiness status changed.

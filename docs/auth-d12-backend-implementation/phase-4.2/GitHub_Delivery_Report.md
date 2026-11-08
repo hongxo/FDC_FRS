@@ -8,7 +8,7 @@ Official remote verified https://github.com/hongxo/FDC_FRS.git. Branch feature/d
 
 Actual pushed code:24286fc product import/host/UI/live tests; d21f352 resolver+8 tests/default pending verifier. Documentation separately committed. No appsettings/runtime DB/bin/obj/cert/key/Collector imported. Raw evidence ignored.
 
-PR link/state recorded only after observed creation. Independent reviewer NOT_PROVIDED; Draft required while blockers remain.
+Observed creation: Draft PR https://github.com/hongxo/FDC_FRS/pull/5, stacked on feature/d12-phase4-remediation (PR4 OPEN/DRAFT verified again before creation). Code commits24286fc and d21f352 plus reports commit a3fe2c5 pushed successfully. No merge/force-push. Independent reviewer NOT_PROVIDED.
 
 ## Remaining conditions / next action
 
