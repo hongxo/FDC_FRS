@@ -17,7 +17,11 @@ const path = require('node:path');
   for(const screen of ['login','mfa','recovery','profile']) {
    await page.goto(`${origin.origin}/identity/#${screen}`);
    await page.locator('#policy-status').filter({hasText:/chưa được mở/}).waitFor();
-   assert.equal(await page.locator('input[type=password]').count(),0);
+   await page.locator('#runtime-status').filter({hasText:'Máy chủ xác nhận'}).waitFor();
+   assert.equal(await page.locator('form').count(),0);
+   assert.equal(await page.locator('input[type=password]').isDisabled(),true);
+   assert.equal(await page.locator('#mfa-controls input').isDisabled(),true);
+   assert.equal(await page.locator('input[type=password]').isVisible(),screen==='login');
    if(process.env.FDC_UI_EVIDENCE) await page.screenshot({path:path.join(process.env.FDC_UI_EVIDENCE,'iam-'+screen+'.png'),fullPage:true});
    assert.equal(await page.locator('#effective-navigation a').count(),0);
    results.push({screen,result:'PASS',scope:'policy-unavailable rendering; not completed authentication'});
@@ -36,6 +40,13 @@ const path = require('node:path');
    assert.equal(await page.locator('#results tbody tr').count(),0);
    await page.locator('#navigation-status').filter({hasText:'Chưa có chức năng quản trị'}).waitFor();
    assert.equal(await page.locator('[data-screen]:visible').count(),0);
+   if(screen==='grants') {
+    await page.locator('#grant-id').fill('33333333-3333-3333-3333-333333333333');
+    const grant=page.waitForResponse(r=>r.url().includes('/functions?'));
+    await page.locator('#grant-read').click();
+    assert.equal((await grant).status(),503);
+    await page.locator('#grant-result').filter({hasText:'Chưa thể tải'}).waitFor();
+   }
    if(process.env.FDC_UI_EVIDENCE) await page.screenshot({path:path.join(process.env.FDC_UI_EVIDENCE,'iam-'+screen+'.png'),fullPage:true});
    results.push({screen,result:'PASS',scope:'real SQL session + real API policy denial; no synthetic rows'});
   }

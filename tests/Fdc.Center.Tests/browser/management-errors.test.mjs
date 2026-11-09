@@ -51,3 +51,24 @@ test('menu consumes only server navigation and rejects non-HTTPS before fetching
   const client = createManagementClient(async () => assert.fail('Unexpected network request'), 'http:');
   await assert.rejects(client.navigation(), /HTTPS_REQUIRED/);
 });
+
+test('grant function detail carries the exact subject, assignment and grant and audit filtering is encoded', async () => {
+  const paths = [];
+  const client = createManagementClient(async path => {
+    const url = new URL(path, 'https://fixture.invalid');
+    paths.push(url);
+    return { ok: true, status: 200, headers: new Headers({ 'content-type': 'application/json' }),
+      json: async () => url.pathname.endsWith('/functions') ? [] : { items: [], hasMore: false } };
+  }, 'https:');
+  const user = '11111111-1111-1111-1111-111111111111';
+  const assignment = '22222222-2222-2222-2222-222222222222';
+  const grant = '33333333-3333-3333-3333-333333333333';
+  await client.grantFunctions(user, assignment, grant);
+  await assert.rejects(client.grantFunctions(user, '*', grant), /INVALID_ID/);
+  await client.list('audit', { action: 'exact+event' });
+  assert.equal(paths.length, 2);
+  assert.equal(paths[0].pathname.split('/').at(-2), grant);
+  assert.equal(paths[0].searchParams.get('userId'), user);
+  assert.equal(paths[0].searchParams.get('userRoleId'), assignment);
+  assert.equal(paths[1].searchParams.get('action'), 'exact+event');
+});

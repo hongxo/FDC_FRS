@@ -16,6 +16,19 @@
 <section class="card management-panel" aria-labelledby="screen-title">
 <h2 id="screen-title">Đăng nhập</h2>
 <p id="policy-status" role="status">Đăng nhập chưa được mở theo chính sách hiện tại.</p>
+<p id="runtime-status" class="hint" role="status"></p>
+<fieldset id="login-controls" disabled hidden>
+  <legend>Đăng nhập · chưa mở</legend>
+  <label>Tên đăng nhập <input autocomplete="off"></label>
+  <label>Mật khẩu <input type="password" autocomplete="off"></label>
+  <button type="button">Đăng nhập</button>
+</fieldset>
+<fieldset id="mfa-controls" disabled hidden>
+  <legend>Xác minh MFA · chưa mở</legend>
+  <label>Mã xác minh <input inputmode="numeric" autocomplete="off"></label>
+  <button type="button">Xác minh</button>
+</fieldset>
+<p id="profile-controls" hidden>Danh sách phiên và đăng xuất đang chờ chính sách phiên.</p>
 <p class="hint">Liên hệ bộ phận quản trị qua kênh hỗ trợ đã xác nhận.</p></section>
 <nav id="effective-navigation" class="management-tabs" aria-label="Chức năng được cấp quyền" hidden></nav>
 <section class="card management-panel"><h2>Phân hệ vận hành</h2>
