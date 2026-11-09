@@ -96,6 +96,29 @@ public sealed class CenterHttpsSqlLabTests
             }
             using (var humanOnMachine = await Get(client, raw, "/api/stations/fixture"))
                 Assert.Equal(HttpStatusCode.Forbidden, humanOnMachine.StatusCode);
+            using (var authStatus = await client.GetAsync("/api/identity/v1/ui/auth-status"))
+            {
+                Assert.Equal(HttpStatusCode.OK, authStatus.StatusCode);
+                Assert.True(authStatus.Headers.CacheControl?.NoStore);
+                Assert.False(authStatus.Headers.Contains("Set-Cookie"));
+                using var json = System.Text.Json.JsonDocument.Parse(await authStatus.Content.ReadAsStringAsync());
+                foreach (var feature in new[] { "login", "mfa", "recovery", "profile", "logout" })
+                    Assert.Equal("BLOCKED_BY_POLICY", json.RootElement.GetProperty(feature).GetString());
+            }
+            foreach (var action in new[] { "login", "mfa/verify", "recovery", "logout" })
+            {
+                using var blocked = await client.PostAsync("/api/identity/v1/auth/" + action, content: null);
+                Assert.Equal(HttpStatusCode.NotFound, blocked.StatusCode);
+                Assert.False(blocked.Headers.Contains("Set-Cookie"));
+            }
+            var grantRoute = "/api/identity/v1/admin/station-grants/" + Guid.NewGuid()
+                + "/functions?userId=" + Guid.NewGuid() + "&userRoleId=" + Guid.NewGuid();
+            using (var anonymousGrant = await client.GetAsync(grantRoute))
+                Assert.Equal(HttpStatusCode.Unauthorized, anonymousGrant.StatusCode);
+            using (var pendingGrant = await Get(client, raw, grantRoute))
+                Assert.Equal(HttpStatusCode.ServiceUnavailable, pendingGrant.StatusCode);
+            using (var pendingUser = await Get(client, raw, "/api/identity/v1/admin/users/" + Guid.NewGuid()))
+                Assert.Equal(HttpStatusCode.ServiceUnavailable, pendingUser.StatusCode);
             using var invalid = await Get(client, OpaqueProofs.Create()); Assert.Equal(HttpStatusCode.Unauthorized, invalid.StatusCode);
             using var valid = await Get(client, raw);
             Assert.Equal(HttpStatusCode.ServiceUnavailable, valid.StatusCode);

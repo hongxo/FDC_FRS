@@ -50,6 +50,8 @@ public sealed class ManagementSqlLabTests
             Assert.Empty((await queries.GrantsAsync(wrong, u1.Id, a2.Id, new(0, 10), default)).Items);
             Assert.Equal(g1.Id, Assert.Single((await queries.GrantsAsync(visibility, u1.Id, a1.Id, new(0, 10), default)).Items).Id);
             Assert.Equal(permission.PermissionCode, Assert.Single(await queries.GrantFunctionsAsync(visibility, u1.Id, a1.Id, g1.Id, default)).PermissionCode);
+            Assert.Empty(await queries.GrantFunctionsAsync(wrong, u1.Id, a2.Id, g1.Id, default));
+            Assert.Empty(await queries.GrantFunctionsAsync(wrong, u1.Id, a1.Id, g2.Id, default));
             Assert.Equal(e1.Id, Assert.Single((await queries.AuditAsync(visibility, null, new(0, 1), default)).Items).Id);
             Assert.Null(await queries.AuditEventAsync(visibility, e2.Id, default));
             Assert.Equal(permission.PermissionCode, Assert.Single((await queries.PermissionsAsync(visibility, new(0, 10), default)).Items).Code);

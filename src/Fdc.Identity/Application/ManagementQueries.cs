@@ -68,6 +68,8 @@ public sealed class ManagementQueryService(IManagementReadAuthority authority, I
     {
         page.Validate(); return await queries.GrantsAsync(await authority.DemandAsync(ManagementReadOperation.StationGrants, ct), userId, userRoleId, page, ct);
     }
+    public async Task<IReadOnlyList<GrantFunctionView>> GrantFunctionsAsync(Guid userId, Guid userRoleId, Guid grantId, CancellationToken ct) =>
+        await queries.GrantFunctionsAsync(await authority.DemandAsync(ManagementReadOperation.StationGrants, ct), userId, userRoleId, grantId, ct);
     public async Task<ManagementPage<PermissionView>> PermissionsAsync(PageWindow page, CancellationToken ct)
     {
         page.Validate(); return await queries.PermissionsAsync(await authority.DemandAsync(ManagementReadOperation.PermissionCatalog, ct), page, ct);

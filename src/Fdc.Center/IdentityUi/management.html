@@ -34,9 +34,16 @@
         <div class="form-field"><label for="user-search">Tìm tên đăng nhập</label><input id="user-search" maxlength="80" autocomplete="off"></div>
         <div class="form-field"><label for="user-active">Trạng thái tài khoản</label><select id="user-active"><option value="">Tất cả</option><option value="true">Hoạt động</option><option value="false">Không hoạt động</option></select></div>
       </div>
+      <div id="audit-filters" hidden>
+        <div class="form-field"><label for="audit-action">Mã thao tác chính xác</label><input id="audit-action" maxlength="80" autocomplete="off"></div>
+      </div>
       <div id="subject-fields" hidden>
         <div class="form-field"><label for="subject-user">User ID</label><input id="subject-user" autocomplete="off" maxlength="36"></div>
         <div class="form-field"><label for="subject-assignment">UserRole ID</label><input id="subject-assignment" autocomplete="off" maxlength="36"></div>
+        <div class="form-field"><label for="grant-id">StationGrant ID</label><input id="grant-id" autocomplete="off" maxlength="36"></div>
+        <button class="btn secondary" type="button" id="grant-read">Xem chức năng được khai báo</button>
+        <pre id="grant-result" role="status"></pre>
+        <p class="hint">Chức năng hiển thị chưa phải kết quả kiểm tra quyền hiệu lực trên đối tượng.</p>
         <p class="hint">Máy chủ kiểm tra người dùng, vai trò và phạm vi; mã nhập vào chỉ dùng để lọc.</p>
       </div>
       <div class="management-actions"><button class="btn" type="button" id="refresh">Tải dữ liệu</button><button class="btn secondary" type="button" id="previous" disabled>Trước</button><button class="btn secondary" type="button" id="next" disabled>Sau</button></div>

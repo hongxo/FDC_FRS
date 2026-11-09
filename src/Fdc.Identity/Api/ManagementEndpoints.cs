@@ -21,6 +21,8 @@ public static class ManagementEndpoints
             Guard(h, async () => Results.Ok(await s.RolesAsync(id, Window(offset, limit), ct))));
         group.MapGet("/station-grants", (HttpContext h, ManagementQueryService s, Guid userId, Guid userRoleId, int? offset, int? limit, CancellationToken ct) =>
             Guard(h, async () => Results.Ok(await s.GrantsAsync(userId, userRoleId, Window(offset, limit), ct))));
+        group.MapGet("/station-grants/{grantId:guid}/functions", (HttpContext h, ManagementQueryService s, Guid grantId, Guid userId, Guid userRoleId, CancellationToken ct) =>
+            Guard(h, async () => Results.Ok(await s.GrantFunctionsAsync(userId, userRoleId, grantId, ct))));
         group.MapGet("/permission-catalog", (HttpContext h, ManagementQueryService s, int? offset, int? limit, CancellationToken ct) =>
             Guard(h, async () => Results.Ok(await s.PermissionsAsync(Window(offset, limit), ct))));
         group.MapGet("/security-audit", (HttpContext h, ManagementQueryService s, string? action, int? offset, int? limit, CancellationToken ct) =>

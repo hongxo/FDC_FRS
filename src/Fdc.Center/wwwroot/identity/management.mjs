@@ -1,7 +1,7 @@
 const base = '/api/identity/v1/admin';
 const idPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const ids = value => { if (typeof value !== 'string' || !idPattern.test(value)) throw new Error('INVALID_ID'); return value; };
-export function managementPath(screen, { offset = 0, userId, userRoleId, afterCode, search, active } = {}) {
+export function managementPath(screen, { offset = 0, userId, userRoleId, afterCode, search, active, action } = {}) {
   if (!Number.isInteger(offset) || offset < 0 || offset > 10000) throw new Error('INVALID_PAGE');
   const query = new URLSearchParams({ offset: String(offset), limit: '50' });
   switch (screen) {
@@ -19,7 +19,9 @@ export function managementPath(screen, { offset = 0, userId, userRoleId, afterCo
     }
     case 'grants': query.set('userId', ids(userId)); query.set('userRoleId', ids(userRoleId)); return `${base}/station-grants?${query}`;
     case 'permissions': return base + '/permission-catalog?' + query;
-    case 'audit': return `${base}/security-audit?${query}`;
+    case 'audit':
+      if (typeof action === 'string' && action.trim()) query.set('action', action.trim());
+      return `${base}/security-audit?${query}`;
     default: throw new Error('UNSUPPORTED_SCREEN');
   }
 }
@@ -60,6 +62,12 @@ export function createManagementClient(fetcher = globalThis.fetch, protocol = gl
       if (screen === 'roles' && data.nextCode != null && (typeof data.nextCode !== 'string' || data.nextCode.length > 80)) throw new ManagementApiError(0, 'INVALID_RESPONSE');
       return { items: data.items, hasMore: screen === 'roles' ? data.nextCode != null : data.hasMore, nextCode: screen === 'roles' ? data.nextCode : undefined };
     },
+    async grantFunctions(userId, userRoleId, grantId, signal) {
+      const query = new URLSearchParams({ userId: ids(userId), userRoleId: ids(userRoleId) });
+      const rows = await read(base + '/station-grants/' + ids(grantId) + '/functions?' + query, signal);
+      if (!Array.isArray(rows)) throw new ManagementApiError(0, 'INVALID_RESPONSE');
+      return rows;
+    },
     async navigation(signal) {
       const data = await read('/api/identity/v1/ui/navigation', signal);
       if (!data || !Array.isArray(data.screens)) throw new ManagementApiError(0, 'INVALID_RESPONSE');
@@ -81,7 +89,7 @@ export function createManagementClient(fetcher = globalThis.fetch, protocol = gl
 if (typeof document !== 'undefined') {
   const byId = id => document.getElementById(id);
   const client = createManagementClient();
-  const fields = { users: [['Username', 'username'], ['Trạng thái', 'active'], ['ID', 'id']], permissions: [['Mã quyền', 'code'], ['Phân hệ', 'module'], ['Thao tác', 'action'], ['Phạm vi', 'scope'], ['Mức rủi ro', 'risk'], ['Phiên bản', 'catalogVersion']], roles: [['Mã vai trò', 'code'], ['Tên vai trò', 'name'], ['Trạng thái', 'active']], grants: [['UserRole ID', 'userRoleId'], ['Phạm vi', 'scopeKind'], ['Bắt đầu', 'validFrom'], ['Kết thúc', 'validUntil']], audit: [['Thao tác', 'action'], ['Kết quả', 'result'], ['Thời gian', 'timestamp']] };
+  const fields = { users: [['Username', 'username'], ['Trạng thái', 'active'], ['ID', 'id']], permissions: [['Mã quyền', 'code'], ['Phân hệ', 'module'], ['Thao tác', 'action'], ['Phạm vi', 'scope'], ['Mức rủi ro', 'risk'], ['Phiên bản', 'catalogVersion']], roles: [['Mã vai trò', 'code'], ['Tên vai trò', 'name'], ['Trạng thái', 'active']], grants: [['Grant ID', 'id'], ['Trạm ID', 'stationId'], ['UserRole ID', 'userRoleId'], ['Phạm vi', 'scopeKind'], ['Bắt đầu', 'validFrom'], ['Kết thúc', 'validUntil']], audit: [['Mã sự kiện', 'id'], ['Mã đối chiếu', 'correlationId'], ['Thao tác', 'action'], ['Kết quả', 'result'], ['Thời gian', 'timestamp']] };
   const titles = { users: 'Người dùng', roles: 'Vai trò và quyền', permissions: 'Danh mục quyền', grants: 'Quyền truy cập trạm', audit: 'Nhật ký bảo mật' };
   let screen = Object.hasOwn(fields, location.hash.slice(1)) ? location.hash.slice(1) : 'users', offset = 0, generation = 0, pending, requestPending, requestGeneration = 0, roleCursors = [undefined], nextRoleCode;
   let navigationPending, detailPending;
@@ -110,6 +118,8 @@ if (typeof document !== 'undefined') {
     byId('detail-result').textContent = '';
     byId('detail-fields').hidden = !Object.hasOwn(detailFields, screen);
     byId('user-filters').hidden = screen !== 'users';
+    byId('audit-filters').hidden = screen !== 'audit';
+    byId('grant-result').textContent = '';
   }
   function clear() { byId('results').replaceChildren(); byId('previous').disabled = true; byId('next').disabled = true; }
   function message(error) {
@@ -119,7 +129,7 @@ if (typeof document !== 'undefined') {
   async function load() {
     pending?.abort(); pending = new AbortController(); const current = ++generation; clear(); byId('status').textContent = 'Đang tải…';
     try {
-      const data = await client.list(screen, { offset, afterCode: roleCursors[offset / 50], search: byId('user-search').value, active: byId('user-active').value, userId: byId('subject-user').value, userRoleId: byId('subject-assignment').value }, pending.signal);
+      const data = await client.list(screen, { offset, afterCode: roleCursors[offset / 50], search: byId('user-search').value, active: byId('user-active').value, action: byId('audit-action').value, userId: byId('subject-user').value, userRoleId: byId('subject-assignment').value }, pending.signal);
       if (current !== generation) return;
       const wrapper = document.createElement('div'); wrapper.className = 'table-scroll'; wrapper.tabIndex = 0;
       const table = document.createElement('table'), caption = document.createElement('caption'); caption.textContent = titles[screen]; table.append(caption);
@@ -141,6 +151,15 @@ if (typeof document !== 'undefined') {
   byId('screen-title').textContent = titles[screen]; byId('subject-fields').hidden = screen !== 'grants';
   for (const nav of document.querySelectorAll('[data-screen]')) { nav.setAttribute('aria-pressed', String(nav.dataset.screen === screen)); nav.classList.toggle('secondary', nav.dataset.screen !== screen); }
   configureScreen();
+  for (const id of ['subject-user', 'subject-assignment', 'grant-id']) {
+    byId(id).addEventListener('input', () => {
+      detailPending?.abort();
+      byId('grant-result').textContent = '';
+      pending?.abort();
+      generation++;
+      clear();
+    });
+  }
   byId('refresh').addEventListener('click', () => { offset = 0; roleCursors = [undefined]; configureScreen(); load(); });
   byId('detail-read').addEventListener('click', async () => {
     detailPending?.abort();
@@ -156,6 +175,20 @@ if (typeof document !== 'undefined') {
       byId('detail-result').textContent = JSON.stringify(result, null, 2);
     } catch (error) {
       if (!request.signal.aborted && detailPending === request) byId('detail-result').textContent = message(error);
+    }
+  });
+  byId('grant-read').addEventListener('click', async () => {
+    detailPending?.abort();
+    const request = detailPending = new AbortController();
+    const target = byId('grant-result');
+    target.textContent = 'Đang tải…';
+    try {
+      const rows = await client.grantFunctions(byId('subject-user').value.trim(),
+        byId('subject-assignment').value.trim(), byId('grant-id').value.trim(), request.signal);
+      if (!request.signal.aborted && detailPending === request)
+        target.textContent = rows.map(row => row.permissionCode).join(', ') || 'Không có chức năng hiển thị.';
+    } catch (error) {
+      if (!request.signal.aborted && detailPending === request) target.textContent = message(error);
     }
   });
   byId('previous').addEventListener('click', () => { offset = Math.max(0, offset - 50); load(); });

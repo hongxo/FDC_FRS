@@ -12,7 +12,11 @@ const labels = new Map([
 const navigation = document.getElementById('effective-navigation');
 let pending;
 function render() {
-  const screen = screens.get(location.hash.slice(1)) ?? screens.get('login');
+  const hash = location.hash.slice(1);
+  const key = screens.has(hash) ? hash : 'login';
+  const screen = screens.get(key);
+  for (const panel of ['login', 'mfa', 'profile'])
+    document.getElementById(panel + '-controls').hidden = panel !== key;
   document.getElementById('screen-title').textContent = screen[0];
   document.getElementById('policy-status').textContent = screen[1];
 }
@@ -44,7 +48,20 @@ async function loadNavigation() {
   } catch { /* No capability response means no navigation. */ }
 }
 addEventListener('hashchange', render);
-addEventListener('pageshow', loadNavigation);
+addEventListener('pageshow', async () => {
+  const status = document.getElementById('runtime-status');
+  try {
+    const response = await fetch('/api/identity/v1/ui/auth-status', {
+      credentials: 'omit', mode: 'same-origin', redirect: 'error', cache: 'no-store',
+      headers: { Accept: 'application/json' }
+    });
+    const data = response.ok ? await response.json() : null;
+    status.textContent = data?.login === 'BLOCKED_BY_POLICY'
+      ? 'Máy chủ xác nhận phát hành phiên đang chờ phê duyệt.'
+      : 'Không xác nhận được chính sách từ máy chủ.';
+  } catch { status.textContent = 'Không xác nhận được chính sách từ máy chủ.'; }
+  await loadNavigation();
+});
 addEventListener('pagehide', clearNavigation);
 document.addEventListener('visibilitychange', () => { if (document.hidden) clearNavigation(); else loadNavigation(); });
 render();

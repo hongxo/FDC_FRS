@@ -38,7 +38,7 @@ public sealed class ManagementReadTests
     }
     [Fact] public void Read_dtos_have_no_credential_or_raw_payload_fields()
     {
-        var types = new[] { typeof(UserView), typeof(UserRoleView), typeof(GrantView), typeof(PermissionView), typeof(AuditView), typeof(ChangeRequestView) };
+        var types = new[] { typeof(UserView), typeof(UserRoleView), typeof(GrantView), typeof(GrantFunctionView), typeof(PermissionView), typeof(AuditView), typeof(ChangeRequestView) };
         foreach (var type in types)
         foreach (var property in type.GetProperties())
             Assert.DoesNotMatch("(?i)password|hash|secret|token|payload|privatekey", property.Name);
@@ -49,7 +49,8 @@ public sealed class ManagementReadTests
         builder.Services.AddAuthorization(); builder.Services.AddScoped<ManagementQueryService>();
         await using var app = builder.Build(); app.MapIdentityManagementQueries();
         var endpoints = ((IEndpointRouteBuilder)app).DataSources.SelectMany(x => x.Endpoints).OfType<RouteEndpoint>().ToArray();
-        Assert.Equal(8, endpoints.Length);
+        Assert.Equal(9, endpoints.Length);
+        Assert.Contains(endpoints, e => e.RoutePattern.RawText == "/api/identity/v1/admin/station-grants/{grantId:guid}/functions");
         foreach (var endpoint in endpoints)
         {
             Assert.StartsWith("/api/identity/v1/admin/", endpoint.RoutePattern.RawText);
