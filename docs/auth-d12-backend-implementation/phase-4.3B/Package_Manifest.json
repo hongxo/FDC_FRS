@@ -1,0 +1,221 @@
+{
+  "scope": "Unsigned artifact integrity manifest; LF hash tolerates checkout line endings; not owner approval",
+  "files": [
+    {
+      "path": "Approval_Workflow_Report.md",
+      "bytes": 2651,
+      "sha256": "7ae7368ac62879f285e1dde599b652c4510c4b505017fc1d54e94b84249e8842",
+      "lf_sha256": "f41d22d5badd3a40b1342d8c0bc732390aff684245e84e8733bcc2060b1d07f2"
+    },
+    {
+      "path": "Authentication_Runtime_Report.md",
+      "bytes": 2723,
+      "sha256": "46e5593684b36a15e70a0608d1767f77339e93a1dfe6a5f35f4246e6121e000d",
+      "lf_sha256": "f8b7d375e8b88405cf5a8666b0fc6887c99e944991ed7924600d086e4e667e40"
+    },
+    {
+      "path": "Blocker_Closure_Report.md",
+      "bytes": 3198,
+      "sha256": "469e9820b6ac1a9d7cd99d8b8d12d45c6bd5a91916069237280d019c408ecd33",
+      "lf_sha256": "3235726c0693bd3122b536e597abcbf701d30aac0e913dc92215b93cc48e4e42"
+    },
+    {
+      "path": "D09_Transaction_Report.md",
+      "bytes": 3197,
+      "sha256": "f525cdcf74e32b8745d03ef0729060bbfae1a10c6cbe3f9df84bf0f3f2e1b0ea",
+      "lf_sha256": "d6eb6cc15ac1a1584bf26712a474174416367fd1fedd65949e85b2ef6d31c750"
+    },
+    {
+      "path": "D10_Audit_Recovery_Report.md",
+      "bytes": 2759,
+      "sha256": "2d420b50b9307686b081ce7af1062dbd01693798f63c5400cb46cf1818afaca0",
+      "lf_sha256": "5ff9cacd3555b1501befebf908c985938c843f03adf5afcd3155fdda179db3aa"
+    },
+    {
+      "path": "DR01_DR29_Results.md",
+      "bytes": 11306,
+      "sha256": "563d1ec0f026de66f87cf6985b8e6d900f55926d0818d5cce6c8627a73ad1806",
+      "lf_sha256": "dada7f9137446723ae02eec9fe00d4cab8f36cebb53f9d8a307cd0d38a21dcd1"
+    },
+    {
+      "path": "Dynamic_RBAC_Implementation_Report.md",
+      "bytes": 2747,
+      "sha256": "5575a890ce6fbdf878d2ee6ed9efe7d572b72575eb71c2338f83fbe72727500d",
+      "lf_sha256": "3b47ceba30516b61f9ff8f9ca726c52c13d50fc2f21827ddf9162ab5d4593a05"
+    },
+    {
+      "path": "E2E_Execution_Report.md",
+      "bytes": 5883,
+      "sha256": "6cc25363287e597aceb163969097fe66132a374cb04b034fc5e5a7eb463e7c8d",
+      "lf_sha256": "09ef831e0a2dcf95335961869f9f20de057b9d03d2417a840bc6dfd874d0a3f3"
+    },
+    {
+      "path": "evidence/authority-miss-profile.json",
+      "bytes": 4544,
+      "sha256": "e46a5299aa13ef586aa2bd97c31b55342bfc32fbbb3fd8c0817ec739c04ff36e",
+      "lf_sha256": "11032d07b02b603687612354c1a3ffda6eb64f38f8c56fbce6b44a952752c671"
+    },
+    {
+      "path": "evidence/build-final.log",
+      "bytes": 1486,
+      "sha256": "06192c7d19909803fc01f8947ff0307ca9ce429f8d49361b21339d73332cf859",
+      "lf_sha256": "0e0493046a99a275b58e6f554d064cba2bf12d1846e918fc7541272be70ab43b"
+    },
+    {
+      "path": "evidence/center-live-browser.json",
+      "bytes": 1393,
+      "sha256": "bde2e636ebe1458c7094d0091dfde27b5a0bc0696deaf7332d82aa81f9115496",
+      "lf_sha256": "bde2e636ebe1458c7094d0091dfde27b5a0bc0696deaf7332d82aa81f9115496"
+    },
+    {
+      "path": "evidence/dependency-scan.log",
+      "bytes": 949,
+      "sha256": "3c90282bddec2b69c2cccd08f492caab2be9310840e728af94965998d8243f52",
+      "lf_sha256": "0263d92f6726afd040e1a1379fe6e2a92e2485738fc5ab4324f273f3a8713aa8"
+    },
+    {
+      "path": "evidence/environment.txt",
+      "bytes": 62,
+      "sha256": "27f0cb3f90f27bb43d7e3db14ddd74caa044824956938e8fd038ac5e8154f0f0",
+      "lf_sha256": "45de1778d9aae164e59814bfa53ef31ff1892c0aa936dc8411c43f5fcd0fa1c9"
+    },
+    {
+      "path": "evidence/FDC_Center_Lab-after.txt",
+      "bytes": 2302,
+      "sha256": "7e4353023e7ce90d3fbdeca82cf86822ddae356a0ae489853c87ab9e88dcc9a7",
+      "lf_sha256": "c484c31dbe9c7a30d3d70f320eea96cd3bae620bb36a07f358fad63b6bcc22c7"
+    },
+    {
+      "path": "evidence/FDC_Center_Lab-before.txt",
+      "bytes": 2208,
+      "sha256": "f7cbd17ec0e8323d9bec30ee6739a3108191b75ed7446f3db33751510e3b979b",
+      "lf_sha256": "6311820ebff59a072eaa32a851f20dceb9eb654a1db79b174c7b76bf1a6af075"
+    },
+    {
+      "path": "evidence/FdcIam_DevelopmentLab-after.txt",
+      "bytes": 2134,
+      "sha256": "3753293b6c73728e8dea34051f90bf4ecebe72f786d0a795e9781fe107b43c10",
+      "lf_sha256": "052764a89856c377eda3cd691f907e67c76d20eedf51b7eac24750979c345f34"
+    },
+    {
+      "path": "evidence/FdcIam_DevelopmentLab-before.txt",
+      "bytes": 2040,
+      "sha256": "e1e390b478a19a5b26a6da76c781a30aaa619313287d05922e66472270a4ee28",
+      "lf_sha256": "998ed5a3f66d16b297d055906d5c414207d62d76be4c4ffacc2fd47113a4b644"
+    },
+    {
+      "path": "evidence/node-tests-final.log",
+      "bytes": 4246,
+      "sha256": "ee04b2725622b0597bc76213a014099c9c8486662cfda3572d3db71cbf2a3a4d",
+      "lf_sha256": "8f29c29877388d87033a39ca45fc61a83240bca41edf1e5d7c30eb73ec29fb55"
+    },
+    {
+      "path": "evidence/query-profile.json",
+      "bytes": 1216,
+      "sha256": "c679f00467f739a32bfaa0a1ec5c48ff266265046dee215c826ac38d1d20fc45",
+      "lf_sha256": "1a025da5752c72cef094ee638f513be9ad3f3beb7eb2eeaab1e18f680c6ddcbe"
+    },
+    {
+      "path": "evidence/secret-scan.json",
+      "bytes": 276,
+      "sha256": "32b0b0afb2944540d8d835b2e8e474696f3ca446ae8c24397367070f55f285fb",
+      "lf_sha256": "158806e913a20dab3bb6c2ee75294d38bc2a3f43b3a5c86e50369441c6ee3823"
+    },
+    {
+      "path": "evidence/Test_Execution.json",
+      "bytes": 440141,
+      "sha256": "af23757eeb4929fe04e6b582b5c47ce26b40a46545786fc84ae8116fe31e3d82",
+      "lf_sha256": "2e2d5504b40dfd534df29dd257221e23c10690882a2e71a213d24bd3f5a73a52"
+    },
+    {
+      "path": "Evidence_Index.md",
+      "bytes": 3247,
+      "sha256": "d99c0e8d4f820bfb69b42b9ee6eb74220e3f7e492f42d5878fdfb0b52197bb6e",
+      "lf_sha256": "66a290361530447fb9ab63d7eeae330c2ccfabab9a904d1113b216c9e3c9e80a"
+    },
+    {
+      "path": "Evidence_Manifest.json",
+      "bytes": 7766,
+      "sha256": "63f91600dbefe8baf28a90baa40ae166eb919f5fe6899a04b80ca36885928f32",
+      "lf_sha256": "2fad6cc7545ebe4db6f7d4d11191f73ddd00a6809074e2a7e934d074101204a6"
+    },
+    {
+      "path": "GitHub_Delivery_Report.md",
+      "bytes": 2294,
+      "sha256": "d27500acc1150fa494f1127163e82c1d2e0fe276585ea83074a153ce3ff438db",
+      "lf_sha256": "494f7a9d41705a328ee4732d50a4356af13ec247902df391048d26218611974f"
+    },
+    {
+      "path": "Human_Machine_Integration_Report.md",
+      "bytes": 2801,
+      "sha256": "04460b501e748ffd61ffe36caae275df7a6fe2537ad510eaf1b75ba1e26b1f15",
+      "lf_sha256": "0a2c1e84bccaa3c107e9ec608623e160bd14959ab5a8660c877548a7cf2b2cf9"
+    },
+    {
+      "path": "Input_Manifest.json",
+      "bytes": 7499,
+      "sha256": "b3c2c0b440a17e42a2aadb8efa7230ca3362a5ac1d2626027bd6b59fba487ae9",
+      "lf_sha256": "51ee029c79cbc99fabb705784a3ac4607b06828de5e66ec16af2184481274d8f"
+    },
+    {
+      "path": "MFA_Runtime_Report.md",
+      "bytes": 2447,
+      "sha256": "a316cf6a5c8573e61ee808ab3eb4ab0a720dda98f097a9b8ecea04e4189dc175",
+      "lf_sha256": "308da1839d103a6f7d008f3d18f51e48ffacee99b252e7fccdc1f776908ecee3"
+    },
+    {
+      "path": "Performance_Baseline_Report.md",
+      "bytes": 3239,
+      "sha256": "ac72f2b3572e04e2b2b4e5f92d885784a91be0a4e2a77c1e0796b7fe0a764826",
+      "lf_sha256": "d4a9e2b5525d0ab09b6c0a8ff80c395cf2676e7da7695a880c42f3eec2631879"
+    },
+    {
+      "path": "Phase4_3B_Baseline_Report.md",
+      "bytes": 2935,
+      "sha256": "cf7c2089700e76d680942c770699cb7d1bb138319df08a106cdc1acdcc646111",
+      "lf_sha256": "6f7c6859a8007b6105ea11f9add6ba37a462f23b9c4b88e5a0181148b858a0b5"
+    },
+    {
+      "path": "Phase4_3B_Final_Assessment.md",
+      "bytes": 4494,
+      "sha256": "40843f1d2a0aab4ca1cc757dbbf460a8c92d3e067355e91f313f89ea79a0672c",
+      "lf_sha256": "f2fc976cfe7b92a1e7c165d788095a73bb5c122fbe1612393c266a1ed6030de2"
+    },
+    {
+      "path": "PR_Description.md",
+      "bytes": 2507,
+      "sha256": "33bb710e4284e7a2ba992f37b1a8e77ef5dc56053ab2d5420afb2652cce31528",
+      "lf_sha256": "faed38b764d82474ae6a27d591d5394f14f51f4f8fc684e40d66173fc02229c3"
+    },
+    {
+      "path": "Security_Regression_Report.md",
+      "bytes": 3805,
+      "sha256": "3ec4987ad78ed65288a24f9dc182c22a8764b87ce427f814a6bb4f5f1490eff0",
+      "lf_sha256": "a48df4e63d5d5b7fdaca58145ca00c2ec5a443519b706560f063e97b524a8116"
+    },
+    {
+      "path": "Source_Manifest.json",
+      "bytes": 4820,
+      "sha256": "b1de8e795fc1974a6783bdf7781ce30a569296ef0689154a857abd5ef9cdd9e1",
+      "lf_sha256": "8d6522a904287dc56d72a42092056212023c25172c63fa4591401ecbd6b95485"
+    },
+    {
+      "path": "SQL_Authority_Integration_Report.md",
+      "bytes": 3102,
+      "sha256": "b12868285bbd29cc5be4db15b0de89aab195f553b9cfe678fcafcb77225ed770",
+      "lf_sha256": "a7c177b56584afbbaef857b1a0f05bf76ab10ac6e7b3c9d2a789c89dbed8defe"
+    },
+    {
+      "path": "UI_S01_S08_Implementation_Report.md",
+      "bytes": 3253,
+      "sha256": "4be9af0e6cfa7403c8785135306fc98df360899d4620bfc5c8c43fa32d969ae3",
+      "lf_sha256": "ad1744e1dd442bb44229c0113da82582447381ffbfcfda7b03dca0c780647cc8"
+    },
+    {
+      "path": "verify_evidence.py",
+      "bytes": 3296,
+      "sha256": "fad946f8317036ab29d0eff9b52d89c629acb95b9452a9bfc3c4a19836fe9303",
+      "lf_sha256": "fad946f8317036ab29d0eff9b52d89c629acb95b9452a9bfc3c4a19836fe9303"
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+TAP version 13
+# Subtest: canonical same-origin routes are fixed server operations
+ok 1 - canonical same-origin routes are fixed server operations
+  ---
+  duration_ms: 2.1268
+  ...
+# Subtest: station IDs are validated intent, not permission selection
+ok 2 - station IDs are validated intent, not permission selection
+  ---
+  duration_ms: 0.2478
+  ...
+# Subtest: unbounded pages are rejected
+ok 3 - unbounded pages are rejected
+  ---
+  duration_ms: 0.3353
+  ...
+# Subtest: role cursor is encoded as data
+ok 4 - role cursor is encoded as data
+  ---
+  duration_ms: 0.242
+  ...
+# Subtest: 202 is pending, never effective
+ok 5 - 202 is pending, never effective
+  ---
+  duration_ms: 0.2579
+  ...
+# Subtest: approval alone is not apply
+ok 6 - approval alone is not apply
+  ---
+  duration_ms: 0.1739
+  ...
+# Subtest: only explicit applied status is labelled applied
+ok 7 - only explicit applied status is labelled applied
+  ---
+  duration_ms: 0.2042
+  ...
+# Subtest: HTTPS is required before a fetch
+ok 8 - HTTPS is required before a fetch
+  ---
+  duration_ms: 0.8622
+  ...
+# Subtest: cookies are same-origin and requests do not cache or redirect
+ok 9 - cookies are same-origin and requests do not cache or redirect
+  ---
+  duration_ms: 23.5096
+  ...
+# Subtest: HTTP 401 returns error without fixture fallback
+ok 10 - HTTP 401 returns error without fixture fallback
+  ---
+  duration_ms: 0.6049
+  ...
+# Subtest: HTTP 403 returns error without fixture fallback
+ok 11 - HTTP 403 returns error without fixture fallback
+  ---
+  duration_ms: 0.2408
+  ...
+# Subtest: HTTP 409 returns error without fixture fallback
+ok 12 - HTTP 409 returns error without fixture fallback
+  ---
+  duration_ms: 0.1323
+  ...
+# Subtest: HTTP 503 returns error without fixture fallback
+ok 13 - HTTP 503 returns error without fixture fallback
+  ---
+  duration_ms: 0.1493
+  ...
+# Subtest: unexpected content type rejected
+ok 14 - unexpected content type rejected
+  ---
+  duration_ms: 0.2068
+  ...
+# Subtest: malformed or oversized response rejected
+ok 15 - malformed or oversized response rejected
+  ---
+  duration_ms: 0.5183
+  ...
+# Subtest: role cursor and dynamic custom roles are retained
+ok 16 - role cursor and dynamic custom roles are retained
+  ---
+  duration_ms: 0.252
+  ...
+# Subtest: request detail uses fixed canonical route with UUID
+ok 17 - request detail uses fixed canonical route with UUID
+  ---
+  duration_ms: 0.3608
+  ...
+# Subtest: HTTP 401 has explicit safe state and does not retry or render server body
+ok 18 - HTTP 401 has explicit safe state and does not retry or render server body
+  ---
+  duration_ms: 3.0379
+  ...
+# Subtest: HTTP 403 has explicit safe state and does not retry or render server body
+ok 19 - HTTP 403 has explicit safe state and does not retry or render server body
+  ---
+  duration_ms: 0.2599
+  ...
+# Subtest: HTTP 409 has explicit safe state and does not retry or render server body
+ok 20 - HTTP 409 has explicit safe state and does not retry or render server body
+  ---
+  duration_ms: 0.1402
+  ...
+# Subtest: HTTP 412 has explicit safe state and does not retry or render server body
+ok 21 - HTTP 412 has explicit safe state and does not retry or render server body
+  ---
+  duration_ms: 0.1117
+  ...
+# Subtest: HTTP 428 has explicit safe state and does not retry or render server body
+ok 22 - HTTP 428 has explicit safe state and does not retry or render server body
+  ---
+  duration_ms: 0.1957
+  ...
+# Subtest: HTTP 429 has explicit safe state and does not retry or render server body
+ok 23 - HTTP 429 has explicit safe state and does not retry or render server body
+  ---
+  duration_ms: 0.102
+  ...
+# Subtest: HTTP 503 has explicit safe state and does not retry or render server body
+ok 24 - HTTP 503 has explicit safe state and does not retry or render server body
+  ---
+  duration_ms: 0.188
+  ...
+# Subtest: unknown server exception and credential text are never shown to the user
+ok 25 - unknown server exception and credential text are never shown to the user
+  ---
+  duration_ms: 0.1278
+  ...
+1..25
+# tests 25
+# suites 0
+# pass 25
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 140.8275

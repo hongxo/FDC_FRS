@@ -1,0 +1,14 @@
+  Fdc.Core -> E:\Dev\Tool-For-Automatic-Extraction-Of-Disturbance-Record-Files\tmp\FDC_FRS-phase2-delivery\src\Fdc.Core\bin\Debug\net10.0\Fdc.Core.dll
+  Fdc.Identity -> E:\Dev\Tool-For-Automatic-Extraction-Of-Disturbance-Record-Files\tmp\FDC_FRS-phase2-delivery\src\Fdc.Identity\bin\Debug\net10.0\Fdc.Identity.dll
+  Fdc.Identity.Schema -> E:\Dev\Tool-For-Automatic-Extraction-Of-Disturbance-Record-Files\tmp\FDC_FRS-phase2-delivery\tools\Fdc.Identity.Schema\bin\Debug\net10.0\Fdc.Identity.Schema.dll
+  Fdc.Center.Persistence -> E:\Dev\Tool-For-Automatic-Extraction-Of-Disturbance-Record-Files\tmp\FDC_FRS-phase2-delivery\src\Fdc.Center.Persistence\bin\Debug\net10.0\Fdc.Center.Persistence.dll
+  Fdc.Identity.Tests -> E:\Dev\Tool-For-Automatic-Extraction-Of-Disturbance-Record-Files\tmp\FDC_FRS-phase2-delivery\tests\Fdc.Identity.Tests\bin\Debug\net10.0\Fdc.Identity.Tests.dll
+  Fdc.Center.Database -> E:\Dev\Tool-For-Automatic-Extraction-Of-Disturbance-Record-Files\tmp\FDC_FRS-phase2-delivery\tools\Fdc.Center.Database\bin\Debug\net10.0\Fdc.Center.Database.dll
+  Fdc.Center -> E:\Dev\Tool-For-Automatic-Extraction-Of-Disturbance-Record-Files\tmp\FDC_FRS-phase2-delivery\src\Fdc.Center\bin\Debug\net10.0\Fdc.Center.dll
+  Fdc.Center.Tests -> E:\Dev\Tool-For-Automatic-Extraction-Of-Disturbance-Record-Files\tmp\FDC_FRS-phase2-delivery\tests\Fdc.Center.Tests\bin\Debug\net10.0\Fdc.Center.Tests.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:05.55

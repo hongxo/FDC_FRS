@@ -1,0 +1,15 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+
+The following sources were used:
+   https://api.nuget.org/v3/index.json
+   C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\
+
+The given project `Fdc.Center.Persistence` has no vulnerable packages given the current sources.
+The given project `Fdc.Center` has no vulnerable packages given the current sources.
+The given project `Fdc.Core` has no vulnerable packages given the current sources.
+The given project `Fdc.Identity` has no vulnerable packages given the current sources.
+The given project `Fdc.Center.Tests` has no vulnerable packages given the current sources.
+The given project `Fdc.Identity.Tests` has no vulnerable packages given the current sources.
+The given project `Fdc.Center.Database` has no vulnerable packages given the current sources.
+The given project `Fdc.Identity.Schema` has no vulnerable packages given the current sources.
