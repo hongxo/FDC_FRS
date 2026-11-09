@@ -1,0 +1,2016 @@
+{
+  "baseline": "d5ebc2acc18265786bae5af96ef3ba58c223e522",
+  "read_scope": "Source,report/workbook read-only;origins resolved to actual roots;no input writes",
+  "files": [
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-2/Authentication_API_Report.md",
+      "sha256": "f335e2f839119edd82da1e757da731b813a315c6583bbbd82f9bd12b025c9164",
+      "bytes": 1617
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-2/Dynamic_Authorization_Report.md",
+      "sha256": "36a66d380f6fa4806fa8335ad8fa876f18d6b868916094fe507a20cba1071161",
+      "bytes": 1518
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-2/GitHub_Delivery_Report.md",
+      "sha256": "9bd4068ea92238b299b43049a5eb9e0af6e6a40efa1c5712bb52b125269bb34c",
+      "bytes": 2475
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-2/MFA_Implementation_Report.md",
+      "sha256": "5dae3da3e02be17031d558f4453698f45b2f359d520816b272ab5fce41900a20",
+      "bytes": 793
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-2/Phase2_Implementation_Report.md",
+      "sha256": "948ffa6c4c494883c139323f78c9b2f44ad404fc84e02f3ce66ca8a340739826",
+      "bytes": 4627
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-2/PR_Description.md",
+      "sha256": "93539886b2879371d3db13482bdf961d16b904f3452e4b9e1ab3c6fc90999eab",
+      "bytes": 1482
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-2/Security_Test_Report.md",
+      "sha256": "2d85d7e5374ecc189b9106b672ab647668bffb8b4fbd473f48eb9302dd2f0542",
+      "bytes": 4344
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/Approval_Workflow_Report.md",
+      "sha256": "0f8731c497fc5b151361db3dfc026fbf7ad5d6b3df27b963f112ebb09d395bb9",
+      "bytes": 1754
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/CRUD_Progress_Report.md",
+      "sha256": "d67af43cbb2c4ea64ca39bbd71e8e984d962717ba4c5c4b136e0f55163eb0c3e",
+      "bytes": 4588
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/Dynamic_Role_Management_Report.md",
+      "sha256": "f280292220b2269fb0e001d3cae902d9e853578bbcd6caee0d6236af314ffe3c",
+      "bytes": 1495
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/GitHub_Delivery_Report.md",
+      "sha256": "b7d293ad8cb422bd064cd74e9a2588759c00a053ea2fd7e6b56991ea340ea3cb",
+      "bytes": 2134
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/Phase3_Implementation_Report.md",
+      "sha256": "55dcad6cf7db8c15414092096b40d25c6bfe8fec8a5a5df95c6831ef2c9d21dd",
+      "bytes": 5017
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/PR_Description.md",
+      "sha256": "913b87497f5f05bff4ff5426d43c0b54f61c00f9a6e1ef0795dfdd321feb1d21",
+      "bytes": 1983
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/Security_Audit_Report.md",
+      "sha256": "440ad8c9dd005f9341bc7f82dde7f9c2a2737e31de011045ce66d202e6979ed5",
+      "bytes": 1109
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/Security_Test_Report.md",
+      "sha256": "d616c6d647f5924b1076bca699c4f505e65c29dd022b5322defdd8e5e2f21536",
+      "bytes": 3937
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/Station_Access_Management_Report.md",
+      "sha256": "c2ea44657b975d3a8732e08f07e90c1f3e5ca642d154d31ec3dc17d4a140aa2d",
+      "bytes": 1430
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/UI_Integration_Report.md",
+      "sha256": "71d4516661b3deb027d289a911a1381116b8c90ff6ebcf1164fe2b15c87f5f2c",
+      "bytes": 1660
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/User_Management_API_Report.md",
+      "sha256": "173edff69a14cc7534d0f3ed5c74bcfb05ded6c82332b3e0f01ca036f455e98e",
+      "bytes": 1327
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Authentication_Security_Test_Report.md",
+      "sha256": "d2b1492c10683009deae0a5c3d096393cfa2523f44d123529fdb75c3c04a00de",
+      "bytes": 1512
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Defect_Register.md",
+      "sha256": "f8fdfd8acb49a17c9a979a264aa6c0da0bc74007d93bc181ef414fa92404d1b6",
+      "bytes": 2471
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/DR01_DR29_Execution_Matrix.md",
+      "sha256": "5f02866d6ccad4a7423a972eb94f209219150c0ca13d0209f8a6ee09c791b865",
+      "bytes": 26415
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/GitHub_Delivery_Report.md",
+      "sha256": "e78a9e7232a907fd4bacb662ef51d938e04b80e5a12781246992a6e459e7d6c8",
+      "bytes": 1700
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Human_Machine_Boundary_Report.md",
+      "sha256": "3744be493d32fdb2db0594f7764752730868d5fd8851b3db8a3ac2fb1ef2a113",
+      "bytes": 1482
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Lab_Acceptance_Report.md",
+      "sha256": "cd647486726f69b9cf8fdda7adc966ddd89e0d7b0ff3fe2492eeff458ce5bc72",
+      "bytes": 1568
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/MFA_Security_Test_Report.md",
+      "sha256": "2575df8f006115abb5273ed2e40522736c500c95242fd3ad7b4d68a07c71f10e",
+      "bytes": 910
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Migration_Recovery_Report.md",
+      "sha256": "c103a3fb1bac02812963825c8fb03ccfd9d294875c12745ade96aac4560a4326",
+      "bytes": 1435
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Performance_Reliability_Report.md",
+      "sha256": "14bafa9baab4563ca85f203880d54ce069fb99a9c632e945e8c9a77c4031a348",
+      "bytes": 1488
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Phase4_Baseline_Report.md",
+      "sha256": "7e152fd449f4e822efac1c48313268cf71c39848ce3d1317fc4801826548d6cc",
+      "bytes": 2024
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Phase4_Final_Report.md",
+      "sha256": "48b82d98c111a0173b7a6fefac35f4a9c6cf701ecda78f11b81d3d9d73e141ec",
+      "bytes": 2102
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/PR_Description.md",
+      "sha256": "62ccfb13bbb40a6430e4ef36dfd832db3f14d3d50131859445bb7e71459428b4",
+      "bytes": 1669
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/RBAC_StationGrant_Test_Report.md",
+      "sha256": "f36bd9a9a1dffba0a2644d53fe25f5287037a261164a5976a10c993094bd8c72",
+      "bytes": 1445
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Security_Hardening_Report.md",
+      "sha256": "ed4ff4be9b38e2dc097369c947fd8c3a07f7bbfb7e42ad4f8829595d9d92dcaa",
+      "bytes": 2006
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/SQL_Concurrency_Test_Report.md",
+      "sha256": "adbedd434aa1945672882d6f820ea46d4aba7c0bac5d0791e2e6a34728f43bf2",
+      "bytes": 1521
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/UI_E2E_Test_Report.md",
+      "sha256": "03d936df133a46f0382dc8e66034349215df9ae10df6de2d1ed467789834f209",
+      "bytes": 1498
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Workflow_SoD_Test_Report.md",
+      "sha256": "1d0590c461c48ba1e681022dad1609f7965d425d6cfd20b560dc639da553cb82",
+      "bytes": 1532
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4-1/GitHub_Delivery_Report.md",
+      "sha256": "7ccb68e73522787d96eb76eec4d762748060f4cf74403ea7006ed6cc2dae4523",
+      "bytes": 2692
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4-1/Phase4_1_Blocker_Resolution.md",
+      "sha256": "9bed87a63eb1d029371019ca3fc72d99b37ab404ef26c18f6af3a2982d847e19",
+      "bytes": 7869
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4-1/Phase4_1_Final_Assessment.md",
+      "sha256": "d8f3e9b8e01baa013f20faa567536eb9cc4f7ebf913b6957e7e084ed30fff8ad",
+      "bytes": 4022
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4-1/Phase4_1_Runtime_Completion.md",
+      "sha256": "c16b6d52d3abc0869d619496ce1ac1a37fb2ff26898693e383ea257f0961fe60",
+      "bytes": 5580
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4-1/Phase4_1_Test_Results.md",
+      "sha256": "14a744cad4194142238bbbbb92984364f93e459da4947597eab98f8a37d11ac7",
+      "bytes": 12420
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4-1/PR_Description.md",
+      "sha256": "ef2ff16f5d70afb9c82eaeafbc4db465c55c8e24a47b926d3513032f419f9907",
+      "bytes": 1858
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/Authentication_MFA_Report.md",
+      "sha256": "38dc5b3403134c5297dfd2c965e558896067affd0eeb5ff99ae76a1ead0c9a5b",
+      "bytes": 2519
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/Blocker_Closure_Matrix.md",
+      "sha256": "70c36e36b215fb49289db98bf15b52c5116187bdd80b95b45af7c9e1e8d45fbd",
+      "bytes": 2555
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/D01_Runtime_Host_Decision.md",
+      "sha256": "6f2e479eb2a9aaae06dd67d988d3a85f45b2086de8ca163aa24ad5bb195f8175",
+      "bytes": 2409
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/D02_D03_D05_D06_Authentication_Policy_Decision.md",
+      "sha256": "6fb88798c07e2f452f9dfa9985bb96ec0e62a5ccdd4c174b230281c805664fcf",
+      "bytes": 2464
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/D04_Operation_Permission_Mapping_Decision.md",
+      "sha256": "e66e3fbc78cb99216cc3453a1dee83cef17a945831e54512b8dd2cd3c69a291d",
+      "bytes": 2408
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/D09_Transaction_Integration_Report.md",
+      "sha256": "033df20029c5608933c9e0e8245ae39c4e4f24b39a6e6352df1d069e0c00831a",
+      "bytes": 3342
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/D09_Transaction_Protocol_Decision.md",
+      "sha256": "fd7e7cdc6b29dd75a0464dd97a15202af29296e5cdeee21da45a239cc35a8a26",
+      "bytes": 2471
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/D10_Audit_Recovery_Report.md",
+      "sha256": "91a5a572945f6972da79d18ed5c71f6bc101c54ba19e63f5108f33676335043e",
+      "bytes": 2422
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/D10_Audit_Restore_Policy_Decision.md",
+      "sha256": "fa945585415a05c1b561b2398b04cad134dfe287c5b1c85c855e1abadbbb388a",
+      "bytes": 2435
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/DR01_DR29_Revalidation.md",
+      "sha256": "736be196bc0f6ff38d491df2425d779c25b44cfc060be9990af9e47b691a552e",
+      "bytes": 15592
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/Dynamic_RBAC_Authority_Report.md",
+      "sha256": "0711d9ba4019d4631f45af998fb51e415599d0129c1c3798dabf4610b2098bd1",
+      "bytes": 2569
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/Evidence_Index.md",
+      "sha256": "7e6dca19d27cff8e7c58fe958c12fed3f9b96dbd8c2d8e21d956eedceb1d39c1",
+      "bytes": 5028
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/Evidence_Manifest.json",
+      "sha256": "aa39feeac5c63fb18c8f5e6e259292c653a878c4dc0c8613db7b78d345d78541",
+      "bytes": 15735
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/GitHub_Delivery_Report.md",
+      "sha256": "33da6069706698ba523ba9067658765e77d3c6631247b84cdda0a2ea92bf2eac",
+      "bytes": 1902
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/Owner_Decision_Register.md",
+      "sha256": "c9d7c42b7cbe9e8a37e6ed2824f1471e4ea6d55c2c7254ab12a47f52b3fdc1f6",
+      "bytes": 2475
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/Phase4_2_Baseline_Report.md",
+      "sha256": "068b06ba6c058186dcd09b55e7eeb680fad61db353fd74049dc6092e72bd5409",
+      "bytes": 2990
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/Phase4_2_Final_Assessment.md",
+      "sha256": "509a0e7328958bcebe676c9f2a904c77c48a03b4036d5d042f2310b500eafa77",
+      "bytes": 3183
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/PR_Description.md",
+      "sha256": "dbb2df9d668673552fcf831b5f8c93cfb9e35b9a4019d35543a217b565765c6c",
+      "bytes": 2366
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/Runtime_Integration_Report.md",
+      "sha256": "cf0184c0f6017953b54bfbbb1c2b81606c844433d708fbf36aed5a83769a8045",
+      "bytes": 3379
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/Security_Regression_Report.md",
+      "sha256": "5fd45a3d545062ef0e46db99176dcb96d4343adbdf082dd953a5923fcdc2dd8f",
+      "bytes": 3797
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4.2/UI_S01_S08_E2E_Report.md",
+      "sha256": "44480b65763d4174dd719ee3cb91fc9c8eaf368678bf748c2fc55631f5acf556",
+      "bytes": 2799
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Database_Architecture.md",
+      "sha256": "256c9f4a0cd39b35f0ae9659688256bd984a07cd156f0fc15802090694cafb9a",
+      "bytes": 3386
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Database_Current_State_Report.md",
+      "sha256": "4ae4be7bbb5e3efdda7cfca7590ff6c2e958bc9d1430865bb79400bb89729abe",
+      "bytes": 3897
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Database_Deployment_Runbook.md",
+      "sha256": "251bab2b925ba3d220e74913296e85b310a6d798117852072f8bb96d634c8377",
+      "bytes": 4897
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Database_Domain_Model.md",
+      "sha256": "a8d5fb1b4f3c56de4fb77776aef33eeeaf2f340ecc4de258a477fdb37bdc3b06",
+      "bytes": 4059
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Database_ERD.md",
+      "sha256": "5eacea56699c7bd612bda36d6101792b66e416fea2f1ec76d2d323b8e26bc3d7",
+      "bytes": 16010
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Database_Final_Assessment.md",
+      "sha256": "791e6cbc10eaa2a32b6af2c046e0885cee2a3689ca8a98a4be54af11fd654687",
+      "bytes": 3859
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Database_Gap_Register.md",
+      "sha256": "11726f44dd7e30782877011c1525bacd894d5244a2dd042d27fb9197a3459a20",
+      "bytes": 4763
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Database_Integration_Report.md",
+      "sha256": "f3b252f524c9bb929257d5e69e5731983d5b64f09ae14ea62a27f4aae4c75db7",
+      "bytes": 3914
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Database_Migration_Plan.md",
+      "sha256": "624f5063eaad49e77d973a591042a854b9250cd806cfbeaadd6a25ef2835b1d5",
+      "bytes": 3927
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Database_Performance_Report.md",
+      "sha256": "3d4e1724e8b884bdfa3f6c65ff889de94486e8c6ee27ae2583139a695fe41622",
+      "bytes": 2989
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Database_Relationship_Matrix.md",
+      "sha256": "22b513461ef1fc5cef2b86c6dab3db2eab5ef6c9ce3c30dfabf896fe9dc2b5d9",
+      "bytes": 10728
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Database_Rollback_Runbook.md",
+      "sha256": "5eaf7c8f549d10264f199d6cd02773cb4e4cc7e31de6dbd162f0a88e522911a7",
+      "bytes": 3327
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Database_Schema_Inventory.json",
+      "sha256": "081aa498ab491e727f5bba99223092f3ce9e87529528f7b86718bd0606b267c1",
+      "bytes": 241590
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Database_Security_Model.md",
+      "sha256": "edbb304581e8b0062ba609daa9f7015ee5026de36dce036abafcecbea24993dc",
+      "bytes": 3890
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Database_Table_Dictionary.md",
+      "sha256": "78d6f91561c6ec3a231bf21a31553beb943001288eb8748ebbef2b476984eb23",
+      "bytes": 45825
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Database_Test_Plan.md",
+      "sha256": "e83a99cf0e71d75450b9f1c7a42735f704c25efb7e6b969607443de33b3e0073",
+      "bytes": 3662
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Database_Test_Results.md",
+      "sha256": "c3edfd9f66895d011c5ba73a9414165d549f2a3d0d927d7501b08de377161921",
+      "bytes": 4911
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Evidence_Index.md",
+      "sha256": "12f20c01c8ebe3a299141d8ca2daa2c5425d9866ef90ec631b2fedced442e4a5",
+      "bytes": 7807
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/Evidence_Manifest.json",
+      "sha256": "56fc3962f61a607a4e8de8fc8109899adf4108689b493059d74f104c00f931bf",
+      "bytes": 18668
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/GitHub_Delivery_Report.md",
+      "sha256": "a8923048ff79e27e3ad0c592c04f29388c5a657c244f777f7c8493b176a727c7",
+      "bytes": 2935
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "docs/database/fdc-center-lab/PR_Description.md",
+      "sha256": "ba29f4fb0cd1c35ada8ce655dcc8791825963189b7514eda5307602a5ee613a2",
+      "bytes": 3003
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-r2-decision-closure/AUTH_R2_Approval_Package.md",
+      "sha256": "b737224eeaf3edeac5365e3ba02da15d2300161f82eb4773068f36aa2597ba55",
+      "bytes": 7560
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-r2-decision-closure/AUTH_R2_Artifact_QA.json",
+      "sha256": "8017ea818dba91fdd4a8c2ef2592fd2d5c40c3f80412b64febbf2bfe1ae5b4a4",
+      "bytes": 616
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-r2-decision-closure/AUTH_R2_Artifact_QA.md",
+      "sha256": "2d28ab48ad03251258247b0cf30a73c3e2fc6796085bf336a16c012a666e6c26",
+      "bytes": 2645
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-r2-decision-closure/AUTH_R2_Audit_Integrity_Design.md",
+      "sha256": "b8803bd0c934cc574ed21873649d1b8b5fb0f0a20cbbaaa3a98bd4afa180ec21",
+      "bytes": 8157
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-r2-decision-closure/AUTH_R2_Collector_PKI_Design.md",
+      "sha256": "098ee18a1d41cdd487e3c410b2fff1cad2ef6a259455ede3ada7bc7e7ee7a9f9",
+      "bytes": 6952
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-r2-decision-closure/AUTH_R2_Decision_Matrix.xlsx",
+      "sha256": "f1d329546338e5fcf8915eb7b0b6889dece6123b9f0833c13973802cd037a08b",
+      "bytes": 25987
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-r2-decision-closure/AUTH_R2_Evidence_Register.md",
+      "sha256": "43d236e5646ece65a9986e6bd5dd1dcbb02f0a6de9090ea8c3a6fbc7ff7541a2",
+      "bytes": 4951
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-r2-decision-closure/AUTH_R2_Executive_Summary.md",
+      "sha256": "e6b626b3ba6e624fa3ef0c03fb5137a8d27d17f7c1f159c64afd899306ed2f13",
+      "bytes": 4847
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-r2-decision-closure/AUTH_R2_Go_NoGo.md",
+      "sha256": "897a1778ac1e718ab29be5a88ee3b30eebbc9a80a0d65a1a91d5b0e20e24edb1",
+      "bytes": 6959
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-r2-decision-closure/AUTH_R2_Human_Machine_Topology.md",
+      "sha256": "c7cb3e5906a7b899bb263a7ccbafa743acd6a2806a5005a559b9585dbe944ea3",
+      "bytes": 6485
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-r2-decision-closure/AUTH_R2_Implementation_Roadmap.md",
+      "sha256": "2220167d1d6e3e980d70045cb82f9586bacccbe3c84cc5a29fc9c5c39cf1cbe0",
+      "bytes": 14007
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-r2-decision-closure/AUTH_R2_Input_Manifest.json",
+      "sha256": "f165e0d078884a288a8df196e5ea69e67f2cc641c613ed5500cf58700cc6b7a8",
+      "bytes": 99394
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-r2-decision-closure/AUTH_R2_Package_Manifest.json",
+      "sha256": "eda0e48c4405fc4d0f28a0189f694d4c9c0006088e00ff0c05478094cf8aace6",
+      "bytes": 1549
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-r2-decision-closure/AUTH_R2_RBAC_Station_Model.md",
+      "sha256": "8302cdd064395c9db47d79300dfcbdce76d4c79dd916ee1ce0beac5e1535ddb2",
+      "bytes": 9288
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-r2-decision-closure/AUTH_R2_Session_MFA_Design.md",
+      "sha256": "95ee31400db51997b54ec2dfe4ee530db731b76c8c81cfc4f3b9841b14d4fac7",
+      "bytes": 11198
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-r2-decision-closure/AUTH_R2_SQL_IAM_Architecture.md",
+      "sha256": "fa3e741a9b5310aad2c04074d028690d70ea922c0b3921f673b22607ed217833",
+      "bytes": 11419
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-integration-assessment/AUTH_Implementation_Decision.md",
+      "sha256": "387187a10b39fce23ba3a3a974877a1ed7ee2b74b8dd8c1380d2abd6edd92932",
+      "bytes": 7869
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-integration-assessment/AUTH_Independent_Identity_Architecture.md",
+      "sha256": "4b9eac0fc6560bd80e88d7c5640499b946452e691242c75664cdf24c14da8ae7",
+      "bytes": 10259
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-integration-assessment/AUTH_Local_User_Management_Design.md",
+      "sha256": "8d88e71bc3f890453bf6a973a8068a81222f67aa4e50cdf430c8acd85fae0587",
+      "bytes": 9017
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-integration-assessment/AUTH_ONE_Reference_Lessons.md",
+      "sha256": "bbb0542d5537cb4e2e7317c9383c7144725672c17554f4c7bc7a69238d7e742f",
+      "bytes": 7832
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-integration-assessment/AUTH_RBAC_Station_Scope_Design.xlsx",
+      "sha256": "d70e6eb2ad3c904d8b3b018fb2c91704217a0f5bea6c929d31b32fcc6825d623",
+      "bytes": 14723
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-integration-assessment/AUTH_Security_Review_Checklist.xlsx",
+      "sha256": "655de7b3f92e3da07612620c2a501185c930a3e6939661772edeb8af6229a050",
+      "bytes": 15717
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-integration-assessment/AUTH_Session_Security_Design.md",
+      "sha256": "dfb6f4c07ceacb4a4262770287cfb130e4f0563b03c65495ec1f4cfeaf167f42",
+      "bytes": 7594
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-integration-assessment/AUTH_Threat_Model.md",
+      "sha256": "949a3905f3acae6d617e05acc45ca813a7a59377e417c21a65e99498973a5751",
+      "bytes": 8629
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-ui-design/AUTH_UI_API_Contract_Proposal.md",
+      "sha256": "952f7b15c7bc4a52bca02cdf61ff50882100dbd6a2864a151914a295ca76b0df",
+      "bytes": 10996
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-ui-design/AUTH_UI_Design_System.md",
+      "sha256": "1ff6c1f66951f2589599779f6e3d53ebd436326f8b4c148845c70893c9d7a670",
+      "bytes": 8636
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-ui-design/AUTH_UI_Executive_Summary.md",
+      "sha256": "94f89b27affaf6a2d9b086736fa2dc97a87730d9735940f36c06602237e73b9f",
+      "bytes": 8219
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-ui-design/AUTH_UI_Form_Validation.md",
+      "sha256": "762b2f64de5ab83dde22991bed730dc9d6d8423a178fa70be57ace6600e49b35",
+      "bytes": 8268
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-ui-design/AUTH_UI_Implementation_Backlog.xlsx",
+      "sha256": "30dec89f166d3e157b128e32c635a2d77499a7ef41afb69dbcd7bf691ac2f221",
+      "bytes": 11361
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-ui-design/AUTH_UI_Review_Decision.md",
+      "sha256": "e20617f388f0a70bf2ac74af91e6848a1e8042c386ed4d585e1a0a3fecf46036",
+      "bytes": 6432
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-ui-design/AUTH_UI_Screen_Inventory.xlsx",
+      "sha256": "96ab6cbe6dea86bd8744bfabdbb68a2e55a0cb14be753f217c1664a9f0c628d9",
+      "bytes": 10995
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-ui-design/AUTH_UI_Security_UX_Checklist.xlsx",
+      "sha256": "4b05c0c347467c52b054621501d2998be0dfa8f242f845ddda3e74273a1b7c05",
+      "bytes": 15315
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-ui-design/AUTH_UI_User_Flows.md",
+      "sha256": "80a786130d1c5e96e9778ac7549dff704258d57abf6f1a95d48807b3a73b51ba",
+      "bytes": 6141
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-ui-design/AUTH_UI_V1_Implementation_Report.md",
+      "sha256": "719c4357953dc470bb5a91bab42c402522b166652dedc626a485a34759bf5fb4",
+      "bytes": 5579
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-ui-design/AUTH_UI_V1_Known_Limitations.md",
+      "sha256": "49e2f10cdcbec37a9aaa2f34562e665c08ecbf7186e61ebafcaa2cf6c3817b14",
+      "bytes": 3926
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-ui-design/AUTH_UI_V1_Screen_Checklist.md",
+      "sha256": "38e45a2a2e3fd059523aacd67d4aafa8f4c98f4e8173c0c29dec93f08842335d",
+      "bytes": 3834
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-ui-design/AUTH_UI_V1_Test_Report.md",
+      "sha256": "ea2d76da8c40614c8a7ff5ade4d8d30e8834c3370aa5ad9c406950c05ea71483",
+      "bytes": 4609
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/authentication-ui-design/AUTH_UI_Wireframes.md",
+      "sha256": "c3f5c47066a31f57e66692f5f8a12b32bf724f414e21c7bf228628db0de26a89",
+      "bytes": 18558
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/01_Executive_Summary.md",
+      "sha256": "12b631b1bd52ab688cae26f8a81684d43491b640d760059221b6ace2319a45e9",
+      "bytes": 4104
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/02_Current_Storage_Assessment.md",
+      "sha256": "90f82a31faceea36963b50aec50c76fe2c03e5a0fc4923de0066f0413138c997",
+      "bytes": 8406
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/03_SQLite_Edge_Design.md",
+      "sha256": "5aa77df898f7f65a307c7c479bc74bd0ceef81067674468bcbf7d037d70890a1",
+      "bytes": 5482
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/04_SQL_Server_Center_Design.md",
+      "sha256": "9634ad73850f5e6cab01cd11f187c5fb6c3c9f286eea3ab5a87fb7a89d92c046",
+      "bytes": 4718
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/05_Database_Schema_Migration.md",
+      "sha256": "13f88c208f3df13c10a6b72333acd200e7e08d3d931077a3c9e53689b060cc74",
+      "bytes": 8432
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/06_Store_Forward_Protocol.md",
+      "sha256": "4963ca1c8bed8cd203fe099ece43f8f86f0cfb748ddbb42b1d8e123489e2fe44",
+      "bytes": 7055
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/07_File_Storage_Retention.md",
+      "sha256": "6dfa3c5d7f414b25460c16f0bc8bf48773402670030c8d7b93492fcb727b07b0",
+      "bytes": 3197
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/08_Capacity_Planning_Workbook.md",
+      "sha256": "e4afae15de1df068cf99e9b5ae506224c3dafb25902e28215239a1c2ab9878d2",
+      "bytes": 6441
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/09_Performance_Benchmark_Plan.md",
+      "sha256": "ca8aa4e78f5a567db93207aa7c830f2dd1084e9cf821cdd805fa25368f18496b",
+      "bytes": 30458
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/10_Security_OT_Network_Architecture.md",
+      "sha256": "3e02b3eab558565617e4303fc5a2240643e926c998af7e454788d31a9816eb91",
+      "bytes": 5181
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/11_HA_DR_Backup_Design.md",
+      "sha256": "3a2e3737cd3f8ccbd231aa83fe425cf0717014f17076b06aaef106ee333b8656",
+      "bytes": 4998
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/12_Monitoring_Operations.md",
+      "sha256": "6a3b0aa8e54791c1ec75388146a8c1183af0f136cc52dd58a9b4335c05f9e91f",
+      "bytes": 4033
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/13_Deployment_Wave_Plan.md",
+      "sha256": "8f2ffb8163d66b94906e829030cc4c11c61fa4a5f197afc36de57d3510e403c0",
+      "bytes": 2855
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/14_Risk_Register.md",
+      "sha256": "b0ab6f945f384503c05190690ce86b90b05cfeba622c8055f009b0d844b4faf2",
+      "bytes": 4381
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/15_Architecture_Decision_Record.md",
+      "sha256": "42a707ac634848849fd9e9aa9d6362d56871f56cc252da2b959420297956b0e0",
+      "bytes": 4152
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/16_Go_NoGo_Assessment.md",
+      "sha256": "af34b74548132cd289f1f2c9de68bdecace605812226fa9e4c46421f9c2faa69",
+      "bytes": 3560
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/Artifact_Validation.json",
+      "sha256": "0db7989b9d1fa7efb9f31d4ac8845c09883c6e90674fb164b6f0c88cf8a9d770",
+      "bytes": 589
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/Capacity_Planning_Workbook.xlsx",
+      "sha256": "ce1cd5c65c819c6f3a6dbf292146c65984112a8a874283f2004c1def02cb9ea3",
+      "bytes": 11994
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/ENTERPRISE_IAM_Architecture_Impact.md",
+      "sha256": "c17d943b9cafe7b54b0b601012b9304b1852b63e16c066759c16359b3892a3ef",
+      "bytes": 4219
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/ENTERPRISE_IAM_Data_Placement.md",
+      "sha256": "5a950b343d740b472f02bd849331093138cb972d14db19aa56ff52fe9876721e",
+      "bytes": 4103
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/ENTERPRISE_IAM_Decision_Dependencies.md",
+      "sha256": "9c7fe9d4ffaae91b0873510060f423c9d157432e5340a8b3daf061657ce1faca",
+      "bytes": 5253
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/ENTERPRISE_IAM_HA_Session_Revocation.md",
+      "sha256": "f4b7d737d84797a448f4eca22cde1188421127fcfbfbab2529bd6aa5858290a8",
+      "bytes": 5230
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/ENTERPRISE_IAM_Human_Machine_Boundary.md",
+      "sha256": "cc2781c71586ab1df3eaea70724a17e4e934a28faadb3da881387bf14c9cf68d",
+      "bytes": 3600
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/ENTERPRISE_IAM_Station_Scope_Model.md",
+      "sha256": "de088935d935bbad380f57b305ed1e641a15ab91acaac4f147008a23e1ad9efb",
+      "bytes": 4840
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/QA_Report.md",
+      "sha256": "ac999b56a61dba2368c0063c9df8da48b6cc7ac640771f5b512ac512e82d8143",
+      "bytes": 2166
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/README.md",
+      "sha256": "1cc73172daebefcac2e69643cb80eade5269d93e067050ce2245961d58d0b11e",
+      "bytes": 3953
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/Source_Evidence.md",
+      "sha256": "53d2b6cc3b696cce85174478ca2310f3b422a652d0a4e7a41baa6ad9dd9dd7f3",
+      "bytes": 160758
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/enterprise-380-substations-architecture/source_snapshot_sha256.json",
+      "sha256": "20b7acc158c31846dfe61d6ff3e155c68a3db70cb1caeaf737f774014b7cd8e8",
+      "bytes": 5823
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/CenterApplication.cs",
+      "sha256": "8a3a5cac9c9123a8589e5f1c1dc19da73082761de8ba4a3a74fe27a478c058f3",
+      "bytes": 9144
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/CenterIdentityRuntime.cs",
+      "sha256": "dabdb0bf768f2a3c769316f0a3352cfaa117168010ed720707bdd93749486a76",
+      "bytes": 7808
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/CenterPersistenceRegistration.cs",
+      "sha256": "ce3bdf51bf70625eda021c7a84cd69aeff11e14a599499e56d42347f9c62c0a0",
+      "bytes": 2419
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/Fdc.Center.csproj",
+      "sha256": "e73fc2de1f1b7a47c70ba1e0eaea74d54e54884b60aaae499773fb490351da1b",
+      "bytes": 481
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/InboxWorker.cs",
+      "sha256": "394f01806a3c64eeecf1ff91f51b0076ee728317474d9e0f56db6eff20cd7c46",
+      "bytes": 2338
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/packages.lock.json",
+      "sha256": "4dc27a202efe13480ab587b2c895c3b19f89d9a123ff7a92806ec7dbefde7260",
+      "bytes": 12306
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/Program.cs",
+      "sha256": "51fcf91a2feb629a7b2aaf254d2056e8357b7dd44d161cfe78af5965e1b476b3",
+      "bytes": 107
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/CenterDbContext.cs",
+      "sha256": "09f84404e8be8602584169296810a27cf16439fc364253257d1786c86df4b140",
+      "bytes": 12334
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/Entities.cs",
+      "sha256": "462ce7786febff503e6559201095570095cba810b69ecb4d7b1da303916cf2a3",
+      "bytes": 8275
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/Fdc.Center.Persistence.csproj",
+      "sha256": "37f77893d98c599c9c374d3889bccbced97930d865371b2c0917d046a33246b3",
+      "bytes": 332
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/packages.lock.json",
+      "sha256": "717497e0a751002c299addd7dd661bbecbc992b70bd509ab990b60dfcb0cae6e",
+      "bytes": 16418
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/SqlRecordIngestion.cs",
+      "sha256": "e64a689937644730cea3b1a0e13f7cbdd84123d0960e426d08d654e93ee16586",
+      "bytes": 9055
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/SqlSoeIngestion.cs",
+      "sha256": "6e64fc96f4be62b6101ab2d323e16e61070a8fac34baf9edaba1f2c8dfa6e6f9",
+      "bytes": 3870
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Core/BundleReceiver.cs",
+      "sha256": "d3be343c5c7b3764c6469b3ac4aeaf0f5e286a37f014a7a07813024d2fe888c3",
+      "bytes": 3795
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Core/CollectionEngine.cs",
+      "sha256": "feb1647634064066c4f7acccd8494e6da90ab301d0353d0a16cc39ff70eaf21b",
+      "bytes": 6082
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Core/CommandSigning.cs",
+      "sha256": "74793834c07714a4a606614c61eff5a0cfab8ecac31d131626980343b0453524",
+      "bytes": 726
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Core/Comtrade.cs",
+      "sha256": "1110abd498129abc856d0640b6909dbecae55ea38563b4d43b9adce9bf35fff9",
+      "bytes": 3332
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Core/EventStore.cs",
+      "sha256": "89b022e4f7b815146e74f6112714186854ae08e27a2529f4b90b827cfb5a2670",
+      "bytes": 2813
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Core/Fdc.Core.csproj",
+      "sha256": "2438631ed54db3b9e2bc1351db0cf468b6251cd6996a53f1729cc0e4174a0164",
+      "bytes": 472
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Core/IedFiles.cs",
+      "sha256": "e1e9cf9984e4598562a5a6b46f34f5d288c524045af26e13228d26122bb7915c",
+      "bytes": 10028
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Core/Models.cs",
+      "sha256": "5a2f2be9c6f1b6e942330e8f510dd5e87b376398b0f4f72b0f4415ddf7a45bd2",
+      "bytes": 4173
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Core/packages.lock.json",
+      "sha256": "05bcbdf07af3c24dc9821a3039284fb6126fd54c493db924f4c05c999f0f451d",
+      "bytes": 3474
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Core/Reporting.cs",
+      "sha256": "38d7e7392c25f850701544432164fa95d6a37dc09b74f5972ff9a5469261b87f",
+      "bytes": 18736
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Core/ScdImporter.cs",
+      "sha256": "d5c7658749eceae9b75d68a05b90afe2d58f80bcdd819d9043b38de3b74bd475",
+      "bytes": 886
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Core/Store.cs",
+      "sha256": "b167e13ead0820dca0f9925bc381fba1a891ea9fb59495c4583e3777e2d840a7",
+      "bytes": 8646
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Core/TlsCertificates.cs",
+      "sha256": "e0e034b27a50a01fd52f962cb2a84edf0fd7f45e6bb77b14f6dbd444ee893b0f",
+      "bytes": 2919
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Core/Transport.cs",
+      "sha256": "750cce80e7b88b6070ce7166e2a0985240e8645106d54cad45c8b070a1161864",
+      "bytes": 2849
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Core/WaveformReader.cs",
+      "sha256": "d51379104bcb0454678a65ffe6046ee94da8fb95cb7b3cc55967d5cf16a9eb9d",
+      "bytes": 11790
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Fdc.Identity.csproj",
+      "sha256": "6f2146fbf07a94cbe02d0f3cfac3dd8482b17f1e46ccdee3815d1e3b2d14409e",
+      "bytes": 577
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/packages.lock.json",
+      "sha256": "3d3f7a70dae7a478cf800844c591e2a17647effd7b35d212520575ffd8030d7c",
+      "bytes": 9079
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/README.md",
+      "sha256": "e0660b958f0852d76c6a726d719cd2b01372114b0efeb60252d6e50f489de9ce",
+      "bytes": 1664
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/wwwroot/analysis.css",
+      "sha256": "0cea53c994e84937bbf5bddfdd80e0c316c5eb7e2cd5046e4b97de6e8336bdb0",
+      "bytes": 396
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/wwwroot/axl.css",
+      "sha256": "623a7fc15137840130c1472c1be9a286fc5019c6b0bf453981b670e4a391b8c8",
+      "bytes": 4309
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/wwwroot/dashboard.css",
+      "sha256": "0b1494826f3369295431a3a1a8d47bebf4ae3f971bfbeb0d346e5498cc55d601",
+      "bytes": 592
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/wwwroot/events.html",
+      "sha256": "cb9ee867d4cd8533b7b08d7743e84edbb225880544874b5237ae08eb09a60a48",
+      "bytes": 2773
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/wwwroot/extensions.js",
+      "sha256": "073c531c9e17281b79d39befcf8bfee682f373191109860cc3cefa30e6460b9f",
+      "bytes": 876
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/wwwroot/index.html",
+      "sha256": "efbfde5ed93da67a2c49fbff504d95c34f098a450c838a5ed63542d9edfcef12",
+      "bytes": 7138
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/wwwroot/waveform.html",
+      "sha256": "701fafb20c2085ffd5660ffddb62f0b3fed604fcdb71774f07a8e1313280f4b8",
+      "bytes": 2271
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/wwwroot/waveform.js",
+      "sha256": "26819f4477405eeb29b9076d67a21cff825897883d85ebdffa51d51923e23bc6",
+      "bytes": 4971
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/wwwroot/identity/entry.js",
+      "sha256": "29cb71326cdf2b83f140ba59a91d383020b71277ec53213455aa281fc1165ac1",
+      "bytes": 820
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/wwwroot/identity/index.html",
+      "sha256": "bf1e62ca8a61431020581c24f939f4c9d3ccdd47920b755f0e5a0115e55d7a7a",
+      "bytes": 1686
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/wwwroot/identity/management.html",
+      "sha256": "e8af0992ad7ca2ada2bb5c66387c40c6112033fc0ce29e6640de4de937acb520",
+      "bytes": 3713
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/wwwroot/identity/management.mjs",
+      "sha256": "2e463ab114d48f9ae788b491e467dbe0af000912f38691c694c28d204abdb5c3",
+      "bytes": 8918
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/wwwroot/identity/styles/axl-base.css",
+      "sha256": "623a7fc15137840130c1472c1be9a286fc5019c6b0bf453981b670e4a391b8c8",
+      "bytes": 4309
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/wwwroot/identity/styles/dashboard-base.css",
+      "sha256": "0b1494826f3369295431a3a1a8d47bebf4ae3f971bfbeb0d346e5498cc55d601",
+      "bytes": 592
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/wwwroot/identity/styles/live-management.css",
+      "sha256": "b20d16d18ded632a891094fe112392861abd009d98fdb405bbda632e0e659545",
+      "bytes": 827
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center/wwwroot/identity/styles/prototype.css",
+      "sha256": "bd5dd306dd7f5a63ebf8d7e6c593fa575729b06704987ad124d2345b7abbca3b",
+      "bytes": 26431
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/Migrations/002_CenterDomains.down.sql",
+      "sha256": "a43f09880d24def1a31a828b1b7056dda94639197a09aef3b5c0efdeba90dc17",
+      "bytes": 5060
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/Migrations/002_CenterDomains.up.sql",
+      "sha256": "76544eb792a282dad83345f891ee2711fad5f2cf778c8e052efd4fffc105ef58",
+      "bytes": 81105
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/Migrations/003_UtcAndRuntimeMetadata.down.sql",
+      "sha256": "0880fd4983bbbfa8d692736cfb31c6499fc4de33e11cd901f28fe923389cf73d",
+      "bytes": 1283
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/Migrations/003_UtcAndRuntimeMetadata.up.sql",
+      "sha256": "1f58521922817738edc7d60df0db121703aea00843d72b61a3b5320b8c3b3b10",
+      "bytes": 2006
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/Migrations/004_StationSoeEvents.down.sql",
+      "sha256": "799140b51108a4c5709651a77a8b2451784e382df40bf721239d6c79e56b3be3",
+      "bytes": 487
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/Migrations/004_StationSoeEvents.up.sql",
+      "sha256": "61d18fa7b92be1dd8ccbde28a92199860717a53b554fecd037ac58f671d86a60",
+      "bytes": 3044
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/Migrations/005_RecordSourceSnapshot.down.sql",
+      "sha256": "f1bbba522cf9b33ef270e5d668eefb9775b9075178565d267fd84e7f509d1bfc",
+      "bytes": 650
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/Migrations/005_RecordSourceSnapshot.up.sql",
+      "sha256": "2ed8b50d3f576e33e11d14806d0965c895c82da542ee853306c348c2ec18b160",
+      "bytes": 982
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/Migrations/006_OperationalEventStation.down.sql",
+      "sha256": "5a214768ce7c5c0f81fee30583c1a8c7a93d8f2b746d772124b11b7e26375cae",
+      "bytes": 426
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/Migrations/006_OperationalEventStation.up.sql",
+      "sha256": "40974bc0e9a52b6f702008af58ba8de01ae216085e239c4754b9c3f1002317eb",
+      "bytes": 511
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/Migrations/CenterDomains.cs",
+      "sha256": "13893744d7dec6cee4cfe6948b90758cc0773793113e74a471525483c4349b07",
+      "bytes": 962
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/Migrations/OperationalEventStation.cs",
+      "sha256": "8a66e4b9809c4c4fe9e2d27e32e4550083ffe30e18d17c102530248801346889",
+      "bytes": 1012
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/Migrations/RecordSourceSnapshot.cs",
+      "sha256": "58c33cd8f5831283bb2f49dfa0de2a00d402687853bcd264f22897c39b000a89",
+      "bytes": 997
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/Migrations/StationSoeEvents.cs",
+      "sha256": "f30bb3331bcc50ed76621ef6787fa0b8abd1cab46979210a7d07b4c1e44c5382",
+      "bytes": 977
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Center.Persistence/Migrations/UtcAndRuntimeMetadata.cs",
+      "sha256": "d404e7d4da5e0d33101653987ccb0f80dc6f4cbac82940477c5978cf7775bcef",
+      "bytes": 1002
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Api/HumanRequestSecurity.cs",
+      "sha256": "0afc23b220598cb017313ff8e95770b75e2400f3c6fd85b578d7bc54c9da062c",
+      "bytes": 2334
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Api/HumanSessionHandler.cs",
+      "sha256": "272b11ebd77cbcd444f0af3103c1a325c0e8b1d16d63e28495695fc3d41fa9b7",
+      "bytes": 2501
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Api/ManagementEndpoints.cs",
+      "sha256": "85d0b33bec55b281b73921491c9c9e1a3ce4ceb84c0379571b1390d5a6c6353f",
+      "bytes": 3894
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Api/RoleEndpoints.cs",
+      "sha256": "dbdcc7e446c88e3eb675e843641ffa2488b708d2b1c45fc99d048de1ac28ca9c",
+      "bytes": 2718
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Application/AssignmentDelegationContracts.cs",
+      "sha256": "ee469ca1b392465ec76e157e498e21d872d6d66eafe3e37903b81adf4a3830a8",
+      "bytes": 1694
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Application/AuthenticationService.cs",
+      "sha256": "98095a442e5f99259513036f86c59f3042370f9aed2839e9a6c6efea9cd1eb25",
+      "bytes": 5492
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Application/AuthorizationService.cs",
+      "sha256": "f9ec29cb732f47c74174d8bcd5402e8a681a256bbb70a39dbb45a06f2bc1e4a0",
+      "bytes": 2221
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Application/IndependentReviewWorkflow.cs",
+      "sha256": "9e4ee7d305150d5732d83a2e68e6378d53e44360a0cf35a7a548c5e5e5066137",
+      "bytes": 6057
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Application/ManagementProposals.cs",
+      "sha256": "18d2d230a3f53e526b43710ad89199f16fb9c4f95f879b13805c28554842d0b9",
+      "bytes": 7859
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Application/ManagementQueries.cs",
+      "sha256": "491a58fa9b7baba088044a9040940430222cbb5de20a668286c319ad61643033",
+      "bytes": 6185
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Application/MfaContracts.cs",
+      "sha256": "1956e93d3165ff32cbb31ec6222dafa60506d635037bf40d2552ccd30942d8a3",
+      "bytes": 1334
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Application/OperationPermissionResolver.cs",
+      "sha256": "72ac20f99cfab7f0dff0ab7c30a66f923bd13725e542d6053ec45f8d07aaad96",
+      "bytes": 2697
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Application/RoleChangeWorkflow.cs",
+      "sha256": "c81c6083acfb94dcbe50d518365f87c9f678a3da8969b408a58f9e748923d8e7",
+      "bytes": 3540
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Application/RoleCrudAuthority.cs",
+      "sha256": "f9546f486135c9a5581ed08524d726f51c327637babc144c56e33305ed8d2396",
+      "bytes": 1788
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Application/RoleManagementService.cs",
+      "sha256": "cd3f785a2e540ff0e61e82c0d71c3856674bc562e3116ce688d1266e3d7f01b5",
+      "bytes": 2013
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Application/SeedManifest.cs",
+      "sha256": "35a1ee8a883a3882864cc9aafc22bdd4bc90f26822c018d9d2809c91914ec15b",
+      "bytes": 2709
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Application/SessionRevocationPolicy.cs",
+      "sha256": "e45dbc6ff44197f22ad1739e7add6d7c96acd1367d70c86fba5b2843ad4114c0",
+      "bytes": 1156
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Application/SqlCommitGatePolicy.cs",
+      "sha256": "437daab86dd9ba5996dc525474d74384ad13bbe4f6a448e01f033d217c52dc1d",
+      "bytes": 2151
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Domain/IdentityModels.cs",
+      "sha256": "66de5d17a60939929c5f8b8fa2825e308a1732f1dcb2682d97d392e4eae78821",
+      "bytes": 3908
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Infrastructure/Entities.cs",
+      "sha256": "c40f1a92c4aebdcb6373959d1242ab9783cb797776e104c045f8a659bd2384eb",
+      "bytes": 7206
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Infrastructure/IamDbContext.cs",
+      "sha256": "b4bf80ca5c8b7e21635f24498e9bb2564929afa1c2f331af487c681c2e88a0d1",
+      "bytes": 12539
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Infrastructure/SqlAuthorityCommitBoundary.cs",
+      "sha256": "e63cd2985689744c3976ee34e1dab80320efe0a614d4937ef43272bf4a11addc",
+      "bytes": 4130
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Infrastructure/SqlAuthorityErrors.cs",
+      "sha256": "b461c080b737b0da943c364ac731f4d1dc5659076e40d53ea4b41574aa3d0820",
+      "bytes": 528
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Infrastructure/SqlCurrentAuthorityReader.cs",
+      "sha256": "22d9e1cdadc43ba83655da0061a81aeb27319f5fafbc9fdee053af25760b26b3",
+      "bytes": 6131
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Infrastructure/SqlManagementQueries.cs",
+      "sha256": "a4687cfdfd261fbb0b87069c623908b8d60ce83e9917b41a3e7ccf5ba25b9b11",
+      "bytes": 7217
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Infrastructure/SqlRoleChangeRequestStore.cs",
+      "sha256": "7a8c0c688a95257ecf0858d76c79a0128850941e402c81a0ed7502b65ce730dc",
+      "bytes": 1349
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Infrastructure/SqlRoleCrudService.cs",
+      "sha256": "ab8c72f40cf426d0cc28a6edcaf4fa06a525db0df6185a5b136b5097e6201bcc",
+      "bytes": 13379
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Infrastructure/SqlRoleQueries.cs",
+      "sha256": "aed8f4c67fcaed734548c1d8c2900c82709112a1f22c52d8f4d8ae4561db0154",
+      "bytes": 2084
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Infrastructure/SqlSessionAuthorityReader.cs",
+      "sha256": "795029dff203c9fe98f39faf57050174a2eaa90e6a3ce2af30250f1c9fe40032",
+      "bytes": 3185
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Infrastructure/SqlSessionRevocationService.cs",
+      "sha256": "5a2a7798ea06809669232f0ed8edcc929b9839690f00b05e365e1ed85c8fec19",
+      "bytes": 4418
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Security/AuthenticationPrimitives.cs",
+      "sha256": "7f4c402eacc5b525c16926f4f6a983afba833cead40002055f54d18a5aa031c4",
+      "bytes": 3244
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Security/PermissionEvaluator.cs",
+      "sha256": "0f5244f44100b3202bcf66cf72390f64d30317c96ea399152f4052f0c393b74d",
+      "bytes": 5199
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Infrastructure/Migrations/001_IamFoundation.down.sql",
+      "sha256": "f9ebe29a6e7b6831d702378cb116a0a63c1e60ea623230533c93066360cb58ed",
+      "bytes": 6311
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Infrastructure/Migrations/001_IamFoundation.up.sql",
+      "sha256": "0923f6dd1b0bc9b4b14f1542c9ff74b0c38ebe005124bd57f5d806709d66abbc",
+      "bytes": 68899
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Infrastructure/Migrations/InitialIamFoundation.cs",
+      "sha256": "0102f5f66fe7bef7097929f705fbd4076c6703dfdb4459ba962002fa8598f626",
+      "bytes": 1440
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "src/Fdc.Identity/Infrastructure/Seeds/v1-roles.pending.json",
+      "sha256": "14de65fc7a64c14a2a8042e655af8e64927cc4db6a0253e4e0922b9ddfe1dc39",
+      "bytes": 1017
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "poc/authentication-ui-v1/management.html",
+      "sha256": "e8af0992ad7ca2ada2bb5c66387c40c6112033fc0ce29e6640de4de937acb520",
+      "bytes": 3713
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "poc/authentication-ui-v1/management.mjs",
+      "sha256": "771f04efab350f540e5d6845a13e2b2ffebd8eceb989e51398ed65f5126af4d5",
+      "bytes": 8529
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "poc/authentication-ui-v1/MANAGEMENT_README.md",
+      "sha256": "b4a6a70179764f07e3aebdca7a5afb85cc37773e0416c959e3ebdd21f77342d1",
+      "bytes": 1526
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "poc/authentication-ui-v1/styles/axl-base.css",
+      "sha256": "623a7fc15137840130c1472c1be9a286fc5019c6b0bf453981b670e4a391b8c8",
+      "bytes": 4309
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "poc/authentication-ui-v1/styles/dashboard-base.css",
+      "sha256": "0b1494826f3369295431a3a1a8d47bebf4ae3f971bfbeb0d346e5498cc55d601",
+      "bytes": 592
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "poc/authentication-ui-v1/styles/live-management.css",
+      "sha256": "b20d16d18ded632a891094fe112392861abd009d98fdb405bbda632e0e659545",
+      "bytes": 827
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "poc/authentication-ui-v1/styles/prototype.css",
+      "sha256": "bd5dd306dd7f5a63ebf8d7e6c593fa575729b06704987ad124d2345b7abbca3b",
+      "bytes": 26431
+    },
+    {
+      "origin": "OFFICIAL_CHECKOUT",
+      "path": "poc/authentication-ui-v1/tests/management-client.test.mjs",
+      "sha256": "43fe34790134cecddcfaf70981d73818edaa3c301b9485d0c0118d4add14f489",
+      "bytes": 4071
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/API_Implementation_Report.md",
+      "sha256": "5916c9e4fc86b6b513324fe6fb9b175066c0d41959aa462e5f69415354895fd1",
+      "bytes": 2630
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Backend_Implementation_Plan.md",
+      "sha256": "518e4a8f25db8c4e993d1efb9ab0291b1e850d782d77f7a52674f2eb299386b4",
+      "bytes": 3534
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Backend_Integration_Readiness.md",
+      "sha256": "c5a9fcfc621458434add119d6b9ca36d729342dab929953455a7638c20d296ed",
+      "bytes": 3875
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/D12_Authorization_Record_Template.md",
+      "sha256": "5a171639d9b832910abdf9e3f234c07f636b515980e38f19772825cc1ec70ab3",
+      "bytes": 3378
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/D12_Authorization_Verification.md",
+      "sha256": "1c74d7c5d1e45d5b1c29290587fc5d7c3518cbba2ba3befbdb125bd936e6af20",
+      "bytes": 7937
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/D12_Development_Authorization_Record.md",
+      "sha256": "bf77b7b6c7f7edc0d5338e20d613cc8e243fc8a22840b57f7763de6a74c05963",
+      "bytes": 4086
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Database_Migration_Report.md",
+      "sha256": "24728467ef0c43395b7358c8ba9ac3e3d5e31a10d6c8f336dc736d0fafd85b0e",
+      "bytes": 4168
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Decision_Blocker_Register.md",
+      "sha256": "5dc959c6e3e8f59782823dcd00c70fa7dcf7359de504328d0827141ecd559242",
+      "bytes": 4028
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Decision_Disposition_Template.md",
+      "sha256": "c8309eb879c7fa04c2bdf5ca6ee06e9c5981ad661eba0db0d5090f6c90940f1c",
+      "bytes": 4121
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Development_Test_Execution_Report.md",
+      "sha256": "feb659a0a1c80468adaa4b6a2eec61d3e61b3c4c6f4a284863095cbe44bf16e0",
+      "bytes": 5309
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Dynamic_RBAC_API_Contracts.md",
+      "sha256": "8f6ac98bec9f19a018dae064dab65e4fae994726d5a24dab312eb949a0e3458a",
+      "bytes": 7309
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Dynamic_RBAC_Architecture.md",
+      "sha256": "66595592fc6a0a3d6d88a80302d481c6b03389d2923af7f567dfbf4ecb3acef2",
+      "bytes": 9743
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Dynamic_RBAC_Change_Evidence.json",
+      "sha256": "6b26cc9991f4f7d1a8246fa03cadbe135720d960e2bb44c2b3f118e3a16fa0bf",
+      "bytes": 103203
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Dynamic_RBAC_Database_Schema.md",
+      "sha256": "ea24e425c04dfc97e2921f180cc89093adbc8022ccab3d64e153a2f54f328436",
+      "bytes": 9387
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Dynamic_RBAC_Implementation_Report.md",
+      "sha256": "bcaa67164a0725c0db87940dcbd1a2347333a3575887a40b504bce120c06c28f",
+      "bytes": 8720
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Dynamic_RBAC_Permission_Catalog.md",
+      "sha256": "6cc767cfee042d2953333018ef41b3ee41b53acdd22ba243bddeb1052ecc1552",
+      "bytes": 9279
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Dynamic_RBAC_SoD_Test_Plan.md",
+      "sha256": "19471472789b0b970daa35ab584deea74f8b27fe41866abd54a8d8917212fd21",
+      "bytes": 11581
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Dynamic_RBAC_StationGrant_Design.md",
+      "sha256": "4874b8bedb800a795b4ed89e53a3c198728df1cf0545b708722e4760cc45fc98",
+      "bytes": 5641
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Human_Machine_Boundary_Report.md",
+      "sha256": "7f6ac98d3e9a2e2b4548079b2c165035aee0c4f1484bee6042f0c722989e34e1",
+      "bytes": 2239
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Implementation_Go_NoGo.md",
+      "sha256": "4feb3be5ce6cdd88be856062166ee98c4e5d73ab417b9b4bbf76e1ffffba3d0f",
+      "bytes": 5205
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Implementation_Progress.md",
+      "sha256": "b5a1e124994f3bdb239e113fddd90dd980748a28559509511ea1da3cbc7aef15",
+      "bytes": 6588
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Local_IAM_Apply.sql",
+      "sha256": "2a14ea75383e90d1e83f6cf819c1ef7397a9f0343db2e242f78306497447d343",
+      "bytes": 1544
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Local_IAM_DryRun.sql",
+      "sha256": "7c3a0760cf512abbd11e788abbdc3b23cc2bc11c4ec5def764f902ab0dca9ab2",
+      "bytes": 1311
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Local_IAM_Schema_Report.md",
+      "sha256": "f5da880517fd59948ee77187f4515613b802325752d21d43322076106bb73451",
+      "bytes": 2207
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Local_IAM_Verify.sql",
+      "sha256": "df59224f43910569939bd7fdd876e7239ccdd5e974192a564374ca5a97d111d0",
+      "bytes": 1534
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Local_Lab_Provisioning.sql",
+      "sha256": "efba9f14f624f91f80fbb9d17a280de505d5d1bdc99135dc305a20cb6f972863",
+      "bytes": 1061
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Local_SQL_Lab_Report.md",
+      "sha256": "cc470b46da4e987f786b87928b3196badd58c14ec79119581ae757f478384e43",
+      "bytes": 4018
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Migration_Rollback_Runbook.md",
+      "sha256": "aaf37f8c60b05b4d1e424e6b0775a17c9cc776cddeb20552f811938acf3826d3",
+      "bytes": 3545
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/RBAC_StationGrant_Report.md",
+      "sha256": "ca391c1eea4256b011650658df2d610931166f2d540fd9c8539c02f55fb18cbf",
+      "bytes": 2404
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Rollback_Runbook.md",
+      "sha256": "c2c3e14d75845ff05e38fcbe955ca24c31748efe417207b48a91b8c02c861d3b",
+      "bytes": 1975
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Security_Audit_Report.md",
+      "sha256": "f9897a73b9242f05b4a63a95cd71e872996b558f3d94e47b47a0e52ee90b3552",
+      "bytes": 2548
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Security_Findings.md",
+      "sha256": "1ba396ccb4b306fee5de39ee4beed90892bd17ca469ad47b4a15586fcbbf8a8a",
+      "bytes": 3286
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Session_MFA_Report.md",
+      "sha256": "d035f5f08cfa7fb15c383ad10fddb78a3be8f10912ed929d41a2c760efb9893f",
+      "bytes": 2530
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/SQL_IAM_Schema.md",
+      "sha256": "caccc63027b4370a21ed77a12a6e108cb038eb8d961c84f964decbc28151a326",
+      "bytes": 3014
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Test_Execution_Report.md",
+      "sha256": "6438b572795a6652f38776dc2a50c437435caf7d7ea6f7c3bd282de329ab1d13",
+      "bytes": 3324
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/Verification_Evidence.json",
+      "sha256": "05329a6db1c42103925ea1ac311b7b0e34331c438a4c5830b11d5f7e8f95a9af",
+      "bytes": 104337
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-2/Authentication_API_Report.md",
+      "sha256": "f335e2f839119edd82da1e757da731b813a315c6583bbbd82f9bd12b025c9164",
+      "bytes": 1617
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-2/Dynamic_Authorization_Report.md",
+      "sha256": "36a66d380f6fa4806fa8335ad8fa876f18d6b868916094fe507a20cba1071161",
+      "bytes": 1518
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-2/GitHub_Delivery_Report.md",
+      "sha256": "9bd4068ea92238b299b43049a5eb9e0af6e6a40efa1c5712bb52b125269bb34c",
+      "bytes": 2475
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-2/MFA_Implementation_Report.md",
+      "sha256": "5dae3da3e02be17031d558f4453698f45b2f359d520816b272ab5fce41900a20",
+      "bytes": 793
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-2/Phase2_Implementation_Report.md",
+      "sha256": "948ffa6c4c494883c139323f78c9b2f44ad404fc84e02f3ce66ca8a340739826",
+      "bytes": 4627
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-2/PR_Description.md",
+      "sha256": "93539886b2879371d3db13482bdf961d16b904f3452e4b9e1ab3c6fc90999eab",
+      "bytes": 1482
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-2/Security_Test_Report.md",
+      "sha256": "2d85d7e5374ecc189b9106b672ab647668bffb8b4fbd473f48eb9302dd2f0542",
+      "bytes": 4344
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/Approval_Workflow_Report.md",
+      "sha256": "0f8731c497fc5b151361db3dfc026fbf7ad5d6b3df27b963f112ebb09d395bb9",
+      "bytes": 1754
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/CRUD_Progress_Report.md",
+      "sha256": "d67af43cbb2c4ea64ca39bbd71e8e984d962717ba4c5c4b136e0f55163eb0c3e",
+      "bytes": 4588
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/Dynamic_Role_Management_Report.md",
+      "sha256": "f280292220b2269fb0e001d3cae902d9e853578bbcd6caee0d6236af314ffe3c",
+      "bytes": 1495
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/GitHub_Delivery_Report.md",
+      "sha256": "b7d293ad8cb422bd064cd74e9a2588759c00a053ea2fd7e6b56991ea340ea3cb",
+      "bytes": 2134
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/Phase3_Implementation_Report.md",
+      "sha256": "55dcad6cf7db8c15414092096b40d25c6bfe8fec8a5a5df95c6831ef2c9d21dd",
+      "bytes": 5017
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/PR_Description.md",
+      "sha256": "913b87497f5f05bff4ff5426d43c0b54f61c00f9a6e1ef0795dfdd321feb1d21",
+      "bytes": 1983
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/Security_Audit_Report.md",
+      "sha256": "440ad8c9dd005f9341bc7f82dde7f9c2a2737e31de011045ce66d202e6979ed5",
+      "bytes": 1109
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/Security_Test_Report.md",
+      "sha256": "d616c6d647f5924b1076bca699c4f505e65c29dd022b5322defdd8e5e2f21536",
+      "bytes": 3937
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/Station_Access_Management_Report.md",
+      "sha256": "c2ea44657b975d3a8732e08f07e90c1f3e5ca642d154d31ec3dc17d4a140aa2d",
+      "bytes": 1430
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/UI_Integration_Report.md",
+      "sha256": "71d4516661b3deb027d289a911a1381116b8c90ff6ebcf1164fe2b15c87f5f2c",
+      "bytes": 1660
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-3/User_Management_API_Report.md",
+      "sha256": "173edff69a14cc7534d0f3ed5c74bcfb05ded6c82332b3e0f01ca036f455e98e",
+      "bytes": 1327
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Authentication_Security_Test_Report.md",
+      "sha256": "d2b1492c10683009deae0a5c3d096393cfa2523f44d123529fdb75c3c04a00de",
+      "bytes": 1512
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Defect_Register.md",
+      "sha256": "f8fdfd8acb49a17c9a979a264aa6c0da0bc74007d93bc181ef414fa92404d1b6",
+      "bytes": 2471
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/DR01_DR29_Execution_Matrix.md",
+      "sha256": "5f02866d6ccad4a7423a972eb94f209219150c0ca13d0209f8a6ee09c791b865",
+      "bytes": 26415
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/GitHub_Delivery_Report.md",
+      "sha256": "e78a9e7232a907fd4bacb662ef51d938e04b80e5a12781246992a6e459e7d6c8",
+      "bytes": 1700
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Human_Machine_Boundary_Report.md",
+      "sha256": "3744be493d32fdb2db0594f7764752730868d5fd8851b3db8a3ac2fb1ef2a113",
+      "bytes": 1482
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Lab_Acceptance_Report.md",
+      "sha256": "cd647486726f69b9cf8fdda7adc966ddd89e0d7b0ff3fe2492eeff458ce5bc72",
+      "bytes": 1568
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/MFA_Security_Test_Report.md",
+      "sha256": "2575df8f006115abb5273ed2e40522736c500c95242fd3ad7b4d68a07c71f10e",
+      "bytes": 910
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Migration_Recovery_Report.md",
+      "sha256": "c103a3fb1bac02812963825c8fb03ccfd9d294875c12745ade96aac4560a4326",
+      "bytes": 1435
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Performance_Reliability_Report.md",
+      "sha256": "14bafa9baab4563ca85f203880d54ce069fb99a9c632e945e8c9a77c4031a348",
+      "bytes": 1488
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Phase4_Baseline_Report.md",
+      "sha256": "7e152fd449f4e822efac1c48313268cf71c39848ce3d1317fc4801826548d6cc",
+      "bytes": 2024
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Phase4_Final_Report.md",
+      "sha256": "48b82d98c111a0173b7a6fefac35f4a9c6cf701ecda78f11b81d3d9d73e141ec",
+      "bytes": 2102
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/PR_Description.md",
+      "sha256": "62ccfb13bbb40a6430e4ef36dfd832db3f14d3d50131859445bb7e71459428b4",
+      "bytes": 1669
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/RBAC_StationGrant_Test_Report.md",
+      "sha256": "f36bd9a9a1dffba0a2644d53fe25f5287037a261164a5976a10c993094bd8c72",
+      "bytes": 1445
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Security_Hardening_Report.md",
+      "sha256": "ed4ff4be9b38e2dc097369c947fd8c3a07f7bbfb7e42ad4f8829595d9d92dcaa",
+      "bytes": 2006
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/SQL_Concurrency_Test_Report.md",
+      "sha256": "adbedd434aa1945672882d6f820ea46d4aba7c0bac5d0791e2e6a34728f43bf2",
+      "bytes": 1521
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/UI_E2E_Test_Report.md",
+      "sha256": "03d936df133a46f0382dc8e66034349215df9ae10df6de2d1ed467789834f209",
+      "bytes": 1498
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4/Workflow_SoD_Test_Report.md",
+      "sha256": "1d0590c461c48ba1e681022dad1609f7965d425d6cfd20b560dc639da553cb82",
+      "bytes": 1532
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4-1/GitHub_Delivery_Report.md",
+      "sha256": "7ccb68e73522787d96eb76eec4d762748060f4cf74403ea7006ed6cc2dae4523",
+      "bytes": 2692
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4-1/Phase4_1_Blocker_Resolution.md",
+      "sha256": "9bed87a63eb1d029371019ca3fc72d99b37ab404ef26c18f6af3a2982d847e19",
+      "bytes": 7869
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4-1/Phase4_1_Final_Assessment.md",
+      "sha256": "d8f3e9b8e01baa013f20faa567536eb9cc4f7ebf913b6957e7e084ed30fff8ad",
+      "bytes": 4022
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4-1/Phase4_1_Runtime_Completion.md",
+      "sha256": "c16b6d52d3abc0869d619496ce1ac1a37fb2ff26898693e383ea257f0961fe60",
+      "bytes": 5580
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4-1/Phase4_1_Test_Results.md",
+      "sha256": "14a744cad4194142238bbbbb92984364f93e459da4947597eab98f8a37d11ac7",
+      "bytes": 12420
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "docs/auth-d12-backend-implementation/phase-4-1/PR_Description.md",
+      "sha256": "ef2ff16f5d70afb9c82eaeafbc4db465c55c8e24a47b926d3513032f419f9907",
+      "bytes": 1858
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "src/Fdc.Collector/CollectorWorker.cs",
+      "sha256": "e7a840187c5987524cc30b54307f77c53aa27a8cad9b535eb77b3d052337de71",
+      "bytes": 4668
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "src/Fdc.Collector/Program.cs",
+      "sha256": "0f1f148fe6a446f774fd35855ec81e26d194510f24ffa0cdb126f2179fc78ef6",
+      "bytes": 4928
+    },
+    {
+      "origin": "EXTERNAL_WORKSPACE_INPUT",
+      "path": "src/Fdc.Collector/ReportWorker.cs",
+      "sha256": "88c1b0cc0a5bb98fd50cfa4fad7e4b673b40a4a70608c4f4eef0575f447b617a",
+      "bytes": 4482
+    }
+  ]
+}

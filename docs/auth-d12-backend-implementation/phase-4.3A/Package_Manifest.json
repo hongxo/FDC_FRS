@@ -1,0 +1,139 @@
+{
+  "package_version": "0.1",
+  "status": "PROPOSED_PENDING_OWNER_DECISION",
+  "review_date": "2026-11-09",
+  "source_baseline": "d5ebc2acc18265786bae5af96ef3ba58c223e522",
+  "note": "Self excluded;hashes identify actual unsigned draft artifacts,not approval signatures",
+  "files": [
+    {
+      "path": "Architecture_Decision_Register.md",
+      "sha256": "ab9d46570a461102f9be7ddc2d17e0c148c4697de42beba8f2ae986f3ab0b7af",
+      "bytes": 11388
+    },
+    {
+      "path": "B01_B05_Decision_Dependency_Matrix.md",
+      "sha256": "c40648f1c318516ca4f6db5d7b7448218040628d3612711d04d44e5d8f9d00a4",
+      "bytes": 5109
+    },
+    {
+      "path": "D01_Runtime_Trust_Boundary_ADR.md",
+      "sha256": "5daf5aa4459828b83cfd0796b29023b0746142be4aea05dcc1a423fc0fdb9c76",
+      "bytes": 10901
+    },
+    {
+      "path": "D02_D03_D05_D06_Authentication_ADR.md",
+      "sha256": "b8fd761953226d34bf8450f8105e54a484ed1ca1f156e5bd2a77b43b31074dda",
+      "bytes": 14030
+    },
+    {
+      "path": "D04_Operation_Permission_Matrix.md",
+      "sha256": "d6c1bddd4b2eb6d6f7be27bfa8ed3731d639b572babe3e0d00e4ecc2a0213f46",
+      "bytes": 31472
+    },
+    {
+      "path": "D04_RBAC_Governance_ADR.md",
+      "sha256": "842df8128659ab8b161c304724d56807b23b828b6f7a89ce50387fe9ad4511d2",
+      "bytes": 6221
+    },
+    {
+      "path": "D04_Seed_Custody_Decision.md",
+      "sha256": "00fed61833caf757a4168906b97ed9e681d82c3b41aa4703fc6ad2c94dd81224",
+      "bytes": 4867
+    },
+    {
+      "path": "D09_Transaction_Authority_ADR.md",
+      "sha256": "c4f65b13b8fabb571c473fcfae5e0b2f46af93bb60dee56403d303e31a16fc5d",
+      "bytes": 7512
+    },
+    {
+      "path": "D09_Writer_Coverage_Matrix.md",
+      "sha256": "bcc68073434efcdbba874c1a4fa5cb7a59bf64cc86827d90d100fe58adddc511",
+      "bytes": 8335
+    },
+    {
+      "path": "D10_Audit_Archive_Restore_ADR.md",
+      "sha256": "a0ce290a397e82d58ccaee04c341190ff377186b7aacd0f3a79a0fccb8386d37",
+      "bytes": 6861
+    },
+    {
+      "path": "Database_Architecture_Decision.md",
+      "sha256": "77e7f4c79fc2ff4289ac710b668e73744fbd5def0e24825ee4c1e7e795270d9d",
+      "bytes": 5693
+    },
+    {
+      "path": "Database_Compatibility_Matrix.md",
+      "sha256": "263905ec643190d14b081005d46710e6d0b65187b94532db5fe1b07be1eced70",
+      "bytes": 5050
+    },
+    {
+      "path": "Decision_Records.json",
+      "sha256": "a0c66eb09524eaabc8884f4bfc7fcd9d5fb482e8314ed73b48c909ab130137b4",
+      "bytes": 15352
+    },
+    {
+      "path": "Evidence_Index.md",
+      "sha256": "3e43bb8892466eaa266798636402d29d60a3389dca0a65d8b87c0a06c8418e4d",
+      "bytes": 5612
+    },
+    {
+      "path": "Executive_Decision_Summary.md",
+      "sha256": "4d12bc82e5d2eb1edff3610ae115479919de59df7d6c292006ddfe5652f068de",
+      "bytes": 4714
+    },
+    {
+      "path": "GitHub_Delivery_Report.md",
+      "sha256": "041d1e91aaf27bf0ec1d8a950137a281a1d01e1ebdc0c0d8864c3fe8e9c035e8",
+      "bytes": 2425
+    },
+    {
+      "path": "Input_Manifest.json",
+      "sha256": "ccee82c9d807b1a7a6ec3d550254ef0951d83c84cfc7708401442318b70ca137",
+      "bytes": 81254
+    },
+    {
+      "path": "Mapping_Proposals.json",
+      "sha256": "7a8f5fdb02d4c92c2213af491606fb41952bb09bb38c892d98e9221f9b644f79",
+      "bytes": 43473
+    },
+    {
+      "path": "Phase4_3A_Baseline_Inventory.md",
+      "sha256": "8e25f4c92cb68318a998bc04481dbe118b16d94b11b957c3dc3b05084ba040d1",
+      "bytes": 5184
+    },
+    {
+      "path": "Phase4_3A_Final_Assessment.md",
+      "sha256": "17162d54061dd60030b8c1a44a1f988437b30c7b2132e33bf971024dda170bed",
+      "bytes": 4406
+    },
+    {
+      "path": "Phase4_3B_Implementation_Backlog.md",
+      "sha256": "4f289939263acdceb424db8d98c111bbc01f888706acac893bab78662543c9f2",
+      "bytes": 10806
+    },
+    {
+      "path": "PR_Description.md",
+      "sha256": "d9b1319824a2875d961f2d91e2b3641e6d54d78e1e66d5a11c7eb6592bd06def",
+      "bytes": 2166
+    },
+    {
+      "path": "QA_Report.md",
+      "sha256": "743c8a5d061944d36ea8d47f06dce0cc72226945e53c2af04b91df52c701d4b2",
+      "bytes": 1778
+    },
+    {
+      "path": "Security_Policy_Decision_Register.md",
+      "sha256": "47a98cd2c2921d733c956a25e6cf834e5da4494ad24839177da3bfb8fb2370d0",
+      "bytes": 4294
+    },
+    {
+      "path": "Technical_References.md",
+      "sha256": "50a87baf42de2298bf71476c438d8edeb1a87d000cffcc481aaec47ddd78d0c1",
+      "bytes": 1846
+    },
+    {
+      "path": "verify_package.py",
+      "sha256": "255a01692ece29ba75eceaa2f445c7a543c7e09ce1337cab88ff710be46adb3f",
+      "bytes": 4815
+    }
+  ]
+}
