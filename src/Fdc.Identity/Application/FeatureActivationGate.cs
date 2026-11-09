@@ -92,6 +92,12 @@ public sealed class FeatureActivationGate(IFeatureActivationReader reader, Polic
                 snapshot.EffectiveFrom >= snapshot.ExpiresAt)
                 return FeatureActivationStatus.BLOCKED_BY_POLICY;
 
+            if (snapshot.Approval.SignedEvidence is { } signed &&
+                (signed.Feature != feature || signed.Scope != scope || signed.ApprovalVersion != snapshot.ApprovalVersion ||
+                 signed.ActivatedBy != snapshot.ActivatedBy || signed.ActivationAuditId != snapshot.ActivationAuditId ||
+                 signed.EffectiveFrom != snapshot.EffectiveFrom || signed.ActivationExpiresAt != snapshot.ExpiresAt))
+                return FeatureActivationStatus.BLOCKED_BY_POLICY;
+
             await validator.DemandValidAsync(snapshot.Approval, environment, decisions, snapshot.CurrentAuthority, ct);
             // Re-read from authority after external evidence verification to fence revision or revocation changes.
             var current = await reader.ReadAsync(feature, ct);
