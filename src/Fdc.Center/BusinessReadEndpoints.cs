@@ -21,6 +21,12 @@ public static class BusinessReadEndpoints
         MapObjects("/ieds", BusinessReadOperation.Ied);
         MapObjects("/records", BusinessReadOperation.Record);
         MapObjects("/collectors", BusinessReadOperation.Collector);
+        group.MapGet("/collectors/{id:guid}/heartbeat", (HttpContext h, BusinessAuthorization auth, Guid id, int? offset, int? limit, CancellationToken ct) =>
+            Guard(h, async digest => await auth.CollectorHeartbeatAsync(digest, id, offset ?? 0, limit ?? 50, ct) is { } rows
+                ? Results.Ok(rows) : Results.NotFound()));
+        group.MapGet("/collectors/{id:guid}/transfers", (HttpContext h, BusinessAuthorization auth, Guid id, int? offset, int? limit, CancellationToken ct) =>
+            Guard(h, async digest => await auth.CollectorTransfersAsync(digest, id, offset ?? 0, limit ?? 50, ct) is { } rows
+                ? Results.Ok(rows) : Results.NotFound()));
         group.MapGet("/records/{id:guid}/downloadable-files", (HttpContext h, BusinessAuthorization auth, Guid id, CancellationToken ct) =>
             Guard(h, async digest => Results.Ok(await auth.DownloadableFilesAsync(digest, id, ct))));
         group.MapGet("/record-files/{id:guid}/download", (HttpContext h, BusinessAuthorization auth,
