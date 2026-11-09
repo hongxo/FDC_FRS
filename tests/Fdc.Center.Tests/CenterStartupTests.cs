@@ -25,6 +25,10 @@ public sealed class CenterStartupTests
         Assert.DoesNotContain(app.Services.GetServices<IHostedService>(), service => service is InboxWorker);
         var endpoints = ((IEndpointRouteBuilder)app).DataSources.SelectMany(x => x.Endpoints).OfType<RouteEndpoint>().ToArray();
         Assert.Contains(endpoints, e => e.RoutePattern.RawText == "/api/identity/v1/admin/users");
+        var readiness = Assert.Single(endpoints, e => e.RoutePattern.RawText == "/api/lab/v1/readiness");
+        Assert.Equal("Fdc.Human", readiness.Metadata.GetMetadata<Microsoft.AspNetCore.Authorization.IAuthorizeData>()?.Policy);
+        Assert.Equal(["GET"], readiness.Metadata.GetMetadata<IHttpMethodMetadata>()?.HttpMethods);
+        Assert.DoesNotContain(endpoints, e => e.RoutePattern.RawText!.StartsWith("/api/lab/", StringComparison.Ordinal) && e != readiness);
         Assert.DoesNotContain(endpoints, e => e.RoutePattern.RawText!.EndsWith("/login", StringComparison.Ordinal));
         Assert.DoesNotContain(endpoints, e => e.RoutePattern.RawText!.StartsWith("/api/stations", StringComparison.Ordinal));
         Assert.DoesNotContain(endpoints, e => e.RoutePattern.RawText!.StartsWith("/api/pilot", StringComparison.Ordinal));

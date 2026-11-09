@@ -74,7 +74,7 @@ public static class CenterIdentityRuntime
         // No forwarded-header middleware: no proxy header becomes TLS, source identity or a principal.
         app.UseWhen(context => context.Request.Path.StartsWithSegments("/identity"), branch => { branch.UseDefaultFiles(); branch.UseStaticFiles(); });
         app.UseAuthentication(); app.UseAuthorization();
-        app.MapIdentityRoleQueries(); app.MapIdentityManagementQueries();
+        app.MapIdentityRoleQueries(); app.MapIdentityManagementQueries(); app.MapLabReadiness();
         // Existing business API identities preserved, but no data handler runs before reviewed station mapping exists.
         app.MapGet("/api/status", BlockBusiness).RequireAuthorization("Fdc.Human");
         app.MapGet("/api/events", BlockBusiness).RequireAuthorization("Fdc.Human");
