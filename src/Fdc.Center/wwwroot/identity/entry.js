@@ -10,7 +10,13 @@ const labels = new Map([
   ['grants', 'Phân quyền trạm'], ['audit', 'Nhật ký hệ thống'], ['requests', 'Theo dõi đề nghị']
 ]);
 const navigation = document.getElementById('effective-navigation');
-let pending;
+const blockedMessages = new Map([
+  ['login', 'Máy chủ xác nhận phát hành phiên đang chờ phê duyệt.'],
+  ['mfa', 'Máy chủ xác nhận thử thách MFA đang chờ phê duyệt.'],
+  ['recovery', 'Máy chủ xác nhận quy trình khôi phục đang chờ phê duyệt.'],
+  ['profile', 'Máy chủ xác nhận quản lý phiên đang chờ phê duyệt.']
+]);
+let pending, policyStatus;
 function render() {
   const hash = location.hash.slice(1);
   const key = screens.has(hash) ? hash : 'login';
@@ -19,6 +25,8 @@ function render() {
     document.getElementById(panel + '-controls').hidden = panel !== key;
   document.getElementById('screen-title').textContent = screen[0];
   document.getElementById('policy-status').textContent = screen[1];
+  document.getElementById('runtime-status').textContent = policyStatus?.[key] === 'BLOCKED_BY_POLICY'
+    ? blockedMessages.get(key) : 'Không xác nhận được chính sách từ máy chủ.';
 }
 function clearNavigation() {
   pending?.abort();
@@ -49,17 +57,14 @@ async function loadNavigation() {
 }
 addEventListener('hashchange', render);
 addEventListener('pageshow', async () => {
-  const status = document.getElementById('runtime-status');
   try {
     const response = await fetch('/api/identity/v1/ui/auth-status', {
       credentials: 'omit', mode: 'same-origin', redirect: 'error', cache: 'no-store',
       headers: { Accept: 'application/json' }
     });
-    const data = response.ok ? await response.json() : null;
-    status.textContent = data?.login === 'BLOCKED_BY_POLICY'
-      ? 'Máy chủ xác nhận phát hành phiên đang chờ phê duyệt.'
-      : 'Không xác nhận được chính sách từ máy chủ.';
-  } catch { status.textContent = 'Không xác nhận được chính sách từ máy chủ.'; }
+    policyStatus = response.ok ? await response.json() : undefined;
+  } catch { policyStatus = undefined; }
+  render();
   await loadNavigation();
 });
 addEventListener('pagehide', clearNavigation);
