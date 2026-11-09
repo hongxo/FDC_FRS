@@ -181,14 +181,15 @@ public sealed partial class CenterHttpsSqlLabTests
             var audit = await (from e in db.Set<SecurityEventRow>() join o in db.Set<AuditOutboxRow>() on e.Id equals o.EventId
                                orderby e.EventCode select e.EventCode).ToArrayAsync();
             Assert.Equal(business is null ? ["fixture.login.mfa", "fixture.logout"] :
-                ["business.record.download.prepared", "fixture.login.mfa", "fixture.logout"], audit);
+                ["business.record.download.prepared", "business.record.download.prepared", "fixture.login.mfa", "fixture.logout"], audit);
             if (business is not null && Environment.GetEnvironmentVariable("FDC_UI_EVIDENCE") is { } businessEvidence)
             {
                 using var artifact = System.Text.Json.JsonDocument.Parse(await File.ReadAllTextAsync(Path.Combine(businessEvidence, "a7-browser.json")));
-                var expected = artifact.RootElement.GetProperty("business").GetProperty("correlation").GetString();
+                var businessResult = artifact.RootElement.GetProperty("business");
+                var expected = new[] { businessResult.GetProperty("correlation").GetString(), businessResult.GetProperty("cfgCorrelation").GetString() };
                 var prepared = await (from e in db.Set<SecurityEventRow>() join o in db.Set<AuditOutboxRow>() on e.Id equals o.EventId
-                                      where e.EventCode == "business.record.download.prepared" select e.CorrelationId).SingleAsync();
-                Assert.Equal(expected, prepared);
+                                      where e.EventCode == "business.record.download.prepared" select e.CorrelationId).ToArrayAsync();
+                Assert.Equal(expected.Order(StringComparer.Ordinal), prepared.Order(StringComparer.Ordinal));
                 await File.WriteAllTextAsync(Path.Combine(businessEvidence, "a7-sql-verification.json"),
                     System.Text.Json.JsonSerializer.Serialize(new { correlation = prepared, outboxLinked = true, grantRevoked = true, sessionRevoked = true }));
             }

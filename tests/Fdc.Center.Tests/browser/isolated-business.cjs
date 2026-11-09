@@ -18,6 +18,15 @@ module.exports = async function verifyBusiness(page, call, expect, evidence) {
     assert.equal(row.stationId, ids.stationA);
     assert.equal(await expect(route + ' detail B', await call(base + route + '/' + hidden), 404), null);
   }
+  const pageOne = await expect('Station paging after SQL scope', await call(base + 'stations?offset=0&limit=1'), 200);
+  const pageTwo = await expect('No out-of-scope row on next page', await call(base + 'stations?offset=1&limit=1'), 200);
+  assert.deepEqual(pageOne.map(row => row.id), [ids.stationA]);
+  assert.deepEqual(pageTwo, []);
+  for (const [route, value] of [['heartbeat', 'Healthy'], ['transfers', 'Accepted']]) {
+    const allowed = await expect('Collector A ' + route, await call(base + 'collectors/' + ids.collectorA + '/' + route), 200);
+    assert.deepEqual(allowed.map(row => row.status ?? row.outcome), [value]);
+    assert.equal(await expect('Collector B ' + route + ' denied', await call(base + 'collectors/' + ids.collectorB + '/' + route), 404), null);
+  }
   const businessPage = await page.context().newPage();
   try {
     await businessPage.goto(new URL('/identity/business.html', page.url()).href);
@@ -29,6 +38,17 @@ module.exports = async function verifyBusiness(page, call, expect, evidence) {
     await businessPage.getByRole('button', { name: 'A7-Station-A', exact: true }).click();
     await businessPage.locator('#object-detail h2').filter({ hasText: 'A7-Station-A' }).waitFor();
     if (evidence) await businessPage.screenshot({ path: path.join(evidence, 'a7-stations.png') });
+    await businessPage.locator('#business-search').fill('A7-Station-B');
+    await businessPage.locator('#business-find').click();
+    await businessPage.getByRole('status').filter({ hasText: 'Không có dữ liệu trong phạm vi.' }).waitFor();
+    assert.equal(await businessPage.locator('#results li').count(), 0);
+    await businessPage.getByRole('button', { name: 'Collector', exact: true }).click();
+    await businessPage.getByRole('button', { name: 'A7-Collector-A', exact: true }).click();
+    await businessPage.locator('#object-detail').getByText(/Healthy/).waitFor();
+    await businessPage.locator('#object-detail').getByText(/Accepted/).waitFor();
+    await businessPage.setViewportSize({ width: 390, height: 844 });
+    assert.ok(await businessPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    if (evidence) await businessPage.screenshot({ path: path.join(evidence, 'a8-collector-mobile.png') });
     await businessPage.getByRole('button', { name: 'COMTRADE', exact: true }).click();
     await businessPage.locator('#results li button').first().click();
     const link = businessPage.getByRole('link', { name: /fixture\.dat/ });
@@ -54,6 +74,12 @@ module.exports = async function verifyBusiness(page, call, expect, evidence) {
   assert.match(allowed.cache, /no-store/i);
   assert.equal(crypto.createHash('sha256').update(Buffer.from(allowed.bytes)).digest('hex'), ids.digestA);
 
+  const cfg = await file(ids.cfgA, false);
+  await expect('Station A CFG authorized', cfg, 200);
+  assert.equal(crypto.createHash('sha256').update(Buffer.from(cfg.bytes)).digest('hex'), ids.cfgDigestA);
+  const deniedCfg = await file(ids.cfgB, false);
+  await expect('Station B CFG denied', deniedCfg, 404);
+  assert.equal(deniedCfg.bytes.length, 0);
   const signal = process.env.FDC_A7_SIGNAL;
   await fs.writeFile(signal, 'revoke', { flag: 'wx' });
   for (let i = 0; ; i++) {
@@ -67,5 +93,5 @@ module.exports = async function verifyBusiness(page, call, expect, evidence) {
   const after = await expect('Dashboard after revoke', await call(base + 'dashboard'), 200);
   assert.equal(after.stations, 0);
   return { digest: ids.digestA, bytes: allowed.bytes.length, deniedBytes: [denied.bytes.length, revoked.bytes.length],
-    correlation: allowed.correlation };
+    correlation: allowed.correlation, cfgCorrelation: cfg.correlation, cfgDigest: ids.cfgDigestA, cfgBytes: cfg.bytes.length };
 };

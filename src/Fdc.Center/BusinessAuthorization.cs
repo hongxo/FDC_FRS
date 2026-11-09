@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Fdc.Center;
 
-public enum BusinessReadOperation { Dashboard, Station, Ied, Record, RecordDownload, Collector }
+public enum BusinessReadOperation { Dashboard, Station, Ied, Record, RecordDownload, Collector, CollectorHeartbeat, CollectorTransfer }
 
 public interface IReviewedBusinessOperationPolicy
 {
@@ -30,6 +30,8 @@ public sealed class BusinessObject
     public required string Label { get; init; }
 }
 public sealed record BusinessDownload(string Name, Stream Content);
+public sealed record CollectorHeartbeatView(DateTimeOffset ReceivedAtUtc, string Status, long QueueDepth);
+public sealed record CollectorTransferView(Guid RecordId, DateTimeOffset CreatedAtUtc, int Attempt, string Outcome);
 public sealed class BusinessFile { public Guid Id { get; init; } public required string Name { get; init; } public long SizeBytes { get; init; } }
 
 public interface IReviewedBusinessFileSource
@@ -69,6 +71,40 @@ public sealed class BusinessAuthorization(CenterDbContext db, IReviewedBusinessO
     public Task<BusinessObject?> DetailAsync(string digest, BusinessReadOperation operation, Guid id, CancellationToken ct) =>
         ReadAsync(digest, operation, (iam, stations, _, token) =>
             Objects(iam, operation, stations, null).SingleOrDefaultAsync(row => row.Id == id, token), ct);
+
+    public Task<List<CollectorHeartbeatView>?> CollectorHeartbeatAsync(string digest, Guid collectorId,
+        int offset, int limit, CancellationToken ct) =>
+        ReadAsync<List<CollectorHeartbeatView>?>(digest, BusinessReadOperation.CollectorHeartbeat, async (_, stations, _, token) =>
+        {
+            ValidatePage(offset, limit);
+            if (!await db.Set<CollectorRegistration>().AnyAsync(row => row.Id == collectorId && stations.Contains(row.StationId), token))
+                return null;
+            return await db.Set<CollectorHeartbeat>().AsNoTracking()
+                .Where(row => row.CollectorId == collectorId && stations.Contains(row.StationId))
+                .OrderByDescending(row => row.ReceivedAtUtc).ThenBy(row => row.Id).Skip(offset).Take(limit)
+                .Select(row => new CollectorHeartbeatView(row.ReceivedAtUtc, row.Status, row.QueueDepth)).ToListAsync(token);
+        }, ct);
+
+    public Task<List<CollectorTransferView>?> CollectorTransfersAsync(string digest, Guid collectorId,
+        int offset, int limit, CancellationToken ct) =>
+        ReadAsync<List<CollectorTransferView>?>(digest, BusinessReadOperation.CollectorTransfer, async (_, stations, _, token) =>
+        {
+            ValidatePage(offset, limit);
+            if (!await db.Set<CollectorRegistration>().AnyAsync(row => row.Id == collectorId && stations.Contains(row.StationId), token))
+                return null;
+            return await (from attempt in db.Set<IngestionAttempt>().AsNoTracking()
+                          join record in db.Set<DisturbanceRecord>().AsNoTracking()
+                              on new { Id = attempt.RecordId, attempt.StationId } equals new { record.Id, record.StationId }
+                          where record.CollectorId == collectorId && stations.Contains(record.StationId)
+                          orderby attempt.CreatedAtUtc descending, attempt.Id
+                          select new CollectorTransferView(record.Id, attempt.CreatedAtUtc, attempt.Number, attempt.Outcome))
+                .Skip(offset).Take(limit).ToListAsync(token);
+        }, ct);
+
+    private static void ValidatePage(int offset, int limit)
+    {
+        if (offset is < 0 or > 10000 || limit is < 1 or > 100) throw new ArgumentException("Invalid page.");
+    }
 
     public Task<List<BusinessFile>> DownloadableFilesAsync(string digest, Guid recordId, CancellationToken ct) =>
         ReadAsync(digest, BusinessReadOperation.RecordDownload, (_, stations, _, token) =>

@@ -37,6 +37,33 @@ async function openObject(id) {
     const heading = document.createElement('h2');
     heading.textContent = row.label;
     detail.append(heading);
+    if (view === 'collectors') {
+      for (const [endpoint, title, describe] of [
+        ['heartbeat', 'Nhịp kết nối', item => item.receivedAtUtc + ' · ' + item.status],
+        ['transfers', 'Lịch sử truyền', item => item.createdAtUtc + ' · ' + item.outcome]
+      ]) {
+        const section = document.createElement('section');
+        const label = document.createElement('h3');
+        label.textContent = title;
+        section.append(label);
+        try {
+          const history = await read('collectors/' + encodeURIComponent(id) + '/' + endpoint, current.signal);
+          if (current.signal.aborted) return;
+          for (const entry of history) {
+            const row = document.createElement('p');
+            row.textContent = describe(entry);
+            section.append(row);
+          }
+          if (!history.length) section.append('Không có dữ liệu trong phạm vi.');
+        } catch (error) {
+          if (current.signal.aborted) return;
+          if (error.status === 401) throw error;
+          section.append(message(error));
+        }
+        detail.append(section);
+      }
+      return;
+    }
     if (view !== 'records') return;
     const files = await read('records/' + encodeURIComponent(id) + '/downloadable-files', current.signal);
     if (current.signal.aborted) return;

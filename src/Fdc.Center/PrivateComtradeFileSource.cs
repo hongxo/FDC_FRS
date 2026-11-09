@@ -1,5 +1,8 @@
 using System.Buffers;
 using System.Security.Cryptography;
+using System.Runtime.InteropServices;
+using System.Text;
+using Microsoft.Win32.SafeHandles;
 
 namespace Fdc.Center;
 
@@ -43,7 +46,7 @@ public sealed class PrivateComtradeFileSource : IReviewedBusinessFileSource
                 if ((directory.Attributes & FileAttributes.ReparsePoint) != 0 || !directory.Exists) return null;
             if ((File.GetAttributes(source) & (FileAttributes.ReparsePoint | FileAttributes.Directory)) != 0) return null;
             await using var input = new FileStream(source, FileMode.Open, FileAccess.Read, FileShare.Read, 65536, FileOptions.Asynchronous);
-            if (input.Length != size) return null;
+            if (!MatchesOpenedPath(input.SafeFileHandle, source) || input.Length != size) return null;
 
             copy = new FileStream(Path.Combine(staging, Guid.NewGuid().ToString("N")), FileMode.CreateNew, FileAccess.ReadWrite,
                 FileShare.None, 65536, FileOptions.Asynchronous | FileOptions.DeleteOnClose);
@@ -73,4 +76,28 @@ public sealed class PrivateComtradeFileSource : IReviewedBusinessFileSource
         { return null; }
         finally { if (copy is not null) await copy.DisposeAsync(); }
     }
+
+    // Validate the actual opened handle before reading any bytes. An ancestor changed
+    // between the reparse checks and Open cannot redirect content outside the expected path.
+    private static bool MatchesOpenedPath(SafeFileHandle handle, string expected)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            var path = new StringBuilder(32768);
+            var count = GetFinalPathNameByHandle(handle, path, (uint)path.Capacity, 0);
+            if (count == 0 || count >= path.Capacity) return false;
+            var actual = path.ToString();
+            return string.Equals(actual, @"\\?\" + expected, StringComparison.OrdinalIgnoreCase);
+        }
+
+        if (OperatingSystem.IsLinux())
+        {
+            var descriptor = "/proc/self/fd/" + handle.DangerousGetHandle().ToInt64().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            return string.Equals(File.ResolveLinkTarget(descriptor, false)?.FullName, expected, StringComparison.Ordinal);
+        }
+        return false;
+    }
+
+    [DllImport("kernel32.dll", EntryPoint = "GetFinalPathNameByHandleW", CharSet = CharSet.Unicode, SetLastError = true)]
+    private static extern uint GetFinalPathNameByHandle(SafeFileHandle handle, StringBuilder path, uint length, uint flags);
 }

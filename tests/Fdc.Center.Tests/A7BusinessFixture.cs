@@ -99,7 +99,7 @@ internal sealed class A7BusinessFixture : IAsyncDisposable, IReviewedPermissionP
             Row(new GrantFunctionRow { StationGrantId = grant.Id, PermissionId = download.Id }));
         await iam.SaveChangesAsync();
         await using var db = Center();
-        async Task<(Guid Ied, Guid Collector, Guid Record, Guid File, string Digest)> Objects(StationRow station, string suffix)
+        async Task<(Guid Ied, Guid Collector, Guid Record, Guid File, string Digest, Guid Cfg, string CfgDigest)> Objects(StationRow station, string suffix)
         {
             var ied = new IedDevice { StationId = station.Id, Code = "IED-" + suffix, DisplayName = "A7-IED-" + suffix, IsSynthetic = true };
             var collector = new CollectorRegistration { StationId = station.Id, Code = "A7-Collector-" + suffix, Active = true, IsSynthetic = true };
@@ -116,15 +116,25 @@ internal sealed class A7BusinessFixture : IAsyncDisposable, IReviewedPermissionP
             var file = new RecordFile { StationId = station.Id, RecordId = record.Id, Name = "fixture.dat", Extension = ".dat",
                 SizeBytes = bytes.Length, Sha256 = digest, StorageObjectKey = $"records/{manifest}/fixture.dat",
                 ValidationStatus = "Verified", IsSynthetic = true };
-            db.Add(file);
+            var cfgBytes = Encoding.UTF8.GetBytes("SYNTHETIC,IED,1999\n1,1A,0D\n1,Ia,A,,A,1,0,0,-32768,32767,1,1,P\n50\n1\n1000,2\n01/01/2026,00:00:00.000000\n01/01/2026,00:00:00.000000\nASCII\n1\n");
+            await File.WriteAllBytesAsync(Path.Combine(folder, "fixture.cfg"), cfgBytes);
+            var cfgDigest = Convert.ToHexStringLower(SHA256.HashData(cfgBytes));
+            var cfg = new RecordFile { StationId = station.Id, RecordId = record.Id, Name = "fixture.cfg", Extension = ".cfg",
+                SizeBytes = cfgBytes.Length, Sha256 = cfgDigest, StorageObjectKey = $"records/{manifest}/fixture.cfg",
+                ValidationStatus = "Verified", IsSynthetic = true };
+            db.AddRange(file, cfg,
+                new CollectorHeartbeat { StationId = station.Id, CollectorId = collector.Id, ReceivedAtUtc = now,
+                    Status = suffix == "A" ? "Healthy" : "Offline", QueueDepth = 1, IsSynthetic = true },
+                new IngestionAttempt { StationId = station.Id, RecordId = record.Id, Number = 1,
+                    Outcome = suffix == "A" ? "Accepted" : "Failed", CorrelationId = "fixture", IsSynthetic = true });
             await db.SaveChangesAsync();
-            return (ied.Id, collector.Id, record.Id, file.Id, digest);
+            return (ied.Id, collector.Id, record.Id, file.Id, digest, cfg.Id, cfgDigest);
         }
         var first = await Objects(a, "A");
         var second = await Objects(b, "B");
         await VerifyOtherRolesAsync(a.Id, b.Id, permission, epoch);
         Ids = new { stationA = a.Id, stationB = b.Id, iedA = first.Ied, iedB = second.Ied, collectorA = first.Collector,
-            collectorB = second.Collector, recordA = first.Record, recordB = second.Record, fileA = first.File, fileB = second.File, digestA = first.Digest };
+            collectorB = second.Collector, recordA = first.Record, recordB = second.Record, fileA = first.File, fileB = second.File, digestA = first.Digest, cfgA = first.Cfg, cfgB = second.Cfg, cfgDigestA = first.CfgDigest };
     }
 
     private async Task VerifyOtherRolesAsync(Guid stationA, Guid stationB, Guid permissionId, Guid epoch)
