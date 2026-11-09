@@ -470,6 +470,12 @@
           "Fdc.Identity": "[1.0.0, )"
         }
       },
+      "fdc.collector.pilot": {
+        "type": "Project",
+        "dependencies": {
+          "Fdc.Core": "[1.0.0, )"
+        }
+      },
       "fdc.core": {
         "type": "Project",
         "dependencies": {

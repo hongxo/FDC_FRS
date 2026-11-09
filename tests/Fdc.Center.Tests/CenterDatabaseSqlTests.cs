@@ -8,7 +8,7 @@ namespace Fdc.Center.Tests;
 
 [CollectionDefinition("Center database lab",DisableParallelization=true)] public sealed class CenterDatabaseCollection { }
 [Collection("Center database lab")]
-public sealed class CenterDatabaseSqlTests
+public sealed partial class CenterDatabaseSqlTests
 {
  [CenterFoundationFact] public async Task Schema_has_53_tables_canonical_iam_and_three_views()
  {

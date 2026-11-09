@@ -27,6 +27,7 @@ public sealed class CenterStartupTests
         Assert.Contains(endpoints, e => e.RoutePattern.RawText == "/api/identity/v1/admin/users");
         Assert.DoesNotContain(endpoints, e => e.RoutePattern.RawText!.EndsWith("/login", StringComparison.Ordinal));
         Assert.DoesNotContain(endpoints, e => e.RoutePattern.RawText!.StartsWith("/api/stations", StringComparison.Ordinal));
+        Assert.DoesNotContain(endpoints, e => e.RoutePattern.RawText!.StartsWith("/api/pilot", StringComparison.Ordinal));
     }
     [Fact] public void Missing_connection_does_not_fallback_to_demo()
     {
