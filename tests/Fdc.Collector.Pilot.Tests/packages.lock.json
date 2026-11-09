@@ -34,6 +34,11 @@
         "resolved": "2.7.0",
         "contentHash": "U+12df8UEWHgBi04YVf/Lgi2dy3SItlIYvHjjEVa/BngCQIzDCDRBk50DDByCfDvSbe5pRNFr3b7UrVK2kMcLw=="
       },
+      "ExcelDataReader": {
+        "type": "Transitive",
+        "resolved": "3.8.0",
+        "contentHash": "kbUsldc5Fn9IKgzL2nr4VvN/mKqPqn8zGXUZpA7uL6svCA4psF+qMK519EhMvderpU4pAJoqk9DWpiSIkiZtXA=="
+      },
       "Microsoft.CodeCoverage": {
         "type": "Transitive",
         "resolved": "17.14.1",
@@ -176,6 +181,7 @@
       "fdc.collector.pilot": {
         "type": "Project",
         "dependencies": {
+          "ExcelDataReader": "[3.8.0, )",
           "Fdc.Core": "[1.0.0, )"
         }
       },

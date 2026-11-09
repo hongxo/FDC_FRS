@@ -1,0 +1,1682 @@
+{
+  "source": "d4d7e52",
+  "runs": [
+    {
+      "counts": {
+        "total": "47",
+        "executed": "47",
+        "passed": "47",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "cases": [
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ExcelInventoryTests.Reports_invalid_ip_and_both_sides_of_duplicate_ip_and_code",
+          "outcome": "Passed",
+          "duration": "00:00:00.0067410"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Malformed_cfg_is_rejected(kind: \"multiplier\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0031624"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.QueueAndAcquisitionTests.Existing_store_coexists_and_expired_lease_is_fenced_after_restart",
+          "outcome": "Passed",
+          "duration": "00:00:00.0353100"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Malformed_cfg_is_rejected(kind: \"missing_channel\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0039937"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Unsafe_names_rejected_before_any_file_or_network_operation(path: \"x.cfg:stream\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000100"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ExcelInventoryTests.Commit_requires_preview_hash_and_is_idempotent",
+          "outcome": "Passed",
+          "duration": "00:00:00.1771275"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Unsafe_names_rejected_before_any_file_or_network_operation(path: \"%2e%2e/x.cfg\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000083"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Malformed_cfg_is_rejected(kind: \"time\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0064959"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Tested_2013_formats_scale_analog_decode_digital_preserve_time_and_bytes(format: \"BINARY\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0156891"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Tested_2013_formats_scale_analog_decode_digital_preserve_time_and_bytes(format: \"BINARY32\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0044382"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.QueueAndAcquisitionTests.Empty_schema_rollback_keeps_legacy_store_and_reapply_is_idempotent",
+          "outcome": "Passed",
+          "duration": "00:00:00.0269805"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.QueueAndAcquisitionTests.Concurrent_claims_do_not_duplicate_a_lease",
+          "outcome": "Passed",
+          "duration": "00:00:00.4214982"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Corrupt_or_partial_ascii_never_silently_truncates(dat: \"1,0,1,0\\n2,1000,2,2\\n3,2000,3,0\\n\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0036930"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.QueueAndAcquisitionTests.Reused_filename_changed_bytes_creates_new_content_record",
+          "outcome": "Passed",
+          "duration": "00:00:00.0520503"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Corrupt_or_partial_ascii_never_silently_truncates(dat: \"1,0,1,0\\n2,1000,2,1\\n\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0032584"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Corrupt_or_partial_ascii_never_silently_truncates(dat: \"1,0,1,0\\n2,1000,2,1\\n3,500,3,0\\n\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0032134"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.NativeMmsSimulationTests.Pinned_C_abi_real_MMS_read_only_roundtrip_on_loopback_is_SIMULATED_not_real_IED",
+          "outcome": "Passed",
+          "duration": "00:00:00.3931076"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Malformed_cfg_is_rejected(kind: \"count\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0035382"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Protocol_errors_are_not_equated_with_support(code: 4, expected: UNSUPPORTED_FILE_SERVICE)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000123"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Bounds_and_encoding_are_explicit",
+          "outcome": "Passed",
+          "duration": "00:00:00.0081931"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.QueueAndAcquisitionTests.Retry_is_finite_backoff_and_no_sensitive_error_payload",
+          "outcome": "Passed",
+          "duration": "00:00:00.0266376"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Huge_digital_value_long_line_and_cancellation_rejected_without_truncation",
+          "outcome": "Passed",
+          "duration": "00:00:00.0064710"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Preview_is_bounded_and_discloses_decimation",
+          "outcome": "Passed",
+          "duration": "00:00:00.0052306"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Protocol_errors_are_not_equated_with_support(code: 21, expected: ACCESS_DENIED)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003892"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Corrupt_or_partial_ascii_never_silently_truncates(dat: \"1,0,NaN,0\\n2,1000,2,1\\n3,2000,3,0\\n\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0041434"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Multi_rate_missing_timestamps_are_derived_without_guessing_timezone",
+          "outcome": "Passed",
+          "duration": "00:00:00.0218835"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ExcelInventoryTests.Preview_keeps_source_rows_and_distinguishes_plc",
+          "outcome": "Passed",
+          "duration": "00:00:00.0170829"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ExcelInventoryTests.Preview_html_encodes_workbook_data",
+          "outcome": "Passed",
+          "duration": "00:00:00.0326262"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Binary_partial_record_and_nan_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0080921"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Malformed_cfg_is_rejected(kind: \"format\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0140302"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Unsafe_names_rejected_before_any_file_or_network_operation(path: \"a\\\\x.cfg\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003075"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Unsafe_names_rejected_before_any_file_or_network_operation(path: \"*.cfg\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0009396"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Unsafe_names_rejected_before_any_file_or_network_operation(path: \"/a/../x.cfg\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000263"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Tested_2013_formats_scale_analog_decode_digital_preserve_time_and_bytes(format: \"FLOAT32\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0036333"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Profile_and_default_pending_authority_prevent_network_before_native_load",
+          "outcome": "Passed",
+          "duration": "00:00:00.0128111"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ExcelInventoryTests.Imported_and_manually_reviewed_device_cannot_open_adapter_without_independent_authority",
+          "outcome": "Passed",
+          "duration": "00:00:00.0491093"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.QueueAndAcquisitionTests.Partial_file_and_low_disk_never_promote_or_acknowledge",
+          "outcome": "Passed",
+          "duration": "00:00:00.0362664"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Utf8_dat_bom_supported_and_bytes_preserved",
+          "outcome": "Passed",
+          "duration": "00:00:00.0060857"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Corrupt_or_partial_ascii_never_silently_truncates(dat: \"1,0,1,0\\n3,1000,2,1\\n3,2000,3,0\\n\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0031417"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Protocol_errors_are_not_equated_with_support(code: 20, expected: FAILED)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0067359"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Older_ascii_profiles_are_explicitly_tested(revision: \"1999\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0058423"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Older_ascii_profiles_are_explicitly_tested(revision: \"1991\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0304943"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Unsafe_names_rejected_before_any_file_or_network_operation(path: \"../x.cfg\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000212"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.QueueAndAcquisitionTests.Rollback_with_queued_data_is_denied_without_deleting_it",
+          "outcome": "Passed",
+          "duration": "00:00:00.0172603"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Tested_2013_formats_scale_analog_decode_digital_preserve_time_and_bytes(format: \"ASCII\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0035489"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.QueueAndAcquisitionTests.Offline_acquisition_preserves_bytes_deduplicates_content_and_requires_verified_ack",
+          "outcome": "Passed",
+          "duration": "00:00:00.0764547"
+        },
+        {
+          "testName": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Malformed_cfg_is_rejected(kind: \"negative_rate\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0036826"
+        }
+      ]
+    },
+    {
+      "counts": {
+        "total": "244",
+        "executed": "222",
+        "passed": "222",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "cases": [
+        {
+          "testName": "Fdc.Identity.Tests.SeedAndStoreTests.Pending_seed_manifest_does_not_install_defaults",
+          "outcome": "Passed",
+          "duration": "00:00:00.0016017"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Idle_boundary_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002953"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Ied_write_is_forbidden_even_if_every_catalog_flag_is_true",
+          "outcome": "Passed",
+          "duration": "00:00:00.0009495"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Grant_expiry_is_exclusive_boundary",
+          "outcome": "Passed",
+          "duration": "00:00:00.0005477"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Login_result_string_never_contains_proof",
+          "outcome": "Passed",
+          "duration": "00:00:00.0024717"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Invalid_opaque_proofs_are_rejected(value: \"short\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001566"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Catalog_change_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004147"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Rejected_revision_cannot_be_reviewed",
+          "outcome": "Passed",
+          "duration": "00:00:00.0008226"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ServiceBoundaryTests.Machine_credentials_are_rejected_before_authority_lookup",
+          "outcome": "Passed",
+          "duration": "00:00:00.0023868"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementReadTests.Default_page_cannot_bypass_limits",
+          "outcome": "Passed",
+          "duration": "00:00:00.0013619"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Requester_becomes_beneficiary_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006156"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementReadTests.Invalid_page_is_rejected(offset: 0, limit: 101)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003794"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.TransactionalAuthorityContractTests.Malformed_digest_never_opens_factory_or_throws_null_reference(digest: \"lowercase\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0051141"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Assignment_expiry_is_exclusive_boundary",
+          "outcome": "Passed",
+          "duration": "00:00:00.0016231"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.RoleCrudTests.Invalid_idempotency_key_rejected(key: \"../unsafe\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002288"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Release_expiring_while_evidence_is_verified_is_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0016004"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Duplicate_approval_cannot_advance_state",
+          "outcome": "Passed",
+          "duration": "00:00:00.0044279"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.RoleCrudSqlLabTests.P4_scoped_user_query_profile_observation_only",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Malformed_hashes_are_rejected(encoded: \"\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002549"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.OperationMappingTests.Stale_policy_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004149"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Forged_proxy_identity_headers_are_ignored",
+          "outcome": "Passed",
+          "duration": "00:00:00.0012933"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.OperationMappingTests.Manage_permission_never_implies_another_operation",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004377"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Unsupported_wildcard_or_ot_permission_rejected(code: \"*\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000376"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"interval\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000649"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Custom_role_is_not_limited_to_seven_names",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002317"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.CommitGateSqlLabTests.Boundary_refuses_nested_transactions",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Shared_target_gate_is_not_enough_for_mutation",
+          "outcome": "Passed",
+          "duration": "00:00:00.0487320"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Incomplete_or_unknown_intent_denied(field: \"target\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0012771"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.SessionRevocationTests.Unknown_operation_is_not_mapped_to_logout_all",
+          "outcome": "Passed",
+          "duration": "00:00:00.2197653"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Unconfigured_current_versions_denied(policy: 1, catalog: 0, hierarchy: 1)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0075709"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"epoch\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000577"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Unreviewed_permission_metadata_cannot_grant",
+          "outcome": "Passed",
+          "duration": "00:00:00.0017556"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Real_antiforgery_provider_rejects_missing_proof_and_accepts_bound_token_pair",
+          "outcome": "Passed",
+          "duration": "00:00:00.0347222"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"future\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002201"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Stale_workflow_version_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006295"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Malformed_hashes_are_rejected(encoded: \"garbage\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001003"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Corporation_and_unit_scopes_are_explicit(kind: Corporation, id: \"CORP\", expected: True)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006525"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Only_requester_can_cancel",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004805"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SqlLabTests.Sql_session_reader_sees_current_versions_disable_and_revoke",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.TransactionalAuthorityContractTests.Borrowed_reader_requires_existing_transaction_before_any_sql",
+          "outcome": "Passed",
+          "duration": "00:00:00.9991038"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"catalog\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000738"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Overlapping_lifetimes_detected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002099"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.RoleCrudTests.Pending_authority_denies_before_sql_or_commit",
+          "outcome": "Passed",
+          "duration": "00:00:00.7743063"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Absolute_boundary_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002980"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Request_review_approval_never_implies_applied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0056109"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Invalid_digest_never_creates_sql_context",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004908"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Corporation_and_unit_scopes_are_explicit(kind: ManagementUnit, id: \"UNIT-A\", expected: True)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000412"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.CommitGateSqlLabTests.Exclusive_policy_change_blocks_mutation_by_another_actor",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Unsupported_wildcard_or_ot_permission_rejected(code: \"station.*\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000413"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Cookie_on_http_is_rejected_before_sql",
+          "outcome": "Passed",
+          "duration": "00:00:00.0013024"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Caller_supplied_case_insensitive_comparer_does_not_change_decision_ids",
+          "outcome": "Passed",
+          "duration": "00:00:00.0017113"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.SessionRevocationSqlLabTests.Unknown_or_stale_session_never_selects_an_arbitrary_user_to_revoke",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Stale_role_version_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0005349"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.OperationMappingTests.Pending_owner_verifier_denies_even_complete_configuration",
+          "outcome": "Passed",
+          "duration": "00:00:00.0010588"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorityFailureSqlLabTests.P4_real_sql_missing_database_connection_fails_closed",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Hierarchy_change_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004531"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Unapproved_permission_is_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004179"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Future_grant_is_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006040"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Machine_or_legacy_credentials_cannot_authorize_human_action(kind: LegacyApiKey)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004562"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Role_expiry_is_exclusive_boundary",
+          "outcome": "Passed",
+          "duration": "00:00:00.0005978"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.EndpointContractTests.Adapter_exposes_only_canonical_read_routes_with_explicit_human_policy",
+          "outcome": "Passed",
+          "duration": "00:00:00.2204686"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Unsupported_wildcard_or_ot_permission_rejected(code: \"ied.configuration.write\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002886"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.RoleCrudSqlLabTests.P4_D001_request_target_must_match_immutable_payload_target",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Authority_outage_challenges_503_without_authenticated_principal",
+          "outcome": "Passed",
+          "duration": "00:00:00.0781652"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Role_names_do_not_confer_permissions",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004648"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Opaque_proofs_are_random_canonical_and_purpose_bound",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006197"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Restore_epoch_change_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001877"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Beneficiary_cannot_review",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004614"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Empty_epoch_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001785"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Same_origin_valid_csrf_passes_guard",
+          "outcome": "Passed",
+          "duration": "00:00:00.0042751"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Incomplete_or_unknown_intent_denied(field: \"actor\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004979"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.New_role_has_no_active_authority_and_copy_carries_no_assignment",
+          "outcome": "Passed",
+          "duration": "00:00:00.0076787"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.WorkflowAndSchemaTests.Contradictory_diff_is_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0021660"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Security_version_change_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001810"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Expired_grant_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0026013"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.RoleCrudSqlLabTests.Real_sql_role_create_rename_activate_permissions_clone_deactivate_and_replay",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.WorkflowAndSchemaTests.Stale_digest_and_duplicate_person_votes_are_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0679764"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Catalog_version_mismatch_is_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006369"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Trusted_object_station_must_match_scope(station: \"B1\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004652"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Disabled_user_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001972"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.CommitGatePlanTests.Duplicate_user_locks_merge_to_strongest_mode_and_sort_canonically",
+          "outcome": "Passed",
+          "duration": "00:00:00.0029110"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"payload\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001258"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Unconfigured_current_versions_denied(policy: 1, catalog: 1, hierarchy: 0)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0005748"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.RoleCrudTests.Invalid_idempotency_key_rejected(key: \"short\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004690"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Mfa_expiry_boundary_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003249"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Pending_D09_never_invokes_mutation_callback",
+          "outcome": "Passed",
+          "duration": "00:00:00.0015689"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.WorkflowAndSchemaTests.Request_digest_binds_actor_revision_and_expiry",
+          "outcome": "Passed",
+          "duration": "00:00:00.0065042"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.CommitGatePlanTests.Actor_must_be_in_lock_set",
+          "outcome": "Passed",
+          "duration": "00:00:00.0115842"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"hash\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001958"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Grant_version_conflict_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006070"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.CommitGatePlanTests.Unbounded_or_invalid_lock_timeout_is_rejected(timeout: 30001)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004091"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Cancellation_does_not_call_verifier",
+          "outcome": "Passed",
+          "duration": "00:00:00.0037105"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.WorkflowAndSchemaTests.Requester_and_beneficiaries_cannot_approve",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006555"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Expiry_prevents_apply",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006218"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Pending_commit_gate_blocks_effective_apply",
+          "outcome": "Passed",
+          "duration": "00:00:00.0017139"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Policy_plan_still_needs_every_explicit_target_exclusive",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006988"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Creator_cannot_approve_with_custom_role",
+          "outcome": "Passed",
+          "duration": "00:00:00.0015638"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Independent_action_requires_workflow",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002089"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Cancelled_revision_cannot_be_reviewed",
+          "outcome": "Passed",
+          "duration": "00:00:00.0009388"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Readonly_replica_intent_is_rejected_before_connecting",
+          "outcome": "Passed",
+          "duration": "00:00:00.6754348"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.CommitGatePlanTests.Unbounded_or_invalid_lock_timeout_is_rejected(timeout: 0)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000154"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Exact_coverage_normalizes_strongest_duplicate_without_granting_authority",
+          "outcome": "Passed",
+          "duration": "00:00:00.0008822"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.RoleCrudSqlLabTests.Real_sql_outbox_failure_rolls_back_effective_role_and_success_audit",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Incomplete_or_unknown_intent_denied(field: \"affected\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002284"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Approver_becomes_beneficiary_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0008758"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Grant_version_change_invalidates_stale_session",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004476"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.CommitGateSqlLabTests.Lost_ack_after_real_sql_commit_is_unknown_outcome_not_safe_retry",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Inactive_role_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004285"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.RoleCrudTests.Invalid_idempotency_key_rejected(key: \"key with spaces\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006838"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AssignmentPolicyTests.Unapproved_assignment_conflict_policy_does_not_grant",
+          "outcome": "Passed",
+          "duration": "00:00:00.0021240"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Pending_mfa_policy_blocks_activation",
+          "outcome": "Passed",
+          "duration": "00:00:00.0010365"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.WorkflowAndSchemaTests.Approval_does_not_remain_usable_after_revoke_or_new_beneficiary",
+          "outcome": "Passed",
+          "duration": "00:00:00.0013787"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.WorkflowAndSchemaTests.Missing_current_approval_authority_is_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006914"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementReadTests.Invalid_page_is_rejected(offset: 0, limit: 0)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000056"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Function_not_in_same_role_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0008865"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Machine_certificate_with_human_cookie_is_rejected_before_sql",
+          "outcome": "Passed",
+          "duration": "00:00:00.1667269"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.CommitGatePlanTests.Pending_plan_denies_before_connection_or_callback",
+          "outcome": "Passed",
+          "duration": "00:00:00.9750822"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Requester_cannot_approve",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006202"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Unknown_permission_is_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002395"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Malformed_hashes_are_rejected(encoded: \"AQ==\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0007076"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ServiceBoundaryTests.Migration_batches_require_exact_disposable_target_without_opening_sql",
+          "outcome": "Passed",
+          "duration": "00:00:00.0508841"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.RoleCrudSqlLabTests.Real_sql_stale_role_or_request_version_and_duplicate_code_cannot_apply",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.SeedAndStoreTests.Merely_claiming_approval_does_not_enable_seed",
+          "outcome": "Passed",
+          "duration": "00:00:00.1632267"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"hierarchy\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000680"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Incomplete_or_unknown_intent_denied(field: \"operation\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003349"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Machine_or_legacy_credentials_cannot_authorize_human_action(kind: CollectorCertificate)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003092"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Missing_csrf_is_rejected_even_same_origin",
+          "outcome": "Passed",
+          "duration": "00:00:00.0010380"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Incomplete_or_unknown_intent_denied(field: \"impact\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001314"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Unsupported_wildcard_or_ot_permission_rejected(code: \"unapproved.action\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006376"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Cross_origin_is_rejected_before_antiforgery",
+          "outcome": "Passed",
+          "duration": "00:00:00.0009429"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Clone_has_new_id_and_no_assignment_or_grant_fields",
+          "outcome": "Passed",
+          "duration": "00:00:00.0116077"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Duplicate_cookies_are_rejected_before_sql",
+          "outcome": "Passed",
+          "duration": "00:00:00.0017334"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Administrative_delegation_is_assignment_and_target_bound",
+          "outcome": "Passed",
+          "duration": "00:00:00.0027091"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.CommitGatePlanTests.Unbounded_or_invalid_lock_timeout_is_rejected(timeout: -1)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002932"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AssignmentPolicyTests.Station_scope_is_not_administrative_delegation",
+          "outcome": "Passed",
+          "duration": "00:00:00.0095766"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Unknown_scope_or_bulk_envelope_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006169"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementReadTests.Invalid_page_is_rejected(offset: 10001, limit: 1)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003212"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Permission_diff_requires_explicit_change_kind",
+          "outcome": "Passed",
+          "duration": "00:00:00.0005517"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Session_cookie_has_host_prefix_constraints",
+          "outcome": "Passed",
+          "duration": "00:00:00.0008356"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ServiceBoundaryTests.Unbounded_role_queries_are_rejected(limit: 101)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003725"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.CommitGateSqlLabTests.Mutation_holds_gate_revoke_waits_then_observes_committed_mutation",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Every_handler_call_checks_current_authority_and_revoke_is_seen",
+          "outcome": "Passed",
+          "duration": "00:00:00.0019612"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Stale_hierarchy_is_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003935"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Global_impact_requires_exclusive_policy_from_start",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004395"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Cross_subject_assignment_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0012841"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.CommitGateSqlLabTests.Callback_failure_rolls_back_database_and_discards_tracked_changes",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Valid_grant_preview_has_function_diff_and_stable_digest",
+          "outcome": "Passed",
+          "duration": "00:00:00.0757417"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Self_grant_by_same_person_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003890"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Invalid_opaque_proofs_are_rejected(value: \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000088"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.RoleCrudTests.Invalid_idempotency_key_rejected(key: \"\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.2224828"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Reviewer_cannot_approve",
+          "outcome": "Passed",
+          "duration": "00:00:00.1289741"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Incomplete_or_unknown_intent_denied(field: \"digest\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001939"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"environment\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004605"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Adjacent_lifetimes_do_not_overlap",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003840"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.CommitGatePlanTests.Preexisting_uncommitted_mutation_is_not_flushed_under_a_new_actor",
+          "outcome": "Passed",
+          "duration": "00:00:00.1901853"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Cross_assignment_grant_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006040"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Revoked_session_is_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004315"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Current_session_is_valid",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001040"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.WorkflowAndSchemaTests.Sql_model_generates_constraints_without_connecting_to_any_server",
+          "outcome": "Passed",
+          "duration": "00:00:01.0457409"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Policy_version_change_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002038"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Unconfigured_restore_epoch_fails_closed",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004206"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Grant_expiry_beyond_assignment_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003978"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.OperationMappingTests.Delegation_requires_explicit_function",
+          "outcome": "Passed",
+          "duration": "00:00:00.0314355"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorityFailureSqlLabTests.P4_real_sql_command_timeout_fails_closed",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Alias_person_string_does_not_become_independent_role",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004854"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Invalid_opaque_proofs_are_rejected(value: \"\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002249"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Wrong_digest_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0005563"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Activate_preview_does_not_activate_effective_role",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003019"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.OperationMappingTests.Exact_mapping_is_metadata_not_an_authorization_decision",
+          "outcome": "Passed",
+          "duration": "00:00:00.0013695"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"policy\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000779"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.SessionRevocationTests.Pending_revocation_policy_blocks_before_database",
+          "outcome": "Passed",
+          "duration": "00:00:00.7787901"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Missing_affected_user_cannot_use_actor_only_plan",
+          "outcome": "Passed",
+          "duration": "00:00:00.0007043"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Forwarded_header_does_not_turn_http_into_trusted_https",
+          "outcome": "Passed",
+          "duration": "00:00:00.0007695"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Missing_authority_fails_closed",
+          "outcome": "Passed",
+          "duration": "00:00:00.0040674"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementReadTests.Read_adapters_are_canonical_human_get_only",
+          "outcome": "Passed",
+          "duration": "00:00:00.0464071"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Invalid_opaque_proofs_are_rejected(value: \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa+\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000041"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Grant_expiry_beyond_role_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0005034"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Missing_backend_enforcement_is_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004716"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Corporation_and_unit_scopes_are_explicit(kind: ManagementUnit, id: \"UNIT-B\", expected: False)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0050123"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.WorkflowAndSchemaTests.Digest_is_stable_for_order_and_duplicate_codes",
+          "outcome": "Passed",
+          "duration": "00:00:00.0005218"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ServiceBoundaryTests.Every_request_reads_authority_again_and_outage_never_allows",
+          "outcome": "Passed",
+          "duration": "00:00:00.0204857"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Reviewer_revoked_before_apply_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0008064"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.OperationMappingTests.Unimplemented_wildcard_and_ot_deny_cannot_map(code: \"ied.configuration.write\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000287"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Disabled_user_is_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0010052"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase4AdapterHardeningTests.Role_adapter_enforces_https_before_pending_authority(scheme: \"https\", expected: 503)",
+          "outcome": "Passed",
+          "duration": "00:00:00.2064544"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Create_is_inactive_and_zero_permission_preview",
+          "outcome": "Passed",
+          "duration": "00:00:00.0012109"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"release\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002162"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Role_deactivation_cuts_all_assignments",
+          "outcome": "Passed",
+          "duration": "00:00:00.0005811"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Policy_change_prevents_apply",
+          "outcome": "Passed",
+          "duration": "00:00:00.0015370"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.TransactionalAuthorityContractTests.Malformed_digest_never_opens_factory_or_throws_null_reference(digest: \"\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001810"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"tamper\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0037417"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.CommitGateSqlLabTests.Committed_revoke_is_read_before_next_protected_mutation",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ServiceBoundaryTests.Unbounded_role_queries_are_rejected(limit: -1)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0019230"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Invalid_opaque_proofs_are_rejected(value: null)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000032"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.TransactionalAuthorityContractTests.Malformed_digest_never_opens_factory_or_throws_null_reference(digest: null)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000063"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Future_mfa_proof_is_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0007917"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.SeedAndStoreTests.Pending_D09_does_not_open_sql_or_add_audit_rows",
+          "outcome": "Passed",
+          "duration": "00:00:00.8510412"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Cross_role_assignment_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0005269"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Complete_metadata_and_hash_never_replace_independent_evidence",
+          "outcome": "Passed",
+          "duration": "00:00:00.0016926"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Pending_auth_policy_never_opens_mutation_store",
+          "outcome": "Passed",
+          "duration": "00:00:00.0041051"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Old_policy_snapshot_session_is_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0007202"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Revoked_session_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0008637"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.OperationMappingTests.Unimplemented_wildcard_and_ot_deny_cannot_map(code: \"*\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003318"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.CommitGatePlanTests.Unreviewed_isolation_and_namespace_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004584"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.SessionRevocationSqlLabTests.Revoke_current_then_everywhere_invalidates_only_current_subject_sessions_and_challenges",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Administrative_delegation_cannot_change_a_station_permission_scope_kind",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003677"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementReadTests.Read_dtos_have_no_credential_or_raw_payload_fields",
+          "outcome": "Passed",
+          "duration": "00:00:00.0010219"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.RoleCrudSqlLabTests.P4_D002_idempotent_apply_result_uses_original_history_version",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase4AdapterHardeningTests.Role_adapter_enforces_https_before_pending_authority(scheme: \"http\", expected: 401)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0163184"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Approve_before_review_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0005625"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Pending_login_store_never_executes_callback",
+          "outcome": "Passed",
+          "duration": "00:00:00.0051035"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.IndependentWorkflowTests.Requester_cannot_review",
+          "outcome": "Passed",
+          "duration": "00:00:00.0008151"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementReadTests.Invalid_page_is_rejected(offset: -1, limit: 1)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000134"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Duplicate_retired_role_code_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0005040"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Station_grant_does_not_grant_global_administration",
+          "outcome": "Passed",
+          "duration": "00:00:00.0005153"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"decisions\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002353"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Hashes_are_salted_and_passwords_are_verified",
+          "outcome": "Passed",
+          "duration": "00:00:00.0029117"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Overlong_password_does_not_reach_expensive_verification",
+          "outcome": "Passed",
+          "duration": "00:00:00.0008600"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Grant_version_change_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004635"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Empty_required_set_is_not_vacuously_approved",
+          "outcome": "Passed",
+          "duration": "00:00:00.0014053"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"expiry\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002426"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementProposalTests.Expired_assignment_rejected",
+          "outcome": "Passed",
+          "duration": "00:00:00.0113073"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ServiceBoundaryTests.Pending_role_policy_never_reaches_sql_queries",
+          "outcome": "Passed",
+          "duration": "00:00:00.0083532"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ServiceBoundaryTests.Unbounded_role_queries_are_rejected(limit: 0)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000332"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Role_permission_A_cannot_combine_with_assignment_B_scope",
+          "outcome": "Passed",
+          "duration": "00:00:00.0011938"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Unconfigured_current_versions_denied(policy: 0, catalog: 1, hierarchy: 1)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000649"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Fixture_evidence_validates_metadata_only_pending_runtime_still_denies",
+          "outcome": "Passed",
+          "duration": "00:00:00.0030034"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Mismatched_user_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002792"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementReadTests.Pending_mapping_blocks_before_any_sql",
+          "outcome": "Passed",
+          "duration": "00:00:00.2204569"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.CommitGateSqlLabTests.Gate_timeout_never_invokes_protected_callback",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.HumanHttpSqlLabTests.Actual_https_and_sql_deny_forged_identity_revoked_cookie_and_unavailable_authority",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementSqlLabTests.Sql_management_scope_precedes_paging_and_cross_subject_grants_are_hidden",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.OperationMappingTests.Unimplemented_wildcard_and_ot_deny_cannot_map(code: \"unknown.permission\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0007381"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SecurityTests.Higher_cost_requests_rehash_without_rejecting_correct_password",
+          "outcome": "Passed",
+          "duration": "00:00:00.0086059"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Restored_old_session_epoch_is_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002598"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.Phase2SqlLabTests.Sql_authority_reader_denies_missing_session_in_real_empty_lab",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Trusted_object_station_must_match_scope(station: \"\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002626"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Reviewer_cannot_approve_same_revision",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003462"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Function_subset_is_required",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003214"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"evidence\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001729"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.SessionRevocationSqlLabTests.Required_outbox_failure_rolls_back_revoke_security_version_and_challenge_invalidation",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Beneficiary_cannot_approve_own_escalation",
+          "outcome": "Passed",
+          "duration": "00:00:00.0008089"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.ManagementReadTests.Unscoped_detail_is_empty_without_database_connection",
+          "outcome": "Passed",
+          "duration": "00:00:00.0155469"
+        },
+        {
+          "testName": "Fdc.Identity.Tests.AuthorizationTests.Ancestor_unit_requires_reviewed_hierarchy_membership",
+          "outcome": "Passed",
+          "duration": "00:00:00.0345325"
+        }
+      ]
+    },
+    {
+      "counts": {
+        "total": "30",
+        "executed": "28",
+        "passed": "28",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "cases": [
+        {
+          "testName": "Fdc.Center.Tests.DatabaseModelTests.New_schemas_do_not_copy_iam_authority_or_store_binary_waveforms",
+          "outcome": "Passed",
+          "duration": "00:00:01.0620125"
+        },
+        {
+          "testName": "Fdc.Center.Tests.CenterDatabaseSqlTests.Real_files_ingest_replay_and_concurrent_duplicates_are_atomic",
+          "outcome": "Passed",
+          "duration": "00:00:00.0676872"
+        },
+        {
+          "testName": "Fdc.Center.Tests.PilotIntakeContractTests.Malformed_manifest_never_opens_sql_or_creates_storage(field: \"files\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.1769457"
+        },
+        {
+          "testName": "Fdc.Center.Tests.CenterHttpsSqlLabTests.Actual_https_and_sql_deny_forged_identity_revoked_cookie_and_unavailable_authority",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Center.Tests.CenterRuntimeDatabaseTests.Dedicated_runtime_principal_denies_authority_dml_secret_reads_and_unscoped_aggregates",
+          "outcome": "Passed",
+          "duration": "00:00:00.0213830"
+        },
+        {
+          "testName": "Fdc.Center.Tests.CenterRuntimeDatabaseTests.Center_database_cannot_be_enabled_with_sa_or_legacy_keys",
+          "outcome": "Passed",
+          "duration": "00:00:00.0023136"
+        },
+        {
+          "testName": "Fdc.Center.Tests.PilotIntakeContractTests.Malformed_manifest_never_opens_sql_or_creates_storage(field: \"hash\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0025200"
+        },
+        {
+          "testName": "Fdc.Center.Tests.CenterDatabaseSqlTests.OFFLINE_FIXTURE_through_SIMULATED_pinned_mtls_API_to_SQL_outbox_and_verified_edge_ack",
+          "outcome": "Passed",
+          "duration": "00:00:00.4183760"
+        },
+        {
+          "testName": "Fdc.Center.Tests.TransactionalAuthoritySqlTests.Borrowed_authority_read_observes_transaction_local_revoke_and_never_commits_fixture",
+          "outcome": "Passed",
+          "duration": "00:00:00.3118448"
+        },
+        {
+          "testName": "Fdc.Center.Tests.DatabaseModelTests.Station_consistency_is_enforced_by_composite_foreign_keys",
+          "outcome": "Passed",
+          "duration": "00:00:00.0136533"
+        },
+        {
+          "testName": "Fdc.Center.Tests.TransactionalAuthoritySqlTests.Missing_session_read_does_not_consume_or_dispose_borrowed_transaction",
+          "outcome": "Passed",
+          "duration": "00:00:00.5082775"
+        },
+        {
+          "testName": "Fdc.Center.Tests.CenterDatabaseSqlTests.Actual_core_soe_contract_replay_is_idempotent_and_conflicting_replay_denied",
+          "outcome": "Passed",
+          "duration": "00:00:00.1083669"
+        },
+        {
+          "testName": "Fdc.Center.Tests.CenterDatabaseSqlTests.Composite_station_fk_checks_unique_and_rowversion_are_enforced",
+          "outcome": "Passed",
+          "duration": "00:00:00.0813856"
+        },
+        {
+          "testName": "Fdc.Center.Tests.PilotIntakeContractTests.Malformed_manifest_never_opens_sql_or_creates_storage(field: \"name\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0029228"
+        },
+        {
+          "testName": "Fdc.Center.Tests.CenterDatabaseSqlTests.Schema_has_53_tables_canonical_iam_and_three_views",
+          "outcome": "Passed",
+          "duration": "00:00:00.2680080"
+        },
+        {
+          "testName": "Fdc.Center.Tests.PilotIntakeContractTests.Malformed_manifest_never_opens_sql_or_creates_storage(field: \"id\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0005699"
+        },
+        {
+          "testName": "Fdc.Center.Tests.CenterRuntimeDatabaseTests.Actual_center_starts_against_new_database_with_non_sa_principal_and_pending_boundaries",
+          "outcome": "Passed",
+          "duration": "00:00:00.3458241"
+        },
+        {
+          "testName": "Fdc.Center.Tests.CenterDatabaseSqlTests.Required_outbox_failure_rolls_back_record_files_attempt_and_history",
+          "outcome": "Passed",
+          "duration": "00:00:00.1877500"
+        },
+        {
+          "testName": "Fdc.Center.Tests.TransactionalAuthoritySqlTests.Empty_lab_session_miss_profile_is_not_login_or_capacity_acceptance",
+          "outcome": "NotExecuted",
+          "duration": "00:00:00.0010000"
+        },
+        {
+          "testName": "Fdc.Center.Tests.PilotIntakeContractTests.Malformed_manifest_never_opens_sql_or_creates_storage(field: \"station\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0009355"
+        },
+        {
+          "testName": "Fdc.Center.Tests.CenterDatabaseSqlTests.OFFLINE_FIXTURE_collector_sqlite_staging_to_canonical_sql_receipt_restart_and_replay",
+          "outcome": "Passed",
+          "duration": "00:00:00.2002194"
+        },
+        {
+          "testName": "Fdc.Center.Tests.PilotMachineBoundaryTests.Isolated_loopback_https_machine_contract_rejects_human_cookie_forged_headers_and_unsigned_authority",
+          "outcome": "Passed",
+          "duration": "00:00:00.9208761"
+        },
+        {
+          "testName": "Fdc.Center.Tests.CenterDatabaseSqlTests.Checksum_tamper_is_rejected_before_sql_mutation",
+          "outcome": "Passed",
+          "duration": "00:00:00.0199576"
+        },
+        {
+          "testName": "Fdc.Center.Tests.CenterDatabaseSqlTests.Fault_record_file_chain_is_station_bound_and_unimplemented_analysis_has_no_fabricated_result",
+          "outcome": "Passed",
+          "duration": "00:00:00.1417262"
+        },
+        {
+          "testName": "Fdc.Center.Tests.CenterStartupTests.Identity_startup_is_actual_center_with_real_sql_reader_and_no_operational_workers",
+          "outcome": "Passed",
+          "duration": "00:00:00.3070880"
+        },
+        {
+          "testName": "Fdc.Center.Tests.CenterDatabaseSqlTests.Scope_filter_precedes_page_and_pending_machine_and_human_authorities_deny",
+          "outcome": "Passed",
+          "duration": "00:00:00.0332080"
+        },
+        {
+          "testName": "Fdc.Center.Tests.CenterStartupTests.Production_activation_not_enabled_by_a_config_flag",
+          "outcome": "Passed",
+          "duration": "00:00:00.0792413"
+        },
+        {
+          "testName": "Fdc.Center.Tests.CenterStartupTests.Missing_connection_does_not_fallback_to_demo",
+          "outcome": "Passed",
+          "duration": "00:00:00.0030314"
+        },
+        {
+          "testName": "Fdc.Center.Tests.CenterDatabaseSqlTests.Synthetic_5000_record_scoped_query_profile_and_actual_plan",
+          "outcome": "Passed",
+          "duration": "00:00:02.7307758"
+        },
+        {
+          "testName": "Fdc.Center.Tests.DatabaseModelTests.All_29_domain_tables_have_key_rowversion_restrict_and_utc_constraints",
+          "outcome": "Passed",
+          "duration": "00:00:00.2501733"
+        }
+      ]
+    }
+  ],
+  "privatePreview": {
+    "acceptedRows": 17,
+    "issues": 93,
+    "edgeFilter": "PASS"
+  },
+  "realIedConnections": 0
+}

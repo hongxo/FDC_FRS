@@ -4,6 +4,12 @@ using System.Text.Json;
 using Fdc.Collector.Pilot;
 using Fdc.Core;
 
+if (args.Length > 0 && args[0].StartsWith("inventory-", StringComparison.Ordinal))
+{
+    InventoryCommands.Run(args);
+    return;
+}
+
 // Offline-only product harness: no socket listener, IED endpoint, credential or fallback principal.
 if (args.Length != 2 || args[0] != "offline-demo")
     throw new ArgumentException("Usage: offline-demo <new-output-directory>. Real IED probe requires a separately approved run profile; not enabled here.");
