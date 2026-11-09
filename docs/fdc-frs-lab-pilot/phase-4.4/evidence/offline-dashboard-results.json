@@ -1,0 +1,57 @@
+{
+  "EvidenceKind": "OFFLINE_FIXTURE",
+  "results": [
+    {
+      "screen": "S-LAB01",
+      "result": "PASS",
+      "scope": "Offline fixture viewer only"
+    },
+    {
+      "screen": "S-LAB02",
+      "result": "PASS",
+      "scope": "Offline fixture viewer only"
+    },
+    {
+      "screen": "S-LAB03",
+      "result": "PASS",
+      "scope": "Offline fixture viewer only"
+    },
+    {
+      "screen": "S-LAB04",
+      "result": "PASS",
+      "scope": "Offline fixture viewer only"
+    },
+    {
+      "screen": "S-LAB05",
+      "result": "PASS",
+      "scope": "Offline fixture viewer only"
+    },
+    {
+      "screen": "S-LAB06",
+      "result": "PASS",
+      "scope": "Offline fixture viewer only"
+    },
+    {
+      "screen": "S-LAB07",
+      "result": "PASS",
+      "scope": "Offline fixture viewer only"
+    },
+    {
+      "screen": "S-LAB08",
+      "result": "PASS",
+      "scope": "Offline fixture viewer only"
+    }
+  ],
+  "DateFilter": "PASS",
+  "VendorFilter": "PASS",
+  "Responsive": [
+    "desktop",
+    "tablet",
+    "mobile"
+  ],
+  "PageErrors": [],
+  "NetworkProtocols": [
+    "file:"
+  ],
+  "Limits": "No authenticated Center data, real IED/vendor/SCADA or full pilot acceptance"
+}

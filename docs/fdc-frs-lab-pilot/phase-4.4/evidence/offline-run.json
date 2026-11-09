@@ -1,0 +1,9 @@
+{
+  "EvidenceKind": "OFFLINE_FIXTURE",
+  "Records": 1,
+  "AcquisitionMs": 121.9873,
+  "RealIedConnections": 0,
+  "CenterUploads": 0,
+  "Acknowledgments": 0,
+  "Limits": "Synthetic file acquisition/SQLite/parser/viewer only. No MMS, real IED, mTLS upload or SCADA acceptance. No deploy-time retry/poll defaults selected."
+}
