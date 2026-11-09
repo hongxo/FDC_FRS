@@ -28,13 +28,14 @@ export function changeStatus(value, status = 200) {
   return 'Chưa xác nhận trạng thái hiệu lực.';
 }
 export class ManagementApiError extends Error { constructor(status, code) { super(code); this.status = status; } }
-const statusCodes = Object.freeze({ 401: 'SESSION_REQUIRED', 403: 'ACCESS_DENIED', 409: 'VERSION_CONFLICT', 412: 'PRECONDITION_FAILED', 428: 'PRECONDITION_REQUIRED', 429: 'RATE_LIMITED', 503: 'AUTHORITY_UNAVAILABLE' });
+const statusCodes = Object.freeze({ 401: 'SESSION_REQUIRED', 403: 'ACCESS_DENIED', 409: 'CONFLICT', 412: 'PRECONDITION_FAILED', 428: 'PRECONDITION_REQUIRED', 429: 'RATE_LIMITED', 503: 'AUTHORITY_UNAVAILABLE' });
 export function managementErrorMessage(error) {
   switch (error?.status) {
     case 401: return 'Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại.';
     case 403: return 'Không có quyền xem dữ liệu này.';
-    case 409: case 412: return 'Dữ liệu đã thay đổi. Vui lòng tải lại trước khi tiếp tục.';
-    case 428: return 'Thiếu điều kiện kiểm tra phiên bản. Vui lòng tải lại dữ liệu.';
+    case 409: return 'Yêu cầu xung đột với trạng thái hiện tại. Vui lòng tải lại trước khi tiếp tục.';
+    case 412: return 'Dữ liệu đã thay đổi. Vui lòng tải lại trước khi tiếp tục.';
+    case 428: return 'Chưa đủ điều kiện để tiếp tục. Vui lòng kiểm tra lại yêu cầu.';
     case 429: return 'Quá nhiều yêu cầu. Vui lòng chờ trước khi thử lại.';
     default: return error?.message === 'INVALID_ID' ? 'Vui lòng nhập mã định danh hợp lệ.' : 'Chưa thể tải dữ liệu quản trị. Vui lòng thử lại hoặc liên hệ quản trị.';
   }

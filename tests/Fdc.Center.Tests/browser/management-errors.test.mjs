@@ -4,8 +4,8 @@ import { createManagementClient, managementErrorMessage } from '../../../src/Fdc
 
 for (const [status, code, message] of [
   [401, 'SESSION_REQUIRED', /đăng nhập lại/], [403, 'ACCESS_DENIED', /Không có quyền/],
-  [409, 'VERSION_CONFLICT', /đã thay đổi/], [412, 'PRECONDITION_FAILED', /đã thay đổi/],
-  [428, 'PRECONDITION_REQUIRED', /phiên bản/], [429, 'RATE_LIMITED', /Quá nhiều/],
+  [409, 'CONFLICT', /xung đột/], [412, 'PRECONDITION_FAILED', /đã thay đổi/],
+  [428, 'PRECONDITION_REQUIRED', /điều kiện/], [429, 'RATE_LIMITED', /Quá nhiều/],
   [503, 'AUTHORITY_UNAVAILABLE', /Chưa thể tải/]
 ]) {
   test(`HTTP ${status} has explicit safe state and does not retry or render server body`, async () => {
