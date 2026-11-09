@@ -1,0 +1,13 @@
+AppTables
+-----------
+         53
+ForeignKeys
+-----------
+         68
+AppRows
+--------------------
+                   0
+Migrations
+-----------
+          6
+DBCC execution completed. If DBCC printed error messages, contact your system administrator.

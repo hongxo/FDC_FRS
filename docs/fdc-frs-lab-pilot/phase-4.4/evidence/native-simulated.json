@@ -1,0 +1,16 @@
+{
+  "EvidenceKind": "SIMULATED",
+  "Device": "local libiec61850 file-service simulator, NOT ABB/Siemens/Schneider hardware",
+  "NativeSha256": "6b7a29612dee4167ed448e05f36b91e7d0fa9dd4e165b20eb7f8d6f806eceaa4",
+  "SimulatorSha256": "b2a51a1a77f7155676985982a1674d9bf59226598eccdbde46f75cfdd7a32420",
+  "SourceCommit": "6e7a603c771d6124cd3cafea7ec38b7e0f2e7aaf",
+  "ConnectMs": 28.7463,
+  "ListingMs": 0.8442,
+  "DownloadMs": 9.0173,
+  "DownloadBytes": 30,
+  "DownloadBytesPerSecond": 3326.9382187572774,
+  "MmsToSqliteReadyMs": 136.315,
+  "SourceByteComparison": "Exact match to known synthetic fixture",
+  "RealIedConnections": 0,
+  "Limits": "One loopback transfer; no per-vendor benchmark, SCADA coexistence, full Center upload or fleet capacity conclusion"
+}
