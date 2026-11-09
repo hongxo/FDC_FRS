@@ -8,7 +8,7 @@ Official origin:https://github.com/hongxo/FDC_FRS.git. Branch feature/d12-phase4
 
 Build/tests/diff/secret-history bounded scan completed. Immutable migrations001-006/Program/host activation/Core/Collector/POC source unchanged. No secret config/DPAPI/private keys/raw proof shipped.
 
-Push/Draft PR:**NOT_YET_OBSERVED** at document generation; update only after actual GitHub response. Delivery is not acceptance. Full system PARTIAL/BLOCKED, readiness unchanged. Rollback reviewed feature reverts; no auto-merge.
+Observed delivery:branch pushed; Draft PR https://github.com/hongxo/FDC_FRS/pull/8 verified OPEN/isDraft=true, base feature/d12-phase4-3a-decisions, head feature/d12-phase4-3b-iam-runtime. Initial package head93b3041d5552a9e51e622c4483c179f9190c1417, source e1a3f3e; this documentation follow-up records actual result. No merge/force-push. Delivery is not acceptance. Full system PARTIAL/BLOCKED, readiness unchanged. Rollback reviewed feature reverts; no auto-merge.
 
 ## Commands / evidence / reviewer
 

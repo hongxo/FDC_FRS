@@ -118,8 +118,8 @@
     {
       "path": "evidence/secret-scan.json",
       "bytes": 276,
-      "sha256": "32b0b0afb2944540d8d835b2e8e474696f3ca446ae8c24397367070f55f285fb",
-      "lf_sha256": "158806e913a20dab3bb6c2ee75294d38bc2a3f43b3a5c86e50369441c6ee3823"
+      "sha256": "3027148c14b917713e5eee0b5b55ff876fb4f4f4ea1dcc9adb24098f0446cdae",
+      "lf_sha256": "50f416c691aa20cc357ddbac0b9c11aa445ca1955d15e7930923226dc8c0a216"
     },
     {
       "path": "evidence/Test_Execution.json",
@@ -135,15 +135,15 @@
     },
     {
       "path": "Evidence_Manifest.json",
-      "bytes": 7766,
-      "sha256": "63f91600dbefe8baf28a90baa40ae166eb919f5fe6899a04b80ca36885928f32",
-      "lf_sha256": "2fad6cc7545ebe4db6f7d4d11191f73ddd00a6809074e2a7e934d074101204a6"
+      "bytes": 8128,
+      "sha256": "f8e502b41a089b94e38deccd9047e6b0b6ec2bb2bdc620d61aa1192d1df847c1",
+      "lf_sha256": "e753cae034b5abc387923904d3b9c62b612f4ad94d0a35ccf41676f4fb6d24f6"
     },
     {
       "path": "GitHub_Delivery_Report.md",
-      "bytes": 2294,
-      "sha256": "d27500acc1150fa494f1127163e82c1d2e0fe276585ea83074a153ce3ff438db",
-      "lf_sha256": "494f7a9d41705a328ee4732d50a4356af13ec247902df391048d26218611974f"
+      "bytes": 2533,
+      "sha256": "f1f78c070580c80839390b08b8956471a51b381db109f25fa49e2e81883e6938",
+      "lf_sha256": "14a8f22ce86f9c2283cfeb308743bb08451ad1b311d4240c343b016d463f58d1"
     },
     {
       "path": "Human_Machine_Integration_Report.md",
@@ -177,9 +177,9 @@
     },
     {
       "path": "Phase4_3B_Final_Assessment.md",
-      "bytes": 4494,
-      "sha256": "40843f1d2a0aab4ca1cc757dbbf460a8c92d3e067355e91f313f89ea79a0672c",
-      "lf_sha256": "f2fc976cfe7b92a1e7c165d788095a73bb5c122fbe1612393c266a1ed6030de2"
+      "bytes": 4686,
+      "sha256": "d0045a5f57890acf803460ec0861c7628d19c65b6eb91f12d05d894255928498",
+      "lf_sha256": "78f697ce0fe99959fb1147a69e6fa150b5e08bc1ea46af34804d2b96ba7e725c"
     },
     {
       "path": "PR_Description.md",

@@ -162,6 +162,16 @@
       "sha256": "7ac0281e184fa99e1f32ce0d110a21a0ff4862bc69afe6e46f03c4758fda9069"
     },
     {
+      "path": "tmp/phase4-3b-evidence/PR-body.md",
+      "bytes": 966,
+      "sha256": "b590011fa1ee39fac00a959b9a107a52efa61491a1ef2771d5db6b6c6475de95"
+    },
+    {
+      "path": "tmp/phase4-3b-evidence/pre-delivery-secret-scan.log",
+      "bytes": 260,
+      "sha256": "b9f7c2853cea8b06df8a85cd56d3e0a2dfbe2f6b2bcf95b8b9dd30b958753678"
+    },
+    {
       "path": "tmp/phase4-3b-evidence/query-profile.json",
       "bytes": 1216,
       "sha256": "c679f00467f739a32bfaa0a1ec5c48ff266265046dee215c826ac38d1d20fc45"
@@ -179,7 +189,7 @@
     {
       "path": "tmp/phase4-3b-evidence/secret-scan.json",
       "bytes": 276,
-      "sha256": "32b0b0afb2944540d8d835b2e8e474696f3ca446ae8c24397367070f55f285fb"
+      "sha256": "3027148c14b917713e5eee0b5b55ff876fb4f4f4ea1dcc9adb24098f0446cdae"
     },
     {
       "path": "tmp/phase4-3b-evidence/sequential/build.log",
