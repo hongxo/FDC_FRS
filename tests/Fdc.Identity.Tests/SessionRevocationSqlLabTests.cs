@@ -28,7 +28,11 @@ public sealed class SessionRevocationSqlLabTests
             Assert.True((await FreshSession(db, fixture.Second.Id)).Revoked); Assert.False((await FreshSession(db, fixture.Other.Id)).Revoked);
             Assert.NotNull(await db.Set<ChallengeRow>().AsNoTracking().Select(x => x.ConsumedAt).SingleAsync());
             Assert.Equal(1, await db.Set<UserRow>().AsNoTracking().Where(x => x.Id == fixture.Other.UserId).Select(x => x.SecurityVersion).SingleAsync());
-            Assert.Equal(2, await db.Set<AuditOutboxRow>().CountAsync()); Assert.Equal(2, await db.Set<SecurityEventRow>().CountAsync());
+            var correlations = await (from entry in db.Set<AuditOutboxRow>().AsNoTracking()
+                                      join securityEvent in db.Set<SecurityEventRow>().AsNoTracking() on entry.EventId equals securityEvent.Id
+                                      select securityEvent.CorrelationId).ToListAsync();
+            Assert.Equal(2, correlations.Count);
+            Assert.All(correlations, value => Assert.Equal("synthetic-revocation-test", value));
             var reader = new SqlSessionAuthorityReader(new SharedTransactionFactory(db));
             var denied = await reader.ReadAsync(fixture.Second.HandleDigest, default); Assert.NotNull(denied);
             Assert.False(SessionValidity.IsCurrent(denied.User, denied.Session, denied.Authority, DateTimeOffset.UtcNow));

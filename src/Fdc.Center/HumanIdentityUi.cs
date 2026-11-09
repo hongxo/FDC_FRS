@@ -16,11 +16,21 @@ internal static class HumanIdentityUi
     internal static void MapHumanIdentityUi(this WebApplication app)
     {
         // Public status is invariant: no account lookup, request body, token, or runtime activation.
-        app.MapGet("/api/identity/v1/ui/auth-status", (HttpContext context) =>
+        app.MapGet("/api/identity/v1/ui/auth-status", async (HttpContext context, FeatureActivationGate gate, CancellationToken ct) =>
         {
             if (context.Connection.ClientCertificate is not null) return Results.Unauthorized();
-            return Results.Ok(new { login = "BLOCKED_BY_POLICY", mfa = "BLOCKED_BY_POLICY",
-                recovery = "BLOCKED_BY_POLICY", profile = "BLOCKED_BY_POLICY", logout = "BLOCKED_BY_POLICY" });
+            Task<FeatureActivationStatus> Evaluate(IamFeature feature) =>
+                gate.EvaluateAsync(feature, app.Environment.EnvironmentName, "CENTER_HUMAN_LAB", ct);
+
+            var session = (await Evaluate(IamFeature.AUTH_SESSION)).ToString();
+            return Results.Ok(new
+            {
+                login = (await Evaluate(IamFeature.AUTH_LOGIN)).ToString(),
+                mfa = (await Evaluate(IamFeature.AUTH_MFA)).ToString(),
+                recovery = (await Evaluate(IamFeature.AUTH_RECOVERY)).ToString(),
+                profile = session,
+                logout = session
+            });
         }).AllowAnonymous();
 
         app.MapGet("/identity/management.html", () =>

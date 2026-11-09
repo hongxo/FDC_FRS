@@ -80,7 +80,13 @@ public sealed class AuthenticationService(IAuthenticationPolicyProvider policies
                 var completed = await transaction.CompletePasswordProofAsync(proposal, policy,
                     verified == PasswordVerificationResult.SuccessRehashNeeded ? passwords.Hash(password) : null, token);
                 // Raw session handle leaves this service only after the store committed a final authenticated session.
-                return completed.Outcome == LoginOutcome.SessionCreated ? new(LoginOutcome.SessionCreated, raw) : completed;
+                return completed.Outcome switch
+                {
+                    LoginOutcome.SessionCreated => new(LoginOutcome.SessionCreated, raw),
+                    LoginOutcome.MfaRequired when OpaqueProofs.IsValid(completed.Proof) => completed,
+                    LoginOutcome.Rejected => new(LoginOutcome.Rejected),
+                    _ => new(LoginOutcome.Unavailable)
+                };
             }, ct);
         }
         catch (AuthorityUnavailableException) { return new(LoginOutcome.Unavailable); }
