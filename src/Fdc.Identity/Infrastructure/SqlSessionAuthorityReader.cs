@@ -14,7 +14,7 @@ public interface IHumanSessionAuthorityReader
 }
 
 // Single SQL statement joins the current session, user, person and configured authority. No local authority cache.
-// Not registered in Center; caller must supply primary-only least-privilege connection and approved D01/D05 wiring.
+// Registered by the guarded Center Lab profile; caller must supply a primary-only least-privilege connection.
 public sealed class SqlSessionAuthorityReader(IDbContextFactory<IamDbContext> factory) : IHumanSessionAuthorityReader
 {
     public async Task<CurrentHumanSession?> ReadAsync(string digest, CancellationToken ct)
@@ -28,7 +28,7 @@ public sealed class SqlSessionAuthorityReader(IDbContextFactory<IamDbContext> fa
         }
         catch (Exception error) when (SqlAuthorityErrors.IsUnavailable(error)) { throw new AuthorityUnavailableException(); }
     }
-    internal static bool IsDigest(string digest) => digest.Length == 64 && digest.All(c => char.IsAsciiHexDigit(c) && !char.IsLower(c));
+    internal static bool IsDigest(string? digest) => digest is { Length: 64 } && digest.All(c => char.IsAsciiHexDigit(c) && !char.IsLower(c));
     internal static async Task RequireWritablePrimaryAsync(IamDbContext db, CancellationToken ct)
     {
         var options = new SqlConnectionStringBuilder(db.Database.GetConnectionString());

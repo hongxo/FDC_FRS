@@ -1,0 +1,106 @@
+{
+  "source_commit": "e1a3f3ea9d396a9c8ee65cf8c8219f4ba047c06d",
+  "base": "1961bebc23300d9f1b3e2ce43afac0550bd7a083",
+  "files": [
+    {
+      "path": "src/Fdc.Center/wwwroot/identity/management.mjs",
+      "sha256": "bddc442e85805d0adcfec7809d79b2d0eb7b8e9f0aaac39e400b141cfcac905e",
+      "git_blob": "f51f3bd914a6e12afdf2f4ec31ac07fd8257f15f"
+    },
+    {
+      "path": "src/Fdc.Identity/Application/AuthorityCommitIntent.cs",
+      "sha256": "ac3b5ef7d8a743ff45555d18330f5924574553703d90ff76d3e71952f6fc10e5",
+      "git_blob": "6c7bba938ad3febcfdbe25c677897056b84dd0fa"
+    },
+    {
+      "path": "src/Fdc.Identity/Application/PolicyReleaseValidation.cs",
+      "sha256": "410012320d28bdac16da8094fc72c8cebeedef9dd4d9ac3084f09991627edf17",
+      "git_blob": "807f234a70743fcab758b5cd6c5582c00f16915b"
+    },
+    {
+      "path": "src/Fdc.Identity/Infrastructure/SqlCurrentAuthorityReader.cs",
+      "sha256": "d1898ae4b4fb693149e6721087a7c83da816a0dd955167e3b4b4dfdee47a87aa",
+      "git_blob": "cf725e28d8491958d43f4ca326b0858173267a17"
+    },
+    {
+      "path": "src/Fdc.Identity/Infrastructure/SqlSessionAuthorityReader.cs",
+      "sha256": "276ee7a580849671671bd2c2ffa783dd5831453e852d397985b88858aaf37da8",
+      "git_blob": "0ee5f4098f9ba58ea96f96a84ced84d0acb7518d"
+    },
+    {
+      "path": "src/Fdc.Identity/Infrastructure/SqlTransactionalAuthorityReader.cs",
+      "sha256": "960a6ba61be64162b7d72a2bd7273fd32e6fc3d6cadfe053e1bd8b2af69f4146",
+      "git_blob": "016cc56b2b1e3b8679113df8a4114578fa0fa91c"
+    },
+    {
+      "path": "tests/Fdc.Center.Tests/TransactionalAuthoritySqlTests.cs",
+      "sha256": "74931f86b2f463c29333332b7704a69a5206cfda3f0de1e99649b5ccec318a18",
+      "git_blob": "14d7aa842d2d76b2c5d17e5803aa5c24b5278ff2"
+    },
+    {
+      "path": "tests/Fdc.Center.Tests/browser/management-errors.test.mjs",
+      "sha256": "e2238425ba413f1f0a2dfe685a7666fd89a479b56d63f3b64a64c1a3b812c589",
+      "git_blob": "d8ff2c12b1c532723839f07c3f8ae5df36e7a192"
+    },
+    {
+      "path": "tests/Fdc.Identity.Tests/AuthorityCommitIntentTests.cs",
+      "sha256": "956dc8b4c0f081556f543cdde96409e160673df1941c3be1a56b20d12ed5e678",
+      "git_blob": "b99945a1bdd04d60783b0aba56a2d2d8322a0876"
+    },
+    {
+      "path": "tests/Fdc.Identity.Tests/AuthorityFailureSqlLabTests.cs",
+      "sha256": "fdf76901350ef29d792d9986bda28c90d44794cf30e5c95b0064c30dd691c220",
+      "git_blob": "fc831f6b76c2cb483acb4b81e07898e155e9f3cf"
+    },
+    {
+      "path": "tests/Fdc.Identity.Tests/CommitGateSqlLabTests.cs",
+      "sha256": "6f3304fb96e881b44869e6483381bdd2fc77c7f2f88e11e7434f0e0749607462",
+      "git_blob": "9a67fbb910ca17d4f281b44dd67bde4845d1ccd8"
+    },
+    {
+      "path": "tests/Fdc.Identity.Tests/HumanHttpSqlLabTests.cs",
+      "sha256": "c552de7056a2adfef85872ade51cd247bc6bb5c8cb36102b434242f5bbfba93e",
+      "git_blob": "4ac6bf038453fd6f38837fdaa1f530b3e47e8f49"
+    },
+    {
+      "path": "tests/Fdc.Identity.Tests/IamDatabaseCollection.cs",
+      "sha256": "6daddbe9dbc875871493a4c67f1896ce098ca86021151088a44fb1024ec4504c",
+      "git_blob": "77b8fcd412fc3477a6004350e766f71f681a1512"
+    },
+    {
+      "path": "tests/Fdc.Identity.Tests/ManagementSqlLabTests.cs",
+      "sha256": "f52f2f65f7adf0f321b8f738881b449cc6a7d63e1c2159adb96b93596128603d",
+      "git_blob": "328fc1690dbf89e4359331ab588c732acfa0f0ca"
+    },
+    {
+      "path": "tests/Fdc.Identity.Tests/Phase2SqlLabTests.cs",
+      "sha256": "0e52d4a30d0804ee1309a4321c17d1bcc98efd9864902792f2d483eada5d8290",
+      "git_blob": "f8ec24b004afc0919cf44d11de15cda541d8c7d1"
+    },
+    {
+      "path": "tests/Fdc.Identity.Tests/PolicyReleaseValidationTests.cs",
+      "sha256": "dba0caabda0a0ddfd773652e40239dbcb408626ae0ca0d44e197233f055c50e4",
+      "git_blob": "f8c28b71fb37533f8e53ba7a71bcc45a40269639"
+    },
+    {
+      "path": "tests/Fdc.Identity.Tests/RoleCrudSqlLabTests.cs",
+      "sha256": "bbf7631a8f64ac7d3d9967ba119d77d3b2feb35a32059ba00002536d3719b144",
+      "git_blob": "2d6af9bd94c97596106b7ebfd594a017edcef4be"
+    },
+    {
+      "path": "tests/Fdc.Identity.Tests/SessionRevocationSqlLabTests.cs",
+      "sha256": "e1dd2b9379910889e2e22d797d4a32ab0e72746f8d681b9159297d54f51a7347",
+      "git_blob": "d31beeb51e18d3e6732104abb1d5b679dc8faa81"
+    },
+    {
+      "path": "tests/Fdc.Identity.Tests/TransactionalAuthorityContractTests.cs",
+      "sha256": "7790b454efdb8e558073aa17d14887b6f93698a338e7441e35b544d35466420d",
+      "git_blob": "f8d6320ba0ead74bcfb8bb32e24e5884057dd99d"
+    },
+    {
+      "path": "tools/Invoke-IamLabVerification.ps1",
+      "sha256": "73d679d6680b489287eba7623e64684a067b4366921a4694fbdb977c5334e9f0",
+      "git_blob": "b020fa634cd6cb36717429b3efd237071efeb582"
+    }
+  ]
+}

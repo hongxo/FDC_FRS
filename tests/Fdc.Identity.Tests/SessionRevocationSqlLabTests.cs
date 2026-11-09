@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 namespace Fdc.Identity.Tests;
 
 // Real SQL DML tests in a rollback-only fixture. Policy and outer boundary are TEST-ONLY, not live approval/MFA.
+[Collection("IAM database lab")]
 public sealed class SessionRevocationSqlLabTests
 {
     [SqlLabFact] public async Task Revoke_current_then_everywhere_invalidates_only_current_subject_sessions_and_challenges()

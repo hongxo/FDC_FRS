@@ -1,0 +1,53 @@
+{
+  "origin": "loopback HTTPS (ephemeral port)",
+  "results": [
+    {
+      "screen": "login",
+      "result": "PASS",
+      "scope": "policy-unavailable rendering; not completed authentication"
+    },
+    {
+      "screen": "mfa",
+      "result": "PASS",
+      "scope": "policy-unavailable rendering; not completed authentication"
+    },
+    {
+      "screen": "recovery",
+      "result": "PASS",
+      "scope": "policy-unavailable rendering; not completed authentication"
+    },
+    {
+      "screen": "profile",
+      "result": "PASS",
+      "scope": "policy-unavailable rendering; not completed authentication"
+    },
+    {
+      "screen": "users",
+      "result": "PASS",
+      "scope": "real SQL session + real API policy denial; no synthetic rows"
+    },
+    {
+      "screen": "roles",
+      "result": "PASS",
+      "scope": "real SQL session + real API policy denial; no synthetic rows"
+    },
+    {
+      "screen": "grants",
+      "result": "PASS",
+      "scope": "real SQL session + real API policy denial; no synthetic rows"
+    },
+    {
+      "screen": "audit",
+      "result": "PASS",
+      "scope": "real SQL session + real API policy denial; no synthetic rows"
+    }
+  ],
+  "anonymous": 401,
+  "responsive": [
+    "desktop",
+    "tablet",
+    "mobile"
+  ],
+  "pageErrors": [],
+  "limitations": "Negative/policy-blocked integration only. Full login/MFA/RBAC business E2E BLOCKED."
+}

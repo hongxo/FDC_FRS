@@ -20,6 +20,7 @@ namespace Fdc.Identity.Tests;
 
 // Actual loopback HTTPS -> real Human handler -> real SQL session -> canonical adapter. No mock authentication.
 // Session is an explicit rollback-only lab fixture, not a claim that Login/MFA issuance is complete.
+[Collection("IAM database lab")]
 public sealed class HumanHttpSqlLabTests
 {
     [SqlLabFact] public async Task Actual_https_and_sql_deny_forged_identity_revoked_cookie_and_unavailable_authority()

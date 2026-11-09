@@ -17,6 +17,7 @@ public sealed class SqlLabFactAttribute : FactAttribute
 }
 
 // Synthetic rows are written only inside a rolled-back transaction, never installed as users/seeds.
+[Collection("IAM database lab")]
 public sealed class Phase2SqlLabTests
 {
     [SqlLabFact]
