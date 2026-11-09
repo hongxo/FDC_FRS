@@ -6,10 +6,21 @@ Nguồn đối chiếu và hash: [Baseline](Phase4_3A_Baseline_Inventory.md), [E
 
 Decision ID:DELIVERY. Approval owner:Project owner + reviewer. Current approval status:PENDING. Recommended/alternative options và tác động bên dưới.
 
-Official origin hongxo/FDC_FRS, branch feature/d12-phase4-3a-decisions được tạo từ PR6 d5ebc2a sau khi verify PR3–PR6 OPEN/DRAFT. Baseline chứa code Phase4.2 và database implementation. Source/runtime/config/migration tree giữ nguyên.
+## Observed delivery
 
-Phạm vi commit chỉdocs/auth-d12-backend-implementation/phase-4.3A/, gồmADR/register/proposals/backlog/input evidence vàartifact QA test. Raw inventories/readbacks ởignored tmp, không secret hoặcDPAPI material. Khônggit init/reset/forcepush/merge hoặcwrite external app ngoài GitHub delivery đã được yêu cầu.
+Official remote:https://github.com/hongxo/FDC_FRS.git.
+Branch:feature/d12-phase4-3a-decisions.
+Baseline:database PR6,head d5ebc2acc18265786bae5af96ef3ba58c223e522;PR3–PR6 OPEN/DRAFT verified before work,andPR6 reverified before PR creation.
 
-Commit/push/PR URL và actual verification sẽ được ghi sau observed delivery; Draft stacked trênfeature/fdc-center-lab-database khiPR6 chưa merge. Independent review/approval pending; không readiness upgrade.
+Draft PR:https://github.com/hongxo/FDC_FRS/pull/7.
+Base branch:feature/fdc-center-lab-database.
+Package commit:3df6178c03543d6873e06f6277f6cf5d70add8c4,plus documentation-only delivery follow-ups.
+Push andPR creation succeeded;no merge/reset/force-push.
 
-Verified result:27 documentation/proposal/QA artifacts;17 mandatory docs,20 PENDING decisions,69 proposed mappings,25 baseline codes,A01–A21 and335 input hashes pass artifact QA. Runtime/config/migration/old report trees unchanged;both DB inventories read-only. No merge,source activation,permission change orreadiness upgrade.
+## Scope andverification
+
+Only27 files underthis decision-package directory change:ADRs/registers/proposal data/backlog/input/package manifests anddocumentation QA. Required17 docs(16 package+baseline),20 PENDING formal records,69 operation proposals covering25 baseline codes,A01–A21 and335 input hashes pass artifact validation.
+
+Source/runtime/config/migrations/old reports remain unchanged. DB workwasread-only againstthetwo already-confirmed local labs;no privilege orconnection change,no DB merge. Historical runtimePASS isnot rerun orupgraded in4.3A. Raw readbacks andgenerator scripts remain ignored under tmp/phase4-3a-evidence;no password,rawtoken/privatekey orDPAPI credential artifact committed.
+
+Independent reviewer/named owner approval/date/signature/evidence:NOT_PROVIDED. Allformal policy approvals remainpending,user-scopedLab authorizationrecognized separately. No LabGO/UAT/P0-IAM readiness change.
