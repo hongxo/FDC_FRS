@@ -11,6 +11,7 @@ namespace Fdc.Identity.Tests;
 
 // Candidate gate protocol tests using committed, non-authoritative probe rows with unique keys, removed in finally.
 // No session/user/role/grant is created. Test plan provider does not become a runtime D09 approval.
+[Collection("IAM database lab")]
 public sealed class CommitGateSqlLabTests
 {
     [SqlLabFact] public async Task Lost_ack_after_real_sql_commit_is_unknown_outcome_not_safe_retry()

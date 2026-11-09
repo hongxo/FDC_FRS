@@ -28,11 +28,22 @@ export function changeStatus(value, status = 200) {
   return 'Chưa xác nhận trạng thái hiệu lực.';
 }
 export class ManagementApiError extends Error { constructor(status, code) { super(code); this.status = status; } }
+const statusCodes = Object.freeze({ 401: 'SESSION_REQUIRED', 403: 'ACCESS_DENIED', 409: 'VERSION_CONFLICT', 412: 'PRECONDITION_FAILED', 428: 'PRECONDITION_REQUIRED', 429: 'RATE_LIMITED', 503: 'AUTHORITY_UNAVAILABLE' });
+export function managementErrorMessage(error) {
+  switch (error?.status) {
+    case 401: return 'Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại.';
+    case 403: return 'Không có quyền xem dữ liệu này.';
+    case 409: case 412: return 'Dữ liệu đã thay đổi. Vui lòng tải lại trước khi tiếp tục.';
+    case 428: return 'Thiếu điều kiện kiểm tra phiên bản. Vui lòng tải lại dữ liệu.';
+    case 429: return 'Quá nhiều yêu cầu. Vui lòng chờ trước khi thử lại.';
+    default: return error?.message === 'INVALID_ID' ? 'Vui lòng nhập mã định danh hợp lệ.' : 'Chưa thể tải dữ liệu quản trị. Vui lòng thử lại hoặc liên hệ quản trị.';
+  }
+}
 export function createManagementClient(fetcher = globalThis.fetch, protocol = globalThis.location?.protocol) {
   async function read(path, signal) {
     if (protocol !== 'https:') throw new ManagementApiError(0, 'HTTPS_REQUIRED');
     const response = await fetcher(path, { method: 'GET', credentials: 'same-origin', mode: 'same-origin', cache: 'no-store', redirect: 'error', headers: { Accept: 'application/json' }, signal });
-    if (!response.ok || response.status !== 200) throw new ManagementApiError(response.status, response.status === 401 ? 'SESSION_REQUIRED' : response.status === 403 ? 'ACCESS_DENIED' : 'AUTHORITY_UNAVAILABLE');
+    if (!response.ok || response.status !== 200) throw new ManagementApiError(response.status, statusCodes[response.status] ?? 'REQUEST_FAILED');
     if (!response.headers.get('content-type')?.toLowerCase().includes('application/json')) throw new ManagementApiError(0, 'INVALID_RESPONSE');
     return response.json();
   }
@@ -56,10 +67,8 @@ if (typeof document !== 'undefined') {
   let screen = Object.hasOwn(fields, location.hash.slice(1)) ? location.hash.slice(1) : 'users', offset = 0, generation = 0, pending, requestPending, requestGeneration = 0, roleCursors = [undefined], nextRoleCode;
   function clear() { byId('results').replaceChildren(); byId('previous').disabled = true; byId('next').disabled = true; }
   function message(error) {
-    if (error.status === 401) { suspend(); return 'Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại.'; }
-    if (error.status === 403) return 'Không có quyền xem dữ liệu này.';
-    if (error.message === 'INVALID_ID') return 'Vui lòng nhập mã định danh hợp lệ.';
-    return 'Chưa thể tải dữ liệu quản trị. Vui lòng thử lại hoặc liên hệ quản trị.';
+    if (error.status === 401) suspend();
+    return managementErrorMessage(error);
   }
   async function load() {
     pending?.abort(); pending = new AbortController(); const current = ++generation; clear(); byId('status').textContent = 'Đang tải…';

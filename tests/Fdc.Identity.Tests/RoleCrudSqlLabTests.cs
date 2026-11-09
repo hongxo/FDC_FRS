@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Fdc.Identity.Tests;
 
 // SQL DML/integrity tests with explicitly test-only authority/gate fixtures. Not runtime policy or D09 race acceptance.
+[Collection("IAM database lab")]
 public sealed class RoleCrudSqlLabTests
 {
     [SqlProfileFact] public async Task P4_scoped_user_query_profile_observation_only()

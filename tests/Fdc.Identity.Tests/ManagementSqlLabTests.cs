@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fdc.Identity.Tests;
 
+[Collection("IAM database lab")]
 public sealed class ManagementSqlLabTests
 {
     [SqlLabFact]

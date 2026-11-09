@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Fdc.Identity.Tests;
 
+[Collection("IAM database lab")]
 public sealed class AuthorityFailureSqlLabTests
 {
     [SqlLabFact] public async Task P4_real_sql_missing_database_connection_fails_closed()
