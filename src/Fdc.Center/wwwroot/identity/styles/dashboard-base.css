@@ -1,0 +1,14 @@
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.card { margin: 0; border-top: 3px solid var(--axl-primary); }
+.card:nth-child(2) { border-top-color: var(--axl-cyan); }
+.card:nth-child(3) { border-top-color: var(--axl-purple); }
+.number { font-size: 2rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+#output td, #output th, #output code { overflow-wrap: anywhere; }
+#output tbody th { width: 30%; }
+#output .size { text-align: right; white-space: nowrap; }
+#preview { margin-top: .5rem; }
