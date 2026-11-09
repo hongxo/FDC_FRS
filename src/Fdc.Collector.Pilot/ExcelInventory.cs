@@ -23,7 +23,11 @@ public sealed record InventoryDevice(int Row, string Number, string Station, str
     public bool ApprovedForTesting => false;
     public string CapabilityStatus => "NOT_TESTED";
 }
-public sealed record InventoryIssue(int Row, string Code);
+public sealed record InventoryIssue(int Row, string Code)
+{
+    public string[] MissingFields { get; init; } = [];
+    public string[] InvalidFields { get; init; } = [];
+}
 public sealed class InventoryPreview
 {
     internal InventoryPreview(string id, string sheet, int header, IReadOnlyList<InventoryDevice> devices, IReadOnlyList<InventoryIssue> issues)
@@ -90,7 +94,14 @@ public static class ExcelInventory
                 var v = columns.Select(Cell).ToArray();
                 if (v.All(string.IsNullOrWhiteSpace)) continue;
                 if (v.Any(x => x.Length == 0 || x.Length > 120 || x.Any(char.IsControl)))
-                { issues.Add(new(row, "MISSING_OR_INVALID_FIELD")); continue; }
+                {
+                    issues.Add(new(row, "MISSING_OR_INVALID_FIELD")
+                    {
+                        MissingFields = fields.Where((_, index) => v[index].Length == 0).ToArray(),
+                        InvalidFields = fields.Where((_, index) => v[index].Length > 120 || v[index].Any(char.IsControl)).ToArray()
+                    });
+                    continue;
+                }
                 if (!IsIpv4(v[4])) { issues.Add(new(row, "INVALID_IPV4")); continue; }
                 var device = Normalize(v[2]);
                 var classification = Classify(device);
