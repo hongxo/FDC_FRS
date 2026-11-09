@@ -28,6 +28,13 @@ public static class CenterIdentityRuntime
         }
         catch (ArgumentException) { throw new InvalidOperationException("A valid primary-only IAM SQL connection is required."); }
         builder.AddCenterLabPersistence(connection);
+        var businessDatabase = builder.Configuration.GetValue<bool>("CenterDatabase:Enabled");
+        if (businessDatabase)
+        {
+            builder.Services.AddScoped<IReviewedBusinessOperationPolicy, PendingBusinessOperationPolicy>();
+            builder.Services.AddScoped<BusinessAuthorization>();
+            builder.Services.AddScoped<IReviewedBusinessFileSource, PendingBusinessFileSource>();
+        }
         // Per Human lane, not global RequireCertificate inherited from legacy machine setup.
         builder.WebHost.ConfigureKestrel(server => server.ConfigureHttpsDefaults(https => https.ClientCertificateMode = ClientCertificateMode.AllowCertificate));
         builder.Services.AddDbContextFactory<IamDbContext>(options => options.UseSqlServer(connection).EnableSensitiveDataLogging(false).EnableDetailedErrors(false));
@@ -85,6 +92,7 @@ public static class CenterIdentityRuntime
         app.MapPost("/api/commands", BlockBusiness).RequireAuthorization("Fdc.Human");
         app.MapGet("/api/records/{id}/download", BlockBusiness).RequireAuthorization("Fdc.Human");
         app.MapGet("/api/records/{id}/waveform", BlockBusiness).RequireAuthorization("Fdc.Human");
+        if (businessDatabase) app.MapBusinessReadEndpoints();
         app.MapGet("/", () => Results.Redirect("/identity/"));
         return app;
     }
