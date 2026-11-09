@@ -67,7 +67,11 @@ public static class CenterApplication
             catch (Exception ex) when (ex is ArgumentException or InvalidDataException)
             { context.Response.StatusCode = 400; await context.Response.WriteAsJsonAsync(new { error = ex.Message }); }
         });
-        app.UseDefaultFiles(); app.UseStaticFiles();
+        app.UseWhen(context => !context.Request.Path.StartsWithSegments("/identity"), branch =>
+        {
+            branch.UseDefaultFiles();
+            branch.UseStaticFiles();
+        });
         app.MapGet("/api/status", (Store store) => new { mode = options.Mode, records = store.Records(), commands = store.Commands(), stations = store.Telemetry() });
         app.MapGet("/api/events", (Store store, string? ied) => store.Events(ied: ied));
         app.MapPost("/api/stations/{station}/events", (string station, SoeEvent[] events, Store store) =>
