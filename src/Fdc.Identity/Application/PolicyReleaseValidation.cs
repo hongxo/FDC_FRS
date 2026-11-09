@@ -9,7 +9,10 @@ namespace Fdc.Identity.Application;
 public sealed record PolicyReleaseArtifact(string ReleaseId, string Environment,
     ImmutableHashSet<string> Decisions, AuthorityVersion Authority,
     DateTimeOffset NotBefore, DateTimeOffset ExpiresAt,
-    ImmutableArray<byte> Payload, string Sha256, string EvidenceReference);
+    ImmutableArray<byte> Payload, string Sha256, string EvidenceReference)
+{
+    public SignedPolicyEvidence? SignedEvidence { get; init; }
+}
 
 public interface IPolicyReleaseEvidenceVerifier
 {

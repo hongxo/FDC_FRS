@@ -11,6 +11,80 @@ namespace Fdc.Identity.Tests;
 [Collection("IAM database lab")]
 public sealed class SessionRevocationSqlLabTests
 {
+    [SqlLabFact] public async Task Credential_reader_and_authentication_complete_isolated_sql_session_and_rollback()
+    {
+        await using var db = await Context();
+        var reader = new SqlPasswordCredentialReader(db);
+        await Assert.ThrowsAsync<InvalidOperationException>(() => reader.ReadAsync("FIXTURE-CREDENTIAL", default));
+        await using var tx = await db.Database.BeginTransactionAsync();
+        try
+        {
+            var now = DateTimeOffset.UtcNow;
+            var person = new PersonReferenceRow { Id = Guid.NewGuid(), CreatedAt = now, PersonKey = "fixture-credential" };
+            var user = new UserRow { Id = Guid.NewGuid(), CreatedAt = now, PersonReferenceId = person.Id,
+                NormalizedUsername = "FIXTURE-CREDENTIAL", Active = true };
+            var proofs = new PasswordProofs(1, 256);
+            var input = OpaqueProofs.Create();
+            var hash = proofs.Hash(input);
+            db.AddRange(person, user, new PasswordCredentialRow { Id = Guid.NewGuid(), CreatedAt = now,
+                UserId = user.Id, EncodedHash = hash, AlgorithmVersion = "fixture" });
+            await db.SaveChangesAsync();
+            Assert.Null(await reader.ReadAsync("FIXTURE-NOT-PRESENT", default));
+            var credential = await reader.ReadAsync(user.NormalizedUsername, default);
+            Assert.NotNull(credential);
+            Assert.Equal(user.Id, credential.UserId);
+            Assert.True(credential.Active);
+            Assert.NotEqual(Microsoft.AspNetCore.Identity.PasswordVerificationResult.Failed, proofs.Verify(credential.EncodedHash, input));
+            Assert.DoesNotContain(hash, credential.ToString());
+            Assert.False(await db.Set<SessionRow>().AnyAsync());
+            var login = new AuthenticationService(new IsolatedLoginPolicy(), new IsolatedSqlLogin(db, reader),
+                proofs, TimeProvider.System);
+            var rejected = await login.LoginAsync(user.NormalizedUsername, OpaqueProofs.Create(), "fixture", default);
+            Assert.Equal(LoginOutcome.Rejected, rejected.Outcome);
+            Assert.Null(rejected.Proof);
+            Assert.False(await db.Set<SessionRow>().AnyAsync());
+            var result = await login.LoginAsync(user.NormalizedUsername, input, "fixture", default);
+            Assert.Equal(LoginOutcome.SessionCreated, result.Outcome);
+            Assert.Equal(OpaqueProofs.Digest(result.Proof!, "session"), await db.Set<SessionRow>()
+                .Select(row => row.HandleDigest).SingleAsync());
+            Assert.Equal(1, await db.Set<AuditOutboxRow>().CountAsync());
+        }
+        finally { await tx.RollbackAsync(); }
+        Assert.False(await db.Set<PasswordCredentialRow>().AsNoTracking().AnyAsync());
+        Assert.False(await db.Set<SessionRow>().AsNoTracking().AnyAsync());
+        Assert.False(await db.Set<AuditOutboxRow>().AsNoTracking().AnyAsync());
+    }
+
+    // Explicit synthetic policy and rollback-only SQL adapter. Neither is registered in the product host.
+    private sealed class IsolatedLoginPolicy : IAuthenticationPolicyProvider
+    {
+        public Task<AuthenticationPolicy> GetAsync(CancellationToken ct) => Task.FromResult(new AuthenticationPolicy(
+            TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(2), 1, 1, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1), "fixture"));
+    }
+
+    private sealed class IsolatedSqlLogin(IamDbContext db, SqlPasswordCredentialReader reader) : ILoginTransactionStore, ILoginTransaction
+    {
+        public Task<LoginResult> ExecuteAsync(Func<ILoginTransaction, CancellationToken, Task<LoginResult>> action, CancellationToken ct) =>
+            db.Database.CurrentTransaction is not null ? action(this, ct) : throw new InvalidOperationException("Fixture transaction required.");
+        public async Task<CredentialCandidate?> ReadForUpdateAsync(string username, CancellationToken ct) =>
+            await reader.ReadAsync(username, ct) is { } row ? new(row.UserId, row.Active, row.EncodedHash, false) : null;
+        public Task<bool> IsSourceLimitedAsync(string source, AuthenticationPolicy policy, CancellationToken ct) => Task.FromResult(false);
+        public Task RecordFailureAsync(Guid? userId, string source, AuthenticationPolicy policy, CancellationToken ct) => Task.CompletedTask;
+        public async Task<LoginResult> CompletePasswordProofAsync(SessionIssue proposed, AuthenticationPolicy policy, string? upgradedHash, CancellationToken ct)
+        {
+            var now = DateTimeOffset.UtcNow;
+            var epoch = Guid.NewGuid();
+            var audit = new SecurityEventRow { Id = Guid.NewGuid(), CreatedAt = now, ActorUserId = proposed.UserId,
+                EventCode = "fixture.login", OutcomeCode = "fixture", CorrelationId = "isolated-login", PolicyVersion = 1, RestoreEpoch = epoch };
+            db.AddRange(new SessionRow { Id = Guid.NewGuid(), CreatedAt = now, UserId = proposed.UserId,
+                HandleDigest = proposed.Digest, IdleUntil = proposed.IdleUntil, AbsoluteUntil = proposed.AbsoluteUntil,
+                SecurityVersion = 1, GrantVersion = 1, PolicyVersion = 1, CatalogVersion = 1, HierarchyVersion = 1, RestoreEpoch = epoch },
+                audit, new AuditOutboxRow { Id = Guid.NewGuid(), CreatedAt = now, EventId = audit.Id });
+            await db.SaveChangesAsync(ct);
+            return new(LoginOutcome.SessionCreated);
+        }
+    }
+
     [SqlLabFact] public async Task Revoke_current_then_everywhere_invalidates_only_current_subject_sessions_and_challenges()
     {
         await using var db = await Context(); await using var tx = await db.Database.BeginTransactionAsync();
