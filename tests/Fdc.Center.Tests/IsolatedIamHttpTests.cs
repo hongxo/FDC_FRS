@@ -1,4 +1,6 @@
 using System.Collections.Immutable;
+using Fdc.Center;
+using Fdc.Center.Persistence;
 using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -23,16 +25,27 @@ namespace Fdc.Center.Tests;
 public sealed partial class CenterHttpsSqlLabTests
 {
     [CenterSqlLabFact(browser: true)]
-    public async Task Browser_password_mfa_cookie_profile_logout_and_reuse_against_disposable_sql()
+    public Task Browser_password_mfa_cookie_profile_logout_and_reuse_against_disposable_sql() =>
+        RunBrowserAsync(null);
+
+    [A7BrowserFact]
+    public async Task Browser_business_authority_and_download_against_fresh_disposable_sql()
     {
-        var connection = Environment.GetEnvironmentVariable("FDC_IAM_LAB_CONNECTION")!;
+        await using var fixture = await A7BusinessFixture.CreateAsync();
+        await RunBrowserAsync(fixture);
+    }
+
+    private static async Task RunBrowserAsync(A7BusinessFixture? business)
+    {
+        var connection = business?.Connection ?? Environment.GetEnvironmentVariable("FDC_IAM_LAB_CONNECTION")!;
         var target = new SqlConnectionStringBuilder(connection);
         Assert.Equal("lpc:.", target.DataSource);
-        Assert.Equal("FdcIam_DevelopmentLab", target.InitialCatalog);
+        Assert.Equal(business?.Name ?? "FdcIam_DevelopmentLab", target.InitialCatalog);
         await using var db = new IamDbContext(new DbContextOptionsBuilder<IamDbContext>().UseSqlServer(connection).Options);
-        Assert.Equal(1, await db.Database.SqlQueryRaw<int>("SELECT CASE WHEN DB_NAME()=N'FdcIam_DevelopmentLab' AND CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) THEN 1 ELSE 0 END AS [Value]").SingleAsync());
+        if (business is null)
+            Assert.Equal(1, await db.Database.SqlQueryRaw<int>("SELECT CASE WHEN DB_NAME()=N'FdcIam_DevelopmentLab' AND CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) THEN 1 ELSE 0 END AS [Value]").SingleAsync());
         Assert.False(await db.Set<UserRow>().AnyAsync());
-        await using var tx = await db.Database.BeginTransactionAsync();
+        await using var tx = business is null ? await db.Database.BeginTransactionAsync() : null;
         var now = DateTimeOffset.UtcNow;
         var epoch = Guid.NewGuid();
         var proofs = new PasswordProofs(1, 256);
@@ -40,7 +53,7 @@ public sealed partial class CenterHttpsSqlLabTests
         var factor = OpaqueProofs.Create();
         var person = new PersonReferenceRow { Id = Guid.NewGuid(), CreatedAt = now, PersonKey = "a5-browser-fixture" };
         var user = new UserRow { Id = Guid.NewGuid(), CreatedAt = now, PersonReferenceId = person.Id,
-            NormalizedUsername = "A5-BROWSER-FIXTURE", Active = true };
+            NormalizedUsername = business is null ? "A5-BROWSER-FIXTURE" : "demo.operator", Active = true };
         db.AddRange(person, user, new AuthorityVersionRow { Id = Guid.NewGuid(), CreatedAt = now, PolicyConfigured = true, RestoreEpoch = epoch },
             new PasswordCredentialRow { Id = Guid.NewGuid(), CreatedAt = now, UserId = user.Id,
                 EncodedHash = proofs.Hash(password), AlgorithmVersion = "test-only" });
@@ -53,6 +66,7 @@ public sealed partial class CenterHttpsSqlLabTests
         db.AddRange(role, permission, assignment, new RolePermissionRow { Id = Guid.NewGuid(), CreatedAt = now,
             RoleId = role.Id, PermissionId = permission.Id });
         await db.SaveChangesAsync();
+        if (business is not null) await business.SeedAsync(db, role.Id, assignment.Id, permission.Id, epoch);
 
         using var key = RSA.Create(2048);
         var request = new CertificateRequest("CN=localhost", key, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
@@ -65,7 +79,19 @@ public sealed partial class CenterHttpsSqlLabTests
         builder.Logging.ClearProviders();
         builder.WebHost.ConfigureKestrel(o => o.Listen(IPAddress.Loopback, 0, listen => listen.UseHttps(serverCert)));
         builder.Services.AddSingleton(TimeProvider.System);
-        builder.Services.AddSingleton<IDbContextFactory<IamDbContext>>(new SharedSqlFactory(db, connection));
+        if (business is null)
+            builder.Services.AddSingleton<IDbContextFactory<IamDbContext>>(new SharedSqlFactory(db, connection));
+        else
+        {
+            builder.Services.AddDbContextFactory<IamDbContext>(options => options.UseSqlServer(connection));
+            builder.Services.AddDbContext<CenterDbContext>(options => options.UseSqlServer(connection));
+            builder.Services.AddScoped<BusinessAuthorization>();
+            builder.Services.AddSingleton<PermissionEvaluator>();
+            builder.Services.AddSingleton<IReviewedPermissionPolicy>(business);
+            builder.Services.AddSingleton<IReviewedBusinessOperationPolicy>(business);
+            builder.Services.AddSingleton<ITrustedResourceResolver>(business);
+            builder.Services.AddSingleton<IReviewedBusinessFileSource>(business.Storage);
+        }
         builder.Services.AddScoped<IHumanSessionAuthorityReader, SqlSessionAuthorityReader>();
         builder.Services.AddScoped(sp => sp.GetRequiredService<IDbContextFactory<IamDbContext>>().CreateDbContext());
         builder.Services.AddScoped<IManagementQueries, SqlManagementQueries>();
@@ -96,6 +122,17 @@ public sealed partial class CenterHttpsSqlLabTests
         app.UseAuthentication(); app.UseAuthorization();
         Uri? origin = null;
         app.MapHumanAuthenticationCandidates(() => origin ?? throw new InvalidOperationException(), SameSiteMode.Strict);
+        if (business is not null)
+        {
+            app.UseStaticFiles(new Microsoft.AspNetCore.Builder.StaticFileOptions
+            {
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(Path.GetFullPath(Path.Combine(
+                    AppContext.BaseDirectory, "../../../../../src/Fdc.Center/wwwroot/identity"))),
+                RequestPath = "/identity",
+                OnPrepareResponse = response => response.Context.Response.Headers.CacheControl = "no-store"
+            });
+            app.MapBusinessReadEndpoints();
+        }
         app.MapIdentityManagementQueries();
         app.MapIdentityRoleQueries();
         app.MapGet("/fixture/profile", async (HttpContext h, IamDbContext context, CancellationToken ct) =>
@@ -119,11 +156,21 @@ public sealed partial class CenterHttpsSqlLabTests
             start.Environment["FDC_A5_USER"] = user.NormalizedUsername;
             start.Environment["FDC_A5_PASSWORD"] = password;
             start.Environment["FDC_A5_FACTOR"] = factor;
+            if (business is not null)
+            {
+                start.Environment["FDC_A7_IDS"] = System.Text.Json.JsonSerializer.Serialize(business.Ids);
+                // Browser waits for a marker; revoke through a fresh SQL context without exposing a test HTTP write route.
+                start.Environment["FDC_A7_SIGNAL"] = business.Signal;
+            }
             using var browser = System.Diagnostics.Process.Start(start)!;
             var output = browser.StandardOutput.ReadToEndAsync();
             var errors = browser.StandardError.ReadToEndAsync();
             using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-            try { await browser.WaitForExitAsync(timeout.Token); }
+            try
+            {
+                if (business is not null) await business.RevokeWhenSignaledAsync(browser, timeout.Token);
+                await browser.WaitForExitAsync(timeout.Token);
+            }
             catch { browser.Kill(entireProcessTree: true); throw; }
             Assert.True(browser.ExitCode == 0, (await output) + (await errors));
 
@@ -133,14 +180,28 @@ public sealed partial class CenterHttpsSqlLabTests
             Assert.NotNull(await db.Set<ChallengeRow>().AsNoTracking().Select(c => c.ConsumedAt).SingleAsync());
             var audit = await (from e in db.Set<SecurityEventRow>() join o in db.Set<AuditOutboxRow>() on e.Id equals o.EventId
                                orderby e.EventCode select e.EventCode).ToArrayAsync();
-            Assert.Equal(["fixture.login.mfa", "fixture.logout"], audit);
-            if (Environment.GetEnvironmentVariable("FDC_UI_EVIDENCE") is { } evidence)
+            Assert.Equal(business is null ? ["fixture.login.mfa", "fixture.logout"] :
+                ["business.record.download.prepared", "fixture.login.mfa", "fixture.logout"], audit);
+            if (business is not null && Environment.GetEnvironmentVariable("FDC_UI_EVIDENCE") is { } businessEvidence)
+            {
+                using var artifact = System.Text.Json.JsonDocument.Parse(await File.ReadAllTextAsync(Path.Combine(businessEvidence, "a7-browser.json")));
+                var expected = artifact.RootElement.GetProperty("business").GetProperty("correlation").GetString();
+                var prepared = await (from e in db.Set<SecurityEventRow>() join o in db.Set<AuditOutboxRow>() on e.Id equals o.EventId
+                                      where e.EventCode == "business.record.download.prepared" select e.CorrelationId).SingleAsync();
+                Assert.Equal(expected, prepared);
+                await File.WriteAllTextAsync(Path.Combine(businessEvidence, "a7-sql-verification.json"),
+                    System.Text.Json.JsonSerializer.Serialize(new { correlation = prepared, outboxLinked = true, grantRevoked = true, sessionRevoked = true }));
+            }
+            if (business is null && Environment.GetEnvironmentVariable("FDC_UI_EVIDENCE") is { } evidence)
                 await File.WriteAllTextAsync(Path.Combine(evidence, "a5-sql-verification.json"),
                     """{"fixture":"rollback-only","sessionRevoked":true,"challengeConsumed":true,"auditOutbox":["fixture.login.mfa","fixture.logout"],"correlation":"a5-isolated"}""");
         }
-        finally { await app.StopAsync(); await tx.RollbackAsync(); }
-        Assert.False(await db.Set<UserRow>().AsNoTracking().AnyAsync());
-        Assert.False(await db.Set<SessionRow>().AsNoTracking().AnyAsync());
+        finally { await app.StopAsync(); if (tx is not null) await tx.RollbackAsync(); }
+        if (business is null)
+        {
+            Assert.False(await db.Set<UserRow>().AsNoTracking().AnyAsync());
+            Assert.False(await db.Set<SessionRow>().AsNoTracking().AnyAsync());
+        }
     }
 
     private sealed class TestOnlyReadAuthority(Guid user, Guid role, Guid assignment, string permission)
@@ -162,8 +223,14 @@ public sealed partial class CenterHttpsSqlLabTests
 
         public Task<LoginResult> LoginAsync(string username, string password, CancellationToken ct) =>
             new Fdc.Identity.Application.AuthenticationService(this, this, proofs, TimeProvider.System).LoginAsync(username, password, "test-only", ct);
-        public Task<LoginResult> ExecuteAsync(Func<ILoginTransaction, CancellationToken, Task<LoginResult>> action, CancellationToken ct) =>
-            db.Database.CurrentTransaction is not null ? action(this, ct) : throw new InvalidOperationException("Fixture transaction required.");
+        public async Task<LoginResult> ExecuteAsync(Func<ILoginTransaction, CancellationToken, Task<LoginResult>> action, CancellationToken ct)
+        {
+            if (db.Database.CurrentTransaction is not null) return await action(this, ct);
+            await using var tx = await db.Database.BeginTransactionAsync(ct);
+            var result = await action(this, ct);
+            await tx.CommitAsync(ct);
+            return result;
+        }
         public Task<bool> IsSourceLimitedAsync(string trustedSourceKey, AuthenticationPolicy policy, CancellationToken ct) => Task.FromResult(false);
         public Task RecordFailureAsync(Guid? userId, string trustedSourceKey, AuthenticationPolicy policy, CancellationToken ct) => Task.CompletedTask;
         public async Task<CredentialCandidate?> ReadForUpdateAsync(string normalizedUsername, CancellationToken ct) =>
