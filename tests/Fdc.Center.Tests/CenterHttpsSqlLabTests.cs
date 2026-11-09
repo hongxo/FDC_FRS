@@ -21,7 +21,7 @@ namespace Fdc.Center.Tests;
 
 // Actual loopback HTTPS -> real Human handler -> real SQL session -> canonical adapter. No mock authentication.
 // Session is an explicit rollback-only lab fixture, not a claim that Login/MFA issuance is complete.
-public sealed class CenterHttpsSqlLabTests
+public sealed partial class CenterHttpsSqlLabTests
 {
     [CenterSqlLabFact] public async Task Actual_https_and_sql_deny_forged_identity_revoked_cookie_and_unavailable_authority()
     {
@@ -197,9 +197,11 @@ public sealed class CenterHttpsSqlLabTests
 
 internal sealed class CenterSqlLabFactAttribute : FactAttribute
 {
-    public CenterSqlLabFactAttribute()
+    public CenterSqlLabFactAttribute(bool browser = false)
     {
         if (Environment.GetEnvironmentVariable("FDC_IAM_CONFIRMED_LAB") != "FdcIam_DevelopmentLab" || string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("FDC_IAM_LAB_CONNECTION")))
             Skip = "Explicit disposable SQL lab authorization and connection required.";
+        else if (browser && Environment.GetEnvironmentVariable("FDC_RUN_CENTER_BROWSER") != "1")
+            Skip = "Explicit browser fixture opt-in required.";
     }
 }
