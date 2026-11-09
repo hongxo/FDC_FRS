@@ -21,17 +21,19 @@ public static class BusinessReadEndpoints
         MapObjects("/ieds", BusinessReadOperation.Ied);
         MapObjects("/records", BusinessReadOperation.Record);
         MapObjects("/collectors", BusinessReadOperation.Collector);
+        group.MapGet("/records/{id:guid}/downloadable-files", (HttpContext h, BusinessAuthorization auth, Guid id, CancellationToken ct) =>
+            Guard(h, async digest => Results.Ok(await auth.DownloadableFilesAsync(digest, id, ct))));
         group.MapGet("/record-files/{id:guid}/download", (HttpContext h, BusinessAuthorization auth,
             IReviewedBusinessFileSource storage, Guid id, CancellationToken ct) =>
             Guard(h, async digest => await auth.DownloadAsync(digest, id, storage, h.TraceIdentifier, ct) is { } file
-                ? Results.File(file.Bytes, "application/octet-stream", file.Name, enableRangeProcessing: false)
+                ? Results.File(file.Content, "application/octet-stream", file.Name, enableRangeProcessing: false)
                 : Results.NotFound()));
         return;
 
         void MapObjects(string path, BusinessReadOperation operation)
         {
-            group.MapGet(path, (HttpContext h, BusinessAuthorization auth, Guid? station, int? offset, int? limit, CancellationToken ct) =>
-                Guard(h, async digest => Results.Ok(await auth.ListAsync(digest, operation, station, offset ?? 0, limit ?? 50, ct))));
+            group.MapGet(path, (HttpContext h, BusinessAuthorization auth, Guid? station, int? offset, int? limit, string? search, CancellationToken ct) =>
+                Guard(h, async digest => Results.Ok(await auth.ListAsync(digest, operation, station, offset ?? 0, limit ?? 50, ct, search))));
             group.MapGet(path + "/{id:guid}", (HttpContext h, BusinessAuthorization auth, Guid id, CancellationToken ct) =>
                 Guard(h, async digest => await auth.DetailAsync(digest, operation, id, ct) is { } row
                     ? Results.Ok(row) : Results.NotFound()));
@@ -41,6 +43,7 @@ public static class BusinessReadEndpoints
     private static async Task<IResult> Guard(HttpContext context, Func<string, Task<IResult>> action)
     {
         context.Response.Headers.CacheControl = "no-store";
+        context.Response.Headers["X-Correlation-Id"] = context.TraceIdentifier;
         var human = context.User.Identities.FirstOrDefault(identity => identity.IsAuthenticated && identity.AuthenticationType == "Fdc.Human");
         var digest = human?.FindFirst("fdc.session.digest")?.Value;
         if (!context.Request.IsHttps || context.Connection.ClientCertificate is not null || string.IsNullOrWhiteSpace(digest))

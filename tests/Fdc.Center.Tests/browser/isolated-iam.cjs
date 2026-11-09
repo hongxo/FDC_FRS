@@ -63,8 +63,9 @@ async function run() {
     const permission = await expect('Scoped permission catalog', await call(admin + '/permission-catalog'), 200);
     assert.deepEqual(permission.items.map(p => p.code), ['a5.fixture.read']);
     const rolePermissions = await expect('Scoped role permissions', await call(admin + '/roles/' + roles.items[0].id + '/permissions'), 200);
-    assert.deepEqual(rolePermissions, ['a5.fixture.read']);
+    assert.deepEqual(rolePermissions, process.env.FDC_A7_IDS ? ['a5.fixture.read', 'a7.fixture.download'] : ['a5.fixture.read']);
     if (evidence) await page.screenshot({ path: path.join(evidence, 'a5-isolated-profile.png') });
+    const business = process.env.FDC_A7_IDS ? await require('./isolated-business.cjs')(page, call, expect, evidence) : null;
     const authenticatedCsrf = (await expect('Authenticated antiforgery issued', await call(base + '/csrf'), 200)).token;
     await expect('Logout revoked SQL session', await call(base + '/logout', {}, authenticatedCsrf), 204);
     assert.equal(await cookie(), undefined);
@@ -75,14 +76,18 @@ async function run() {
     await expect('Revoked cookie replay denied', await call('/fixture/profile'), 401);
     if (evidence) {
       await page.screenshot({ path: path.join(evidence, 'a5-isolated-replay-denied.png') });
-      await fs.writeFile(path.join(evidence, 'a5-browser.json'), JSON.stringify({
+      await fs.writeFile(path.join(evidence, business ? 'a7-browser.json' : 'a5-browser.json'), JSON.stringify({
         run: path.basename(evidence), commit: process.env.FDC_A5_COMMIT || 'unspecified', timestampUtc: new Date().toISOString(),
         environment: 'TEST_ONLY HTTPS loopback + disposable SQL rollback fixture', steps,
         cookieAttributes: { secure: true, httpOnly: true, sameSite: 'Strict', path: '/' },
-        correlation: 'a5-isolated', proofMaterial: 'omitted'
+        business, identity: business ? credentials.username : 'fixture', correlation: 'a5-isolated', proofMaterial: 'omitted'
       }, null, 2));
     }
     console.log('A5 isolated browser: login, MFA, cookie, SQL profile, logout and replay denial PASS.');
   } finally { await browser.close(); }
 }
-run().catch(() => { console.error('A5 isolated browser assertion failed; inspect the local run.'); process.exitCode = 1; });
+run().catch(error => {
+  const location = String(error.stack).split('\n').find(line => /isolated-(iam|business)\.cjs:\d+/.test(line));
+  console.error('Isolated browser assertion failed.', location ?? '');
+  process.exitCode = 1;
+});

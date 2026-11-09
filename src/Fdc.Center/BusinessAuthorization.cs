@@ -1,5 +1,4 @@
 using System.Data;
-using System.Security.Cryptography;
 using Fdc.Center.Persistence;
 using Fdc.Identity.Application;
 using Fdc.Identity.Domain;
@@ -30,18 +29,19 @@ public sealed class BusinessObject
     public Guid StationId { get; init; }
     public required string Label { get; init; }
 }
-public sealed record BusinessDownload(string Name, byte[] Bytes);
+public sealed record BusinessDownload(string Name, Stream Content);
+public sealed class BusinessFile { public Guid Id { get; init; } public required string Name { get; init; } public long SizeBytes { get; init; } }
 
 public interface IReviewedBusinessFileSource
 {
     // Read only from the reviewed private store. Enforce the cap before allocation and reject
     // traversal/symlinks. ObjectKey is a database reference, never an HTTP parameter.
-    Task<byte[]?> ReadAsync(string objectKey, int cap, CancellationToken ct);
+    Task<Stream?> OpenVerifiedAsync(string objectKey, long size, string sha256, int cap, CancellationToken ct);
 }
 
 public sealed class PendingBusinessFileSource : IReviewedBusinessFileSource
 {
-    public Task<byte[]?> ReadAsync(string objectKey, int cap, CancellationToken ct) =>
+    public Task<Stream?> OpenVerifiedAsync(string objectKey, long size, string sha256, int cap, CancellationToken ct) =>
         throw new OwnerDecisionRequiredException("D10/E03: approved private storage and download audit contract required.");
 }
 
@@ -54,45 +54,66 @@ public sealed class BusinessAuthorization(CenterDbContext db, IReviewedBusinessO
             iam.Set<StationRow>().CountAsync(row => stations.Contains(row.Id), token), ct);
 
     public Task<List<BusinessObject>> ListAsync(string digest, BusinessReadOperation operation, Guid? station, int offset, int limit,
-        CancellationToken ct)
+        CancellationToken ct, string? search = null)
     {
         if (offset is < 0 or > 10000 || limit is < 1 or > 100) throw new ArgumentException("Invalid page.");
+        if (search?.Length > 80 || search?.Any(char.IsControl) == true) throw new ArgumentException("Invalid search.");
         return ReadAsync(digest, operation, (iam, stations, _, token) =>
-            Objects(iam, operation, stations, station).OrderBy(row => row.Id).Skip(offset).Take(limit).ToListAsync(token), ct);
+        {
+            var rows = Objects(iam, operation, stations, station);
+            if (!string.IsNullOrWhiteSpace(search)) rows = rows.Where(row => row.Label.Contains(search));
+            return rows.OrderBy(row => row.Id).Skip(offset).Take(limit).ToListAsync(token);
+        }, ct);
     }
 
     public Task<BusinessObject?> DetailAsync(string digest, BusinessReadOperation operation, Guid id, CancellationToken ct) =>
         ReadAsync(digest, operation, (iam, stations, _, token) =>
             Objects(iam, operation, stations, null).SingleOrDefaultAsync(row => row.Id == id, token), ct);
 
-    public Task<BusinessDownload?> DownloadAsync(string digest, Guid fileId, IReviewedBusinessFileSource storage,
+    public Task<List<BusinessFile>> DownloadableFilesAsync(string digest, Guid recordId, CancellationToken ct) =>
+        ReadAsync(digest, BusinessReadOperation.RecordDownload, (_, stations, _, token) =>
+            db.Set<RecordFile>().AsNoTracking().Where(row => row.RecordId == recordId && stations.Contains(row.StationId) &&
+                row.ValidationStatus == "Verified" && row.SizeBytes > 0 && row.SizeBytes <= 16 * 1024 * 1024 &&
+                (row.Extension == ".cfg" || row.Extension == ".dat" || row.Extension == ".hdr" || row.Extension == ".inf"))
+                .OrderBy(row => row.Name).Take(100)
+                .Select(row => new BusinessFile { Id = row.Id, Name = row.Name, SizeBytes = row.SizeBytes }).ToListAsync(token), ct);
+
+    public async Task<BusinessDownload?> DownloadAsync(string digest, Guid fileId, IReviewedBusinessFileSource storage,
         string correlationId, CancellationToken ct)
     {
         if (db.Database.CurrentTransaction is not null) throw new InvalidOperationException("Download must own its audit transaction.");
-        return ReadAsync(digest, BusinessReadOperation.RecordDownload, async (iam, stations, snapshot, token) =>
+        Stream? prepared = null;
+        try
         {
-            const int cap = 16 * 1024 * 1024;
-            var file = await (from item in db.Set<RecordFile>().AsNoTracking()
-                              join record in db.Set<DisturbanceRecord>().AsNoTracking()
-                                  on new { Id = item.RecordId, item.StationId } equals new { record.Id, record.StationId }
-                              where item.Id == fileId && stations.Contains(item.StationId) && item.ValidationStatus == "Verified"
-                              select item).SingleOrDefaultAsync(token);
-            if (file is null || file.Extension is not (".cfg" or ".dat") ||
-                file.SizeBytes is <= 0 or > cap || Path.GetFileName(file.Name) != file.Name ||
-                file.Name.Contains('\\') || file.Name.Any(char.IsControl)) return null;
-            var bytes = await storage.ReadAsync(file.StorageObjectKey, cap, token);
-            if (bytes is null || bytes.LongLength != file.SizeBytes ||
-                !string.Equals(Convert.ToHexString(SHA256.HashData(bytes)), file.Sha256, StringComparison.OrdinalIgnoreCase))
-                return null;
+            var result = await ReadAsync<BusinessDownload?>(digest, BusinessReadOperation.RecordDownload, async (iam, stations, snapshot, token) =>
+            {
+                const int cap = 16 * 1024 * 1024;
+                var row = await (from item in db.Set<RecordFile>().AsNoTracking()
+                                 join record in db.Set<DisturbanceRecord>().AsNoTracking()
+                                     on new { Id = item.RecordId, item.StationId } equals new { record.Id, record.StationId }
+                                 where item.Id == fileId && stations.Contains(item.StationId) && item.ValidationStatus == "Verified"
+                                 select new { File = item, record.ManifestId }).SingleOrDefaultAsync(token);
+                if (row is null) return null;
+                var file = row.File;
+                if (file.Extension is not (".cfg" or ".dat" or ".hdr" or ".inf") ||
+                    file.SizeBytes is <= 0 or > cap || file.Name != Fdc.Core.Identity.FileName(file.Name) ||
+                    Path.GetExtension(file.Name).ToLowerInvariant() != file.Extension ||
+                    file.StorageObjectKey != $"records/{row.ManifestId}/{file.Name}") return null;
 
-            var now = clock.GetUtcNow();
-            var audit = new SecurityEventRow { Id = Guid.NewGuid(), CreatedAt = now, ActorUserId = snapshot.User.Id,
-                EventCode = "business.record.download.prepared", OutcomeCode = "prepared", CorrelationId = correlationId,
-                PolicyVersion = snapshot.CurrentVersion.Policy, RestoreEpoch = snapshot.CurrentVersion.RestoreEpoch };
-            iam.AddRange(audit, new AuditOutboxRow { Id = Guid.NewGuid(), CreatedAt = now, EventId = audit.Id });
-            await iam.SaveChangesAsync(token);
-            return new BusinessDownload(file.Name, bytes);
-        }, ct);
+                prepared = await storage.OpenVerifiedAsync(file.StorageObjectKey, file.SizeBytes, file.Sha256, cap, token);
+                if (prepared is null) return null;
+                var now = clock.GetUtcNow();
+                var audit = new SecurityEventRow { Id = Guid.NewGuid(), CreatedAt = now, ActorUserId = snapshot.User.Id,
+                    EventCode = "business.record.download.prepared", OutcomeCode = "prepared", CorrelationId = correlationId,
+                    PolicyVersion = snapshot.CurrentVersion.Policy, RestoreEpoch = snapshot.CurrentVersion.RestoreEpoch };
+                iam.AddRange(audit, new AuditOutboxRow { Id = Guid.NewGuid(), CreatedAt = now, EventId = audit.Id });
+                await iam.SaveChangesAsync(token);
+                return new BusinessDownload(file.Name, prepared);
+            }, ct);
+            prepared = null; // Committed result now owns the verified temporary stream.
+            return result;
+        }
+        finally { if (prepared is not null) await prepared.DisposeAsync(); }
     }
 
     private IQueryable<BusinessObject> Objects(IamDbContext iam, BusinessReadOperation operation, Guid[] stations, Guid? station)
