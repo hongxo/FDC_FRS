@@ -1,3 +1,23 @@
 <!doctype html>
-<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><title>FDC/FRS · Identity</title><link rel="stylesheet" href="styles/axl-base.css"><link rel="stylesheet" href="styles/prototype.css"><link rel="stylesheet" href="styles/live-management.css"><script src="entry.js" defer></script></head>
-<body><header class="management-header"><img src="assets/mark.svg" width="38" height="38" alt=""><strong>FDC/FRS</strong><span>Quản lý truy cập</span></header><main class="management-content"><h1>Danh tính và phân quyền</h1><nav class="management-tabs" aria-label="Chức năng"><a class="btn secondary" href="#login">S01 · Đăng nhập</a><a class="btn secondary" href="#mfa">S02 · MFA</a><a class="btn secondary" href="#recovery">S03 · Khôi phục</a><a class="btn secondary" href="#profile">S04 · Hồ sơ</a><a class="btn secondary" href="management.html#users">S05 · Người dùng</a><a class="btn secondary" href="management.html#roles">S06 · Vai trò</a><a class="btn secondary" href="management.html#grants">S07 · Quyền trạm</a><a class="btn secondary" href="management.html#audit">S08 · Nhật ký</a></nav><section class="card management-panel"><h2 id="screen-title">Đăng nhập</h2><p id="policy-status" role="status">Đăng nhập chưa được mở. Vui lòng liên hệ quản trị để xác nhận chính sách truy cập.</p><p class="hint">Không có tài khoản mặc định hoặc đăng nhập minh họa. Các chức năng chỉ được mở sau khi hoàn tất kiểm tra chính sách.</p></section></main></body></html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer"><title>FDC/FRS · Quản lý truy cập</title>
+<link rel="stylesheet" href="styles/axl-base.css"><link rel="stylesheet" href="styles/prototype.css">
+<link rel="stylesheet" href="styles/live-management.css"><script type="module" src="entry.js"></script></head>
+<body><a class="skip-link" href="#content">Chuyển đến nội dung chính</a>
+<header class="management-header"><img src="assets/mark.svg" width="38" height="38" alt=""><strong>FDC/FRS</strong><span>Quản lý truy cập</span></header>
+<main id="content" class="management-content">
+<p class="hint">FDC/FRS / Danh tính và phân quyền</p><h1>Danh tính và phân quyền</h1>
+<nav class="management-tabs" aria-label="Chức năng tài khoản">
+<a class="btn secondary" href="#login">S01 · Đăng nhập</a>
+<a class="btn secondary" href="#mfa">S02 · MFA</a>
+<a class="btn secondary" href="#recovery">S03 · Khôi phục</a>
+<a class="btn secondary" href="#profile">S04 · Hồ sơ</a>
+</nav>
+<section class="card management-panel" aria-labelledby="screen-title">
+<h2 id="screen-title">Đăng nhập</h2>
+<p id="policy-status" role="status">Đăng nhập chưa được mở theo chính sách hiện tại.</p>
+<p class="hint">Liên hệ bộ phận quản trị qua kênh hỗ trợ đã xác nhận.</p></section>
+<nav id="effective-navigation" class="management-tabs" aria-label="Chức năng được cấp quyền" hidden></nav>
+<section class="card management-panel"><h2>Phân hệ vận hành</h2>
+<p>Tổng quan, Trạm &amp; IED, COMTRADE, Collector và Lab Testing chờ mapping quyền theo trạm trên tuyến Human.</p></section>
+</main></body></html>

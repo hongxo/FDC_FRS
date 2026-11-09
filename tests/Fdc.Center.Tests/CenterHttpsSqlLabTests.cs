@@ -67,6 +67,35 @@ public sealed class CenterHttpsSqlLabTests
             using var client = new HttpClient(transport) { BaseAddress = new Uri(address), Timeout = TimeSpan.FromSeconds(10) };
             client.DefaultRequestHeaders.Add("X-Forwarded-User", "forged-admin");
             using var missing = await client.GetAsync("/api/identity/v1/admin/roles/"); Assert.Equal(HttpStatusCode.Unauthorized, missing.StatusCode);
+            foreach (var route in new[] { "/identity/management.html", "/api/identity/v1/ui/navigation", "/api/lab/v1/readiness" })
+            {
+                using var anonymous = await client.GetAsync(route);
+                Assert.Equal(HttpStatusCode.Unauthorized, anonymous.StatusCode);
+            }
+            using (var managementPage = await Get(client, raw, "/identity/management.html"))
+            {
+                Assert.Equal(HttpStatusCode.OK, managementPage.StatusCode);
+                Assert.Contains("management.mjs", await managementPage.Content.ReadAsStringAsync());
+                Assert.True(managementPage.Headers.CacheControl?.NoStore);
+            }
+            using (var navigation = await Get(client, raw, "/api/identity/v1/ui/navigation"))
+            {
+                Assert.Equal(HttpStatusCode.OK, navigation.StatusCode);
+                Assert.Equal("{\"screens\":[]}", await navigation.Content.ReadAsStringAsync());
+            }
+            using (var lab = await Get(client, raw, "/api/lab/v1/readiness"))
+            {
+                Assert.Equal(HttpStatusCode.ServiceUnavailable, lab.StatusCode);
+                Assert.Contains("LAB_READINESS_STATION_POLICY_PENDING", await lab.Content.ReadAsStringAsync());
+            }
+            using (var mutation = new HttpRequestMessage(HttpMethod.Post, "/api/identity/v1/admin/roles/"))
+            {
+                mutation.Headers.Add("Cookie", "__Host-FdcSession=" + raw);
+                using var denied = await client.SendAsync(mutation);
+                Assert.Equal(HttpStatusCode.MethodNotAllowed, denied.StatusCode);
+            }
+            using (var humanOnMachine = await Get(client, raw, "/api/stations/fixture"))
+                Assert.Equal(HttpStatusCode.Forbidden, humanOnMachine.StatusCode);
             using var invalid = await Get(client, OpaqueProofs.Create()); Assert.Equal(HttpStatusCode.Unauthorized, invalid.StatusCode);
             using var valid = await Get(client, raw);
             Assert.Equal(HttpStatusCode.ServiceUnavailable, valid.StatusCode);
@@ -103,10 +132,17 @@ public sealed class CenterHttpsSqlLabTests
                 catch { browser.Kill(entireProcessTree: true); throw; }
                 Assert.True(browser.ExitCode == 0, (await stdout) + (await stderr));
             }
+            var currentIdle = session.IdleUntil;
+            session.IdleUntil = now.AddSeconds(-1); await db.SaveChangesAsync();
+            using (var expired = await Get(client, raw, "/identity/management.html"))
+                Assert.Equal(HttpStatusCode.Unauthorized, expired.StatusCode);
+            session.IdleUntil = currentIdle;
             user.Active = false; await db.SaveChangesAsync();
             using var disabled = await Get(client, raw); Assert.Equal(HttpStatusCode.Unauthorized, disabled.StatusCode);
             user.Active = true; session.Revoked = true; await db.SaveChangesAsync();
             using var revoked = await Get(client, raw); Assert.Equal(HttpStatusCode.Unauthorized, revoked.StatusCode);
+            using (var revokedPage = await Get(client, raw, "/identity/management.html"))
+                Assert.Equal(HttpStatusCode.Unauthorized, revokedPage.StatusCode);
             factory.Unavailable = true;
             using var unavailable = await Get(client, raw); Assert.Equal(HttpStatusCode.ServiceUnavailable, unavailable.StatusCode);
             Assert.False((await unavailable.Content.ReadAsStringAsync()).Contains("SqlException", StringComparison.Ordinal));
@@ -114,9 +150,9 @@ public sealed class CenterHttpsSqlLabTests
         finally { await app.StopAsync(); await tx.RollbackAsync(); }
         Assert.False(await db.Set<UserRow>().AsNoTracking().AnyAsync()); Assert.False(await db.Set<SessionRow>().AsNoTracking().AnyAsync());
     }
-    private static async Task<HttpResponseMessage> Get(HttpClient client, string proof)
+    private static async Task<HttpResponseMessage> Get(HttpClient client, string proof, string path = "/api/identity/v1/admin/roles/")
     {
-        using var request = new HttpRequestMessage(HttpMethod.Get, "/api/identity/v1/admin/roles/");
+        using var request = new HttpRequestMessage(HttpMethod.Get, path);
         request.Headers.Add("Cookie", "__Host-FdcSession=" + proof); return await client.SendAsync(request);
     }
     private sealed class SharedSqlFactory(IamDbContext db, string connection) : IDbContextFactory<IamDbContext>

@@ -18,12 +18,13 @@ const path = require('node:path');
    await page.goto(`${origin.origin}/identity/#${screen}`);
    await page.locator('#policy-status').filter({hasText:/chưa được mở/}).waitFor();
    assert.equal(await page.locator('input[type=password]').count(),0);
+   if(process.env.FDC_UI_EVIDENCE) await page.screenshot({path:path.join(process.env.FDC_UI_EVIDENCE,'iam-'+screen+'.png'),fullPage:true});
+   assert.equal(await page.locator('#effective-navigation a').count(),0);
    results.push({screen,result:'PASS',scope:'policy-unavailable rendering; not completed authentication'});
   }
-  for(const screen of ['users','roles','grants','audit']) {
-   await page.goto(`${origin.origin}/identity/`);
-   await page.goto(`${origin.origin}/identity/management.html#${screen}`, {waitUntil:"load"});
-   if(screen!=="grants") await page.locator("#status").filter({hasText:"Chưa thể tải dữ liệu quản trị"}).waitFor();
+  for(const screen of ['users','roles','permissions','grants','audit']) {
+   await page.goto(`${origin.origin}/identity/management.html?view=${screen}#${screen}`, {waitUntil:"load"});
+   await page.locator('#navigation-status').filter({hasText:'Chưa có chức năng quản trị'}).waitFor();
    if(screen==='grants') {
     await page.locator('#subject-user').fill('11111111-1111-1111-1111-111111111111');
     await page.locator('#subject-assignment').fill('22222222-2222-2222-2222-222222222222');
@@ -33,9 +34,14 @@ const path = require('node:path');
    assert.equal(response.status(),503);
    await page.locator('#status').filter({hasText:'Chưa thể tải dữ liệu quản trị'}).waitFor();
    assert.equal(await page.locator('#results tbody tr').count(),0);
+   await page.locator('#navigation-status').filter({hasText:'Chưa có chức năng quản trị'}).waitFor();
+   assert.equal(await page.locator('[data-screen]:visible').count(),0);
+   if(process.env.FDC_UI_EVIDENCE) await page.screenshot({path:path.join(process.env.FDC_UI_EVIDENCE,'iam-'+screen+'.png'),fullPage:true});
    results.push({screen,result:'PASS',scope:'real SQL session + real API policy denial; no synthetic rows'});
   }
   await context.clearCookies();
+  assert.equal((await context.request.get(origin.origin + '/identity/management.html')).status(),401);
+  assert.equal((await context.request.get(origin.origin + '/api/identity/v1/ui/navigation')).status(),401);
   const noCookie=page.waitForResponse(r=>r.url().includes('/api/identity/v1/admin/security-audit'));
   await page.locator('#refresh').click(); assert.equal((await noCookie).status(),401);
   await page.locator('#status').filter({hasText:'Phiên đăng nhập không hợp lệ'}).waitFor();
@@ -46,6 +52,6 @@ const path = require('node:path');
   }
   assert.deepEqual(errors,[]);
   if(process.env.FDC_UI_EVIDENCE) await fs.writeFile(path.join(process.env.FDC_UI_EVIDENCE,'center-live-browser.json'),JSON.stringify({origin:'loopback HTTPS (ephemeral port)',results,anonymous:401,responsive:['desktop','tablet','mobile'],pageErrors:errors,limitations:'Negative/policy-blocked integration only. Full login/MFA/RBAC business E2E BLOCKED.'},null,2));
-  console.log('Live Center browser: 8 policy/denial screens, anonymous rejection and 3 viewports PASS. Full authentication E2E remains blocked.');
+  console.log('Live Center browser: 9 policy/denial views, anonymous rejection and 3 viewports PASS. Full authentication E2E remains blocked.');
  } finally {if(process.env.FDC_UI_EVIDENCE) await fs.writeFile(path.join(process.env.FDC_UI_EVIDENCE,"center-browser-traffic.json"), JSON.stringify(traffic,null,2)); await browser.close();}
 })().catch(error=>{console.error(String(error.message).replaceAll(process.env.FDC_CENTER_TEST_COOKIE || "__absent__", "[redacted]"));console.error('Live Center browser assertion failed; inspect local test and evidence.');process.exitCode=1;});

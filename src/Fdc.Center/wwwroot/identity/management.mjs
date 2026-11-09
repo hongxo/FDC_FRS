@@ -1,11 +1,14 @@
 const base = '/api/identity/v1/admin';
 const idPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const ids = value => { if (typeof value !== 'string' || !idPattern.test(value)) throw new Error('INVALID_ID'); return value; };
-export function managementPath(screen, { offset = 0, userId, userRoleId, afterCode } = {}) {
+export function managementPath(screen, { offset = 0, userId, userRoleId, afterCode, search, active } = {}) {
   if (!Number.isInteger(offset) || offset < 0 || offset > 10000) throw new Error('INVALID_PAGE');
   const query = new URLSearchParams({ offset: String(offset), limit: '50' });
   switch (screen) {
-    case 'users': return `${base}/users?${query}`;
+    case 'users':
+      if (typeof search === 'string' && search.trim()) query.set('search', search.trim());
+      if (active === 'true' || active === 'false') query.set('active', active);
+      return `${base}/users?${query}`;
     case 'roles': {
       const roleQuery = new URLSearchParams({ limit: '50' });
       if (afterCode !== undefined) {
@@ -15,6 +18,7 @@ export function managementPath(screen, { offset = 0, userId, userRoleId, afterCo
       return `${base}/roles?${roleQuery}`;
     }
     case 'grants': query.set('userId', ids(userId)); query.set('userRoleId', ids(userRoleId)); return `${base}/station-grants?${query}`;
+    case 'permissions': return base + '/permission-catalog?' + query;
     case 'audit': return `${base}/security-audit?${query}`;
     default: throw new Error('UNSUPPORTED_SCREEN');
   }
@@ -56,6 +60,20 @@ export function createManagementClient(fetcher = globalThis.fetch, protocol = gl
       if (screen === 'roles' && data.nextCode != null && (typeof data.nextCode !== 'string' || data.nextCode.length > 80)) throw new ManagementApiError(0, 'INVALID_RESPONSE');
       return { items: data.items, hasMore: screen === 'roles' ? data.nextCode != null : data.hasMore, nextCode: screen === 'roles' ? data.nextCode : undefined };
     },
+    async navigation(signal) {
+      const data = await read('/api/identity/v1/ui/navigation', signal);
+      if (!data || !Array.isArray(data.screens)) throw new ManagementApiError(0, 'INVALID_RESPONSE');
+      return data.screens;
+    },
+    async detail(screen, id, signal) {
+      const key = ids(id);
+      switch (screen) {
+        case 'users': return [await read(base + '/users/' + key, signal), (await read(base + '/users/' + key + '/roles?limit=50', signal)).items];
+        case 'roles': return [await read(base + '/roles/' + key, signal), await read(base + '/roles/' + key + '/permissions', signal)];
+        case 'audit': return [await read(base + '/security-audit/' + key, signal)];
+        default: throw new Error('UNSUPPORTED_SCREEN');
+      }
+    },
     async request(id, signal) { return read(`${base}/change-requests/${ids(id)}`, signal); }
   });
 }
@@ -63,9 +81,36 @@ export function createManagementClient(fetcher = globalThis.fetch, protocol = gl
 if (typeof document !== 'undefined') {
   const byId = id => document.getElementById(id);
   const client = createManagementClient();
-  const fields = { users: [['Username', 'username'], ['Trạng thái', 'active'], ['ID', 'id']], roles: [['Mã vai trò', 'code'], ['Tên vai trò', 'name'], ['Trạng thái', 'active']], grants: [['UserRole ID', 'userRoleId'], ['Phạm vi', 'scopeKind'], ['Bắt đầu', 'validFrom'], ['Kết thúc', 'validUntil']], audit: [['Thao tác', 'action'], ['Kết quả', 'result'], ['Thời gian', 'timestamp']] };
-  const titles = { users: 'Người dùng', roles: 'Vai trò và quyền', grants: 'Quyền truy cập trạm', audit: 'Nhật ký bảo mật' };
+  const fields = { users: [['Username', 'username'], ['Trạng thái', 'active'], ['ID', 'id']], permissions: [['Mã quyền', 'code'], ['Phân hệ', 'module'], ['Thao tác', 'action'], ['Phạm vi', 'scope'], ['Mức rủi ro', 'risk'], ['Phiên bản', 'catalogVersion']], roles: [['Mã vai trò', 'code'], ['Tên vai trò', 'name'], ['Trạng thái', 'active']], grants: [['UserRole ID', 'userRoleId'], ['Phạm vi', 'scopeKind'], ['Bắt đầu', 'validFrom'], ['Kết thúc', 'validUntil']], audit: [['Thao tác', 'action'], ['Kết quả', 'result'], ['Thời gian', 'timestamp']] };
+  const titles = { users: 'Người dùng', roles: 'Vai trò và quyền', permissions: 'Danh mục quyền', grants: 'Quyền truy cập trạm', audit: 'Nhật ký bảo mật' };
   let screen = Object.hasOwn(fields, location.hash.slice(1)) ? location.hash.slice(1) : 'users', offset = 0, generation = 0, pending, requestPending, requestGeneration = 0, roleCursors = [undefined], nextRoleCode;
+  let navigationPending, detailPending;
+  const detailFields = {
+    users: ['id', 'username', 'active', 'version'],
+    roles: ['id', 'code', 'name', 'description', 'active', 'version'],
+    audit: ['id', 'timestamp', 'actorId', 'action', 'result', 'correlationId']
+  };
+  const pick = (row, keys) => Object.fromEntries(keys.map(key => [key, row[key]]));
+  async function navigation() {
+    navigationPending?.abort();
+    const request = navigationPending = new AbortController();
+    try {
+      const screens = await client.navigation(request.signal);
+      if (navigationPending !== request || request.signal.aborted) return;
+      for (const button of document.querySelectorAll('[data-screen]')) button.hidden = !screens.includes(button.dataset.screen);
+      byId('request-panel').hidden = !screens.includes('requests');
+      byId('navigation-status').textContent = screens.length ? '' : 'Chưa có chức năng quản trị được máy chủ cho phép.';
+      return screens.includes(screen);
+    } catch {
+      if (!request.signal.aborted) byId('navigation-status').textContent = 'Không xác nhận được chức năng quản trị.';
+    }
+  }
+  function configureScreen() {
+    detailPending?.abort();
+    byId('detail-result').textContent = '';
+    byId('detail-fields').hidden = !Object.hasOwn(detailFields, screen);
+    byId('user-filters').hidden = screen !== 'users';
+  }
   function clear() { byId('results').replaceChildren(); byId('previous').disabled = true; byId('next').disabled = true; }
   function message(error) {
     if (error.status === 401) suspend();
@@ -74,7 +119,7 @@ if (typeof document !== 'undefined') {
   async function load() {
     pending?.abort(); pending = new AbortController(); const current = ++generation; clear(); byId('status').textContent = 'Đang tải…';
     try {
-      const data = await client.list(screen, { offset, afterCode: roleCursors[offset / 50], userId: byId('subject-user').value, userRoleId: byId('subject-assignment').value }, pending.signal);
+      const data = await client.list(screen, { offset, afterCode: roleCursors[offset / 50], search: byId('user-search').value, active: byId('user-active').value, userId: byId('subject-user').value, userRoleId: byId('subject-assignment').value }, pending.signal);
       if (current !== generation) return;
       const wrapper = document.createElement('div'); wrapper.className = 'table-scroll'; wrapper.tabIndex = 0;
       const table = document.createElement('table'), caption = document.createElement('caption'); caption.textContent = titles[screen]; table.append(caption);
@@ -91,11 +136,28 @@ if (typeof document !== 'undefined') {
   for (const button of document.querySelectorAll('[data-screen]')) button.addEventListener('click', () => {
     screen = button.dataset.screen; offset = 0; roleCursors = [undefined];
     for (const nav of document.querySelectorAll('[data-screen]')) { nav.setAttribute('aria-pressed', String(nav === button)); nav.classList.toggle('secondary', nav !== button); }
-    byId('screen-title').textContent = titles[screen]; byId('subject-fields').hidden = screen !== 'grants'; load();
+    byId('screen-title').textContent = titles[screen]; byId('subject-fields').hidden = screen !== 'grants'; configureScreen(); load();
   });
   byId('screen-title').textContent = titles[screen]; byId('subject-fields').hidden = screen !== 'grants';
   for (const nav of document.querySelectorAll('[data-screen]')) { nav.setAttribute('aria-pressed', String(nav.dataset.screen === screen)); nav.classList.toggle('secondary', nav.dataset.screen !== screen); }
-  byId('refresh').addEventListener('click', load);
+  configureScreen();
+  byId('refresh').addEventListener('click', () => { offset = 0; roleCursors = [undefined]; configureScreen(); load(); });
+  byId('detail-read').addEventListener('click', async () => {
+    detailPending?.abort();
+    const request = detailPending = new AbortController();
+    const selected = screen;
+    byId('detail-result').textContent = 'Đang tải…';
+    try {
+      const [row, related] = await client.detail(selected, byId('detail-id').value.trim(), request.signal);
+      if (request.signal.aborted || detailPending !== request) return;
+      const result = { ...pick(row, detailFields[selected]) };
+      if (selected === 'users') result.userRoles = related.map(role => pick(role, ['id', 'roleName', 'active', 'validFrom', 'validUntil']));
+      if (selected === 'roles') result.permissions = related.filter(code => typeof code === 'string');
+      byId('detail-result').textContent = JSON.stringify(result, null, 2);
+    } catch (error) {
+      if (!request.signal.aborted && detailPending === request) byId('detail-result').textContent = message(error);
+    }
+  });
   byId('previous').addEventListener('click', () => { offset = Math.max(0, offset - 50); load(); });
   byId('next').addEventListener('click', () => { if (screen === 'roles') roleCursors[offset / 50 + 1] = nextRoleCode; offset += 50; load(); });
   byId('request-read').addEventListener('click', async () => {
@@ -104,8 +166,12 @@ if (typeof document !== 'undefined') {
     try { const value = await client.request(byId('request-id').value, requestPending.signal); if (current === requestGeneration) byId('request-status').textContent = changeStatus(value); }
     catch (error) { if (current === requestGeneration && error.name !== 'AbortError') byId('request-status').textContent = message(error); }
   });
-  function suspend() { pending?.abort(); requestPending?.abort(); generation++; requestGeneration++; clear(); byId('request-status').textContent = 'Cần kiểm tra lại trạng thái.'; }
+  function suspend() { navigationPending?.abort(); configureScreen(); for (const button of document.querySelectorAll('[data-screen]')) button.hidden = true; byId('request-panel').hidden = true; pending?.abort(); requestPending?.abort(); generation++; requestGeneration++; clear(); byId('request-status').textContent = 'Cần kiểm tra lại trạng thái.'; }
   addEventListener('pagehide', suspend);
-  addEventListener('pageshow', () => { suspend(); load(); });
-  document.addEventListener('visibilitychange', () => { if (document.hidden) suspend(); else load(); });
+  async function restore() {
+    suspend();
+    if (await navigation()) load();
+  }
+  addEventListener('pageshow', restore);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) suspend(); else restore(); });
 }
