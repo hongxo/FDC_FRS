@@ -41,3 +41,5 @@ Historical test evidence19 Center/184 component/21 SQL vàempty restore không �
 ## Delivery
 
 Branch feature/d12-phase4-3a-decisions từ verified PR6 tipd5ebc2a. Chỉ ADR/register/mapping proposals/backlog/evidence documentation vàartifact validation test; không src/tools/runtime tests/migration/config/permission changes. GitHub delivery/PR được ghi sau khi quan sát kết quả thực tế.
+
+Observed delivery:Draft PR https://github.com/hongxo/FDC_FRS/pull/7,stacked on verified openPR6. Package commit3df6178 plusdocumentation delivery follow-up. Source/runtime/config unchanged;formal approvals/readiness unchanged.
