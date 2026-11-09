@@ -96,7 +96,7 @@ public sealed class BusinessAuthorization(CenterDbContext db, IReviewedBusinessO
                 if (row is null) return null;
                 var file = row.File;
                 if (file.Extension is not (".cfg" or ".dat" or ".hdr" or ".inf") ||
-                    file.SizeBytes is <= 0 or > cap || file.Name != Fdc.Core.Identity.FileName(file.Name) ||
+                    file.SizeBytes is <= 0 or > cap || !PrivateComtradeFileSource.IsSafeFileName(file.Name) ||
                     Path.GetExtension(file.Name).ToLowerInvariant() != file.Extension ||
                     file.StorageObjectKey != $"records/{row.ManifestId}/{file.Name}") return null;
 

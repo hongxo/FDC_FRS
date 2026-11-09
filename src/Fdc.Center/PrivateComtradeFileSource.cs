@@ -18,14 +18,18 @@ public sealed class PrivateComtradeFileSource : IReviewedBusinessFileSource
         staging = Path.GetFullPath(stagingRoot);
     }
 
+    internal static bool IsSafeFileName(string name) =>
+        !string.IsNullOrWhiteSpace(name) && name is not ("." or "..") &&
+        name.IndexOfAny([':', '/', (char)92]) < 0 &&
+        name.IndexOfAny(Path.GetInvalidFileNameChars()) < 0 && !name.Any(char.IsControl);
+
     public async Task<Stream?> OpenVerifiedAsync(string objectKey, long size, string sha256, int cap, CancellationToken ct)
     {
         if (size <= 0 || size > cap || sha256.Length != 64 || !sha256.All(char.IsAsciiHexDigit)) return null;
         var parts = objectKey.Split('/');
         if (parts.Length != 3 || parts[0] != "records" || parts[1].Length != 64 ||
             !parts[1].All(c => char.IsAsciiHexDigit(c) && !char.IsUpper(c)) ||
-            string.IsNullOrWhiteSpace(parts[2]) || parts[2] != Fdc.Core.Identity.FileName(parts[2]) ||
-            parts[2].IndexOfAny([':', '\\']) >= 0 ||
+            !IsSafeFileName(parts[2]) ||
             Path.GetExtension(parts[2]).ToLowerInvariant() is not (".cfg" or ".dat" or ".hdr" or ".inf"))
             return null;
 
