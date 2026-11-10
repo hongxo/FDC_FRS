@@ -35,6 +35,19 @@ public static class BoundedComtradeReader
         if (!Path.GetFileNameWithoutExtension(cfgPath).Equals(Path.GetFileNameWithoutExtension(datPath), StringComparison.OrdinalIgnoreCase))
             throw new InvalidDataException("CFG/DAT basename mismatch.");
         using var cfg = File.OpenRead(cfgPath);
+        using var dat = File.OpenRead(datPath);
+        return Read(cfg, dat, limits, encoding, ct);
+    }
+
+    // Caller owns both verified streams. Read from the beginning without closing them.
+    public static ComtradePreview Read(Stream cfg, Stream input, ComtradeLimits limits, string encoding,
+        CancellationToken ct = default)
+    {
+        limits.Validate();
+        ct.ThrowIfCancellationRequested();
+        if (!cfg.CanRead || !cfg.CanSeek || !input.CanRead || !input.CanSeek ||
+            cfg.Position != 0 || input.Position != 0)
+            throw new ArgumentException("Readable seekable CFG/DAT streams at position zero required.");
         if (cfg.Length <= 0 || cfg.Length > limits.MaxCfgBytes) throw new InvalidDataException("CFG size bound.");
         var bytes = new byte[(int)cfg.Length]; cfg.ReadExactly(bytes);
         var decoder = encoding switch { "UTF-8" => new UTF8Encoding(false, true), "ISO-8859-1" => Encoding.Latin1, _ => throw new NotSupportedException("Encoding not tested/supported.") };
@@ -110,7 +123,6 @@ public static class BoundedComtradeReader
         var minimumLines = timing + (revision == "1991" ? 3 : 4);
         if (lines.Count != minimumLines && !(revision == "2013" && lines.Count == minimumLines + 2))
             throw new InvalidDataException("Unsupported/malformed trailing CFG fields.");
-        using var input = File.OpenRead(datPath);
         if (input.Length <= 0 || input.Length > limits.MaxDatBytes) throw new InvalidDataException("DAT size bound.");
         var expected = rates.Count == 0 ? (long?)null : rates[^1].LastSample;
         var points = new List<ComtradePoint>(); long samples = 0; double lastTime = -1;
@@ -144,7 +156,7 @@ public static class BoundedComtradeReader
         if (format == "ASCII")
         {
             // No ReadLine on untrusted DAT: cap each line before allocation can grow unbounded.
-            using var reader = new StreamReader(input, decoder, false, 4096);
+            using var reader = new StreamReader(input, decoder, false, 4096, leaveOpen: true);
             if (reader.Peek() == '\uFEFF') _ = reader.Read();
             var line = new StringBuilder();
             void Row()
@@ -166,7 +178,7 @@ public static class BoundedComtradeReader
         {
             var width = checked(8 + (format == "BINARY" ? 2 : 4) * (int)na + 2 * (((int)nd + 15) / 16));
             if (input.Length % width != 0 || input.Length / width > limits.MaxSamples) throw new InvalidDataException("Binary record width/count mismatch.");
-            using var reader = new BinaryReader(input);
+            using var reader = new BinaryReader(input, Encoding.UTF8, leaveOpen: true);
             while (input.Position < input.Length)
             {
                 var sample = reader.ReadUInt32(); var timestamp = reader.ReadUInt32();

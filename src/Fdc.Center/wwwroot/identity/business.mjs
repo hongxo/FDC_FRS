@@ -1,4 +1,5 @@
 import { onLogout } from './session-lifecycle.mjs';
+import { appendWaveform } from './waveform.mjs';
 const status = document.getElementById('status');
 const results = document.getElementById('results');
 const controls = document.getElementById('filters');
@@ -166,6 +167,7 @@ async function openObject(id, objectView = view) {
       return;
     }
     if (objectView !== 'records') return;
+    appendWaveform(detail, id, read, current.signal, invalidate);
     const files = await read('records/' + encodeURIComponent(id) + '/downloadable-files', current.signal);
     if (current.signal.aborted) return;
     if (!files.length) detail.append('Không có file được phép tải.');

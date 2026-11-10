@@ -1,4 +1,5 @@
 using System.Data;
+using Fdc.Core;
 using Fdc.Center.Persistence;
 using Fdc.Identity.Application;
 using Fdc.Identity.Domain;
@@ -278,6 +279,47 @@ public sealed class BusinessAuthorization(CenterDbContext db, IReviewedBusinessO
         }
         finally { if (prepared is not null) await prepared.DisposeAsync(); }
     }
+
+    public Task<ComtradePreview?> WaveformAsync(string digest, Guid recordId, IReviewedBusinessFileSource storage,
+        string correlationId, CancellationToken ct) =>
+        ReadAsync<ComtradePreview?>(digest, BusinessReadOperation.RecordDownload, async (iam, stations, snapshot, token) =>
+        {
+            var record = await db.Set<DisturbanceRecord>().AsNoTracking()
+                .SingleOrDefaultAsync(row => row.Id == recordId && stations.Contains(row.StationId), token);
+            if (record is null) return null;
+            var files = await db.Set<RecordFile>().AsNoTracking()
+                .Where(row => row.RecordId == record.Id && row.StationId == record.StationId &&
+                    row.ValidationStatus == "Verified" && (row.Extension == ".cfg" || row.Extension == ".dat"))
+                .Take(3).ToListAsync(token);
+            if (files.Count != 2 || files.Count(row => row.Extension == ".cfg") != 1 ||
+                files.Count(row => row.Extension == ".dat") != 1)
+                throw new InvalidDataException("One verified CFG/DAT pair required.");
+            var cfg = files.Single(row => row.Extension == ".cfg");
+            var dat = files.Single(row => row.Extension == ".dat");
+            if (!Path.GetFileNameWithoutExtension(cfg.Name).Equals(Path.GetFileNameWithoutExtension(dat.Name), StringComparison.OrdinalIgnoreCase))
+                throw new InvalidDataException("One verified CFG/DAT pair required.");
+
+            const int cfgCap = 1024 * 1024;
+            const int datCap = 16 * 1024 * 1024;
+            foreach (var file in files)
+                if (!PrivateComtradeFileSource.IsSafeFileName(file.Name) ||
+                    Path.GetExtension(file.Name).ToLowerInvariant() != file.Extension ||
+                    file.StorageObjectKey != $"records/{record.ManifestId}/{file.Name}" ||
+                    file.SizeBytes <= 0 || file.SizeBytes > (file.Extension == ".cfg" ? cfgCap : datCap))
+                    throw new InvalidDataException("Invalid waveform file metadata.");
+
+            await using var cfgStream = await storage.OpenVerifiedAsync(cfg.StorageObjectKey, cfg.SizeBytes, cfg.Sha256, cfgCap, token);
+            await using var datStream = await storage.OpenVerifiedAsync(dat.StorageObjectKey, dat.SizeBytes, dat.Sha256, datCap, token);
+            if (cfgStream is null || datStream is null)
+            {
+                await DownloadAuditAsync(iam, snapshot, "business.record.waveform.verification_denied", "denied", correlationId, token);
+                return null;
+            }
+            var preview = BoundedComtradeReader.Read(cfgStream, datStream,
+                new(cfgCap, datCap, 64, 1000, 200000, 2000), "UTF-8", token);
+            await DownloadAuditAsync(iam, snapshot, "business.record.waveform.prepared", "prepared", correlationId, token);
+            return preview;
+        }, ct);
 
     private async Task DownloadAuditAsync(IamDbContext iam, AuthorizationSnapshot snapshot, string code, string outcome,
         string correlationId, CancellationToken token)

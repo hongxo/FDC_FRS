@@ -66,6 +66,12 @@ module.exports = async function verifyBusiness(page, call, expect, evidence) {
     await businessPage.locator('#object-detail').getByRole('button', { name: 'A7-Collector-A', exact: true }).click();
     await businessPage.locator('#object-detail').getByRole('button', { name: /^[a-f0-9]{64}$/ }).click();
     await businessPage.locator('#object-detail').getByRole('link', { name: /fixture\.dat/ }).waitFor();
+    await businessPage.getByRole('button', { name: 'Xem dạng sóng COMTRADE', exact: true }).click();
+    await businessPage.locator('[aria-label="Dạng sóng COMTRADE"] [role="status"]').getByText('2 mẫu · ASCII · Hiển thị toàn bộ mẫu.', { exact: true }).waitFor();
+    assert.equal(await businessPage.locator('[aria-label="Dạng sóng COMTRADE"] polyline').count(), 1);
+    assert.match(await businessPage.locator('[data-waveform-summary]').textContent(), /Min 0 · Max 1/);
+    if (evidence) await businessPage.screenshot({ path: path.join(evidence, 'business-waveform.png') });
+    await expect('Station B waveform hidden', await call(base + 'records/' + ids.recordB + '/waveform'), 404);
     await businessPage.locator('#business-search').fill('A7-Station-B');
     await businessPage.locator('#business-find').click();
     await businessPage.getByRole('status').filter({ hasText: 'Không có dữ liệu trong phạm vi.' }).waitFor();
@@ -154,6 +160,7 @@ module.exports = async function verifyBusiness(page, call, expect, evidence) {
     await new Promise(resolve => setTimeout(resolve, 30));
   }
   const revoked = await file(ids.fileA, false);
+  await expect('Waveform unavailable after SQL grant revoke', await call(base + 'records/' + ids.recordA + '/waveform'), 404);
   await expect('Previously authorized file denied after SQL revoke', revoked, 404);
   assert.equal(revoked.bytes.length, 0);
   const after = await expect('Dashboard after revoke', await call(base + 'dashboard'), 200);
