@@ -1,0 +1,2765 @@
+{
+  "Commit": "498f995f0e9aaacf9950a483ff0e2e10974cef41",
+  "Run": "delivery",
+  "Environment": "ENV-1/2/3 owned SQL, HTTPS loopback, test PKI",
+  "Baseline": "A.9 run-06",
+  "Tests": [
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Unsafe_names_rejected_before_any_file_or_network_operation(path: \"../x.cfg\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000094",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Unsafe_names_rejected_before_any_file_or_network_operation(path: \"%2e%2e/x.cfg\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000055",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Tested_2013_formats_scale_analog_decode_digital_preserve_time_and_bytes(format: \"ASCII\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0033693",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Older_ascii_profiles_are_explicitly_tested(revision: \"1999\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0129900",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Corrupt_or_partial_ascii_never_silently_truncates(dat: \"1,0,1,0\\n2,1000,2,1\\n\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0043762",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.QueueAndAcquisitionTests.Offline_acquisition_preserves_bytes_deduplicates_content_and_requires_verified_ack",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.1101097",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Malformed_cfg_is_rejected(kind: \"count\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0033710",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Corrupt_or_partial_ascii_never_silently_truncates(dat: \"1,0,1,0\\n2,1000,2,1\\n3,500,3,0\\n\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0036204",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Tested_2013_formats_scale_analog_decode_digital_preserve_time_and_bytes(format: \"FLOAT32\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0028210",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.QueueAndAcquisitionTests.Empty_schema_rollback_keeps_legacy_store_and_reapply_is_idempotent",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0376630",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ExcelInventoryTests.Commit_requires_preview_hash_and_is_idempotent",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.1929409",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Malformed_cfg_is_rejected(kind: \"time\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0051490",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Older_ascii_profiles_are_explicitly_tested(revision: \"1991\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0322688",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.QueueAndAcquisitionTests.Concurrent_claims_do_not_duplicate_a_lease",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.4504757",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ExcelInventoryTests.Preview_keeps_source_rows_and_distinguishes_plc",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0210606",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Corrupt_or_partial_ascii_never_silently_truncates(dat: \"1,0,NaN,0\\n2,1000,2,1\\n3,2000,3,0\\n\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0036934",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Bounds_and_encoding_are_explicit",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0065908",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.QueueAndAcquisitionTests.Rollback_with_queued_data_is_denied_without_deleting_it",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0173782",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ExcelInventoryTests.Reports_invalid_ip_and_both_sides_of_duplicate_ip_and_code",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0093661",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Corrupt_or_partial_ascii_never_silently_truncates(dat: \"1,0,1,0\\n2,1000,2,2\\n3,2000,3,0\\n\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0064052",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Unsafe_names_rejected_before_any_file_or_network_operation(path: \"*.cfg\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0005972",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.NativeMmsSimulationTests.Pinned_C_abi_real_MMS_read_only_roundtrip_on_loopback_is_SIMULATED_not_real_IED",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.3997755",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Tested_2013_formats_scale_analog_decode_digital_preserve_time_and_bytes(format: \"BINARY32\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0029544",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Malformed_cfg_is_rejected(kind: \"multiplier\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0039240",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.QueueAndAcquisitionTests.Partial_file_and_low_disk_never_promote_or_acknowledge",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0323962",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Huge_digital_value_long_line_and_cancellation_rejected_without_truncation",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0089087",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Binary_partial_record_and_nan_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0090981",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Malformed_cfg_is_rejected(kind: \"format\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0185171",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Preview_is_bounded_and_discloses_decimation",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0041412",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Tested_2013_formats_scale_analog_decode_digital_preserve_time_and_bytes(format: \"BINARY\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0166449",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Unsafe_names_rejected_before_any_file_or_network_operation(path: \"x.cfg:stream\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000067",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Profile_and_default_pending_authority_prevent_network_before_native_load",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0147192",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.QueueAndAcquisitionTests.Reused_filename_changed_bytes_creates_new_content_record",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0505094",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Corrupt_or_partial_ascii_never_silently_truncates(dat: \"1,0,1,0\\n3,1000,2,1\\n3,2000,3,0\\n\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0041053",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ExcelInventoryTests.Imported_and_manually_reviewed_device_cannot_open_adapter_without_independent_authority",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0410884",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Unsafe_names_rejected_before_any_file_or_network_operation(path: \"a\\\\x.cfg\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0001952",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.QueueAndAcquisitionTests.Retry_is_finite_backoff_and_no_sensitive_error_payload",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0270790",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Unsafe_names_rejected_before_any_file_or_network_operation(path: \"/a/../x.cfg\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000174",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.QueueAndAcquisitionTests.Existing_store_coexists_and_expired_lease_is_fenced_after_restart",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0333463",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Protocol_errors_are_not_equated_with_support(code: 20, expected: FAILED)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0061452",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Malformed_cfg_is_rejected(kind: \"negative_rate\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0033964",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Utf8_dat_bom_supported_and_bytes_preserved",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0054935",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Protocol_errors_are_not_equated_with_support(code: 21, expected: ACCESS_DENIED)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004550",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.AcquisitionSafetyTests.Protocol_errors_are_not_equated_with_support(code: 4, expected: UNSUPPORTED_FILE_SERVICE)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000128",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ExcelInventoryTests.Preview_html_encodes_workbook_data",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0327498",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Multi_rate_missing_timestamps_are_derived_without_guessing_timezone",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0209963",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Collector.Pilot.Tests.ComtradeParserTests.Malformed_cfg_is_rejected(kind: \"missing_channel\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0032971",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Revoked_session_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0005386",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Disabled_user_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002133",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Grant_version_change_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002641",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Overlapping_lifetimes_detected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0001730",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"hierarchy\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000534",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthenticationCompletionTests.Invalid_completion_never_releases_proof(completion: Rejected, expected: Rejected)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0030983",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.OperationMappingTests.Delegation_requires_explicit_function",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0358167",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Unknown_permission_is_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002598",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Function_subset_is_required",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002209",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Unconfigured_current_versions_denied(policy: 1, catalog: 0, hierarchy: 1)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0247745",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.FeatureActivationGateTests.Invalid_activation_cannot_enable_runtime(fault: \"invalid-digest\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0001043",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Creator_cannot_approve_with_custom_role",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0007460",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Grant_expiry_beyond_role_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0005471",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Administrative_delegation_is_assignment_and_target_bound",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0026644",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"environment\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0005484",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.RoleCrudSqlLabTests.P4_D002_idempotent_apply_result_uses_original_history_version",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.2132924",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Incomplete_or_unknown_intent_denied(field: \"target\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0012703",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.FeatureActivationGateTests.Invalid_activation_cannot_enable_runtime(fault: \"wrong-environment\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002057",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Current_session_is_valid",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0001595",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Future_grant_is_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0003766",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.CommitGatePlanTests.Unreviewed_isolation_and_namespace_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0007293",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Duplicate_approval_cannot_advance_state",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0039372",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Shared_target_gate_is_not_enough_for_mutation",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0186948",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ServiceBoundaryTests.Unbounded_role_queries_are_rejected(limit: -1)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0012466",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Session_cookie_has_host_prefix_constraints",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0007967",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Complete_metadata_and_hash_never_replace_independent_evidence",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0017575",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SignedPolicyReleaseEvidenceTests.Exact_signed_release_requires_current_authorized_approver(fault: \"scope\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0026652",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementReadTests.Invalid_page_is_rejected(offset: 10001, limit: 1)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002850",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Future_mfa_proof_is_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0007233",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.TransactionalAuthorityContractTests.Borrowed_reader_requires_existing_transaction_before_any_sql",
+      "Outcome": "Passed",
+      "Duration": "00:00:01.1448728",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SignedPolicyReleaseEvidenceTests.Exact_signed_release_requires_current_authorized_approver(fault: \"unsigned\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0026379",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Unconfigured_restore_epoch_fails_closed",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002827",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ServiceBoundaryTests.Pending_role_policy_never_reaches_sql_queries",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0034548",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Beneficiary_cannot_review",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004530",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.FeatureActivationGateTests.Invalid_activation_cannot_enable_runtime(fault: \"missing-audit\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002038",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.RoleCrudSqlLabTests.Real_sql_role_create_rename_activate_permissions_clone_deactivate_and_replay",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.5264632",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ServiceBoundaryTests.Every_request_reads_authority_again_and_outage_never_allows",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0185709",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Stale_role_version_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0006049",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Self_grant_by_same_person_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004129",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Approve_before_review_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0005070",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Pending_auth_policy_never_opens_mutation_store",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0023484",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Unsupported_wildcard_or_ot_permission_rejected(code: \"station.*\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000173",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Role_names_do_not_confer_permissions",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004164",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Malformed_hashes_are_rejected(encoded: \"garbage\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000937",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.WorkflowAndSchemaTests.Sql_model_generates_constraints_without_connecting_to_any_server",
+      "Outcome": "Passed",
+      "Duration": "00:00:01.1920097",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Clone_has_new_id_and_no_assignment_or_grant_fields",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0080927",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SqlLabTests.Sql_session_reader_sees_current_versions_disable_and_revoke",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0786031",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.RoleCrudTests.Pending_authority_denies_before_sql_or_commit",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.8955780",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Missing_affected_user_cannot_use_actor_only_plan",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0005280",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.OperationMappingTests.Unimplemented_wildcard_and_ot_deny_cannot_map(code: \"unknown.permission\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0006525",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementReadTests.Unscoped_detail_is_empty_without_database_connection",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0131563",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Corporation_and_unit_scopes_are_explicit(kind: ManagementUnit, id: \"UNIT-B\", expected: False)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0037407",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Only_requester_can_cancel",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0003434",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Fixture_evidence_validates_metadata_only_pending_runtime_still_denies",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0021587",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.FeatureActivationGateTests.Invalid_activation_cannot_enable_runtime(fault: \"wrong-feature\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0626458",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Unsupported_wildcard_or_ot_permission_rejected(code: \"ied.configuration.write\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002439",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Empty_epoch_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0003120",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Cross_subject_assignment_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0006671",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Stale_hierarchy_is_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0003353",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Incomplete_or_unknown_intent_denied(field: \"digest\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0001271",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.CommitGateSqlLabTests.Gate_timeout_never_invokes_protected_callback",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.2802290",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.OperationMappingTests.Unimplemented_wildcard_and_ot_deny_cannot_map(code: \"ied.configuration.write\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000284",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Corporation_and_unit_scopes_are_explicit(kind: Corporation, id: \"CORP\", expected: True)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004230",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Role_deactivation_cuts_all_assignments",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0020899",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Trusted_object_station_must_match_scope(station: \"\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002436",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.FeatureActivationGateTests.Self_asserted_record_cannot_replace_independent_evidence",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0008255",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SignedPolicyReleaseEvidenceTests.Exact_signed_release_requires_current_authorized_approver(fault: \"signer\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0028680",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.FeatureActivationGateTests.Invalid_activation_cannot_enable_runtime(fault: \"missing-decisions\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000716",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Create_is_inactive_and_zero_permission_preview",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0012442",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"interval\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000649",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Missing_backend_enforcement_is_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0003411",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Machine_or_legacy_credentials_cannot_authorize_human_action(kind: CollectorCertificate)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002920",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementSqlLabTests.Sql_management_scope_precedes_paging_and_cross_subject_grants_are_hidden",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.3496318",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Inactive_role_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0003980",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.RoleCrudTests.Invalid_idempotency_key_rejected(key: \"short\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0005972",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Global_impact_requires_exclusive_policy_from_start",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0006318",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.CommitGateSqlLabTests.Mutation_holds_gate_revoke_waits_then_observes_committed_mutation",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.2035913",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.WorkflowAndSchemaTests.Digest_is_stable_for_order_and_duplicate_codes",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0006190",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Idle_boundary_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002822",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.TransactionalAuthorityContractTests.Malformed_digest_never_opens_factory_or_throws_null_reference(digest: null)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000106",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Role_permission_A_cannot_combine_with_assignment_B_scope",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0008967",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorityFailureSqlLabTests.P4_real_sql_command_timeout_fails_closed",
+      "Outcome": "Passed",
+      "Duration": "00:00:01.0550301",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Unsupported_wildcard_or_ot_permission_rejected(code: \"unapproved.action\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0007575",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Unknown_scope_or_bulk_envelope_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0006182",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthenticationCompletionTests.Invalid_completion_never_releases_proof(completion: MfaRequired, expected: Unavailable)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0029572",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Restore_epoch_change_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0001781",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Function_not_in_same_role_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0005689",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Cookie_on_http_is_rejected_before_sql",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0060281",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"policy\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000718",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Corporation_and_unit_scopes_are_explicit(kind: ManagementUnit, id: \"UNIT-A\", expected: True)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000329",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Malformed_hashes_are_rejected(encoded: \"\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002852",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementReadTests.Read_dtos_have_no_credential_or_raw_payload_fields",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0009658",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Adjacent_lifetimes_do_not_overlap",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004690",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthenticationCompletionTests.Challenge_completion_does_not_return_proposed_session_handle",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0054101",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Overlong_password_does_not_reach_expensive_verification",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0009176",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SeedAndStoreTests.Merely_claiming_approval_does_not_enable_seed",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.1732344",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Pending_login_store_never_executes_callback",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0013901",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.RoleCrudSqlLabTests.P4_scoped_user_query_profile_observation_only",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.1780021",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Unreviewed_permission_metadata_cannot_grant",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0016136",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Trusted_object_station_must_match_scope(station: \"B1\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0007291",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Disabled_user_is_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0007849",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase4AdapterHardeningTests.Role_adapter_enforces_https_before_pending_authority(scheme: \"https\", expected: 503)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.2720768",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.TransactionalAuthorityContractTests.Malformed_digest_never_opens_factory_or_throws_null_reference(digest: \"lowercase\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0050062",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.OperationMappingTests.Pending_owner_verifier_denies_even_complete_configuration",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0007670",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.WorkflowAndSchemaTests.Contradictory_diff_is_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0008368",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementReadTests.Default_page_cannot_bypass_limits",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0015207",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Rejected_revision_cannot_be_reviewed",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0008627",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Catalog_change_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004154",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Custom_role_is_not_limited_to_seven_names",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0001982",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Readonly_replica_intent_is_rejected_before_connecting",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.8002811",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Mfa_expiry_boundary_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002670",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"hash\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002401",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.CommitGatePlanTests.Unbounded_or_invalid_lock_timeout_is_rejected(timeout: 30001)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004888",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.CommitGatePlanTests.Duplicate_user_locks_merge_to_strongest_mode_and_sort_canonically",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0043470",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementReadTests.Pending_mapping_blocks_before_any_sql",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.1690066",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementReadTests.Invalid_page_is_rejected(offset: 0, limit: 101)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0003646",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Security_version_change_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0003100",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Cross_role_assignment_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0005222",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.CommitGatePlanTests.Actor_must_be_in_lock_set",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0136892",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Unapproved_permission_is_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004532",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AssignmentPolicyTests.Station_scope_is_not_administrative_delegation",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0121989",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.CommitGatePlanTests.Unbounded_or_invalid_lock_timeout_is_rejected(timeout: -1)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002701",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SqlLabTests.Sql_authority_reader_denies_missing_session_in_real_empty_lab",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0472072",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Valid_grant_preview_has_function_diff_and_stable_digest",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0694823",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Cross_assignment_grant_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0005597",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Login_result_string_never_contains_proof",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0033555",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Duplicate_cookies_are_rejected_before_sql",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0034397",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SignedPolicyReleaseEvidenceTests.Exact_signed_release_requires_current_authorized_approver(fault: \"self\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0028063",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SignedPolicyReleaseEvidenceTests.Exact_signed_release_requires_current_authorized_approver(fault: \"environment\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0017140",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthenticationCompletionTests.Committed_fixture_session_returns_only_its_matching_opaque_handle",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0326366",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.OperationMappingTests.Exact_mapping_is_metadata_not_an_authorization_decision",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0010931",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Request_review_approval_never_implies_applied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0043028",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.CommitGatePlanTests.Unbounded_or_invalid_lock_timeout_is_rejected(timeout: 0)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000191",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Unsupported_wildcard_or_ot_permission_rejected(code: \"*\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000358",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Invalid_opaque_proofs_are_rejected(value: \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000094",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Invalid_opaque_proofs_are_rejected(value: \"short\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002677",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.TransactionalAuthorityContractTests.Malformed_digest_never_opens_factory_or_throws_null_reference(digest: \"\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002122",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.RoleCrudSqlLabTests.Real_sql_stale_role_or_request_version_and_duplicate_code_cannot_apply",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.2029556",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"epoch\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002509",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.WorkflowAndSchemaTests.Missing_current_approval_authority_is_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0008447",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Old_policy_snapshot_session_is_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0044737",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.WorkflowAndSchemaTests.Requester_and_beneficiaries_cannot_approve",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0008403",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Reviewer_cannot_approve_same_revision",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002719",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Mismatched_user_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0003133",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.FeatureActivationGateTests.Invalid_activation_cannot_enable_runtime(fault: \"stale-authority\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002248",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Revoked_session_is_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004092",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Stale_workflow_version_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004224",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Cancellation_does_not_call_verifier",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0050159",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Catalog_version_mismatch_is_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0003600",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Administrative_delegation_cannot_change_a_station_permission_scope_kind",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0003744",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Reviewer_revoked_before_apply_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0006037",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SessionRevocationSqlLabTests.Credential_reader_and_authentication_complete_isolated_sql_session_and_rollback",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.1280932",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.FeatureActivationGateTests.Invalid_activation_cannot_enable_runtime(fault: \"production\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000335",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Release_expiring_while_evidence_is_verified_is_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0017736",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ServiceBoundaryTests.Unbounded_role_queries_are_rejected(limit: 0)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000282",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.WorkflowAndSchemaTests.Request_digest_binds_actor_revision_and_expiry",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0007848",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SeedAndStoreTests.Pending_seed_manifest_does_not_install_defaults",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0016163",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Expiry_prevents_apply",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004591",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ServiceBoundaryTests.Migration_batches_require_exact_disposable_target_without_opening_sql",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0519976",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Cancelled_revision_cannot_be_reviewed",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0009253",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.CommitGateSqlLabTests.Lost_ack_after_real_sql_commit_is_unknown_outcome_not_safe_retry",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0617422",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Grant_version_change_invalidates_stale_session",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002710",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"expiry\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002455",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SignedPolicyReleaseEvidenceTests.Exact_signed_release_requires_current_authorized_approver(fault: \"sha\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0026658",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Pending_commit_gate_blocks_effective_apply",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0019630",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Missing_authority_fails_closed",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0001496",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.EndpointContractTests.Adapter_exposes_only_canonical_read_routes_with_explicit_human_policy",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.2417807",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Independent_action_requires_workflow",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002475",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SignedPolicyReleaseEvidenceTests.Exact_signed_release_requires_current_authorized_approver(fault: \"ref\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0025032",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.CommitGatePlanTests.Preexisting_uncommitted_mutation_is_not_flushed_under_a_new_actor",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.2212663",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.WorkflowAndSchemaTests.Stale_digest_and_duplicate_person_votes_are_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.1474725",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Permission_diff_requires_explicit_change_kind",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004720",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Absolute_boundary_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0003222",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Grant_version_conflict_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0008085",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SessionRevocationTests.Unknown_operation_is_not_mapped_to_logout_all",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.2005875",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Malformed_hashes_are_rejected(encoded: \"AQ==\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004590",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.RoleCrudSqlLabTests.Real_sql_outbox_failure_rolls_back_effective_role_and_success_audit",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.3786808",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Policy_plan_still_needs_every_explicit_target_exclusive",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0006817",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Expired_assignment_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0184702",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase4AdapterHardeningTests.Role_adapter_enforces_https_before_pending_authority(scheme: \"http\", expected: 401)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0156375",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"catalog\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000784",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SessionRevocationTests.Pending_revocation_policy_blocks_before_database",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.8973412",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Caller_supplied_case_insensitive_comparer_does_not_change_decision_ids",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0012086",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"tamper\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0028002",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.RoleCrudTests.Invalid_idempotency_key_rejected(key: \"\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.2470294",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"future\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0001826",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.RoleCrudTests.Invalid_idempotency_key_rejected(key: \"key with spaces\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0007716",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Role_expiry_is_exclusive_boundary",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0005205",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Incomplete_or_unknown_intent_denied(field: \"impact\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0001304",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Approver_becomes_beneficiary_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0009336",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Requester_cannot_review",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0005775",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Unconfigured_current_versions_denied(policy: 0, catalog: 1, hierarchy: 1)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000719",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Invalid_opaque_proofs_are_rejected(value: null)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000059",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Forwarded_header_does_not_turn_http_into_trusted_https",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0008419",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Pending_D09_never_invokes_mutation_callback",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0011703",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SignedPolicyReleaseEvidenceTests.Exact_signed_release_requires_current_authorized_approver(fault: \"valid\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0102317",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorityFailureSqlLabTests.P4_real_sql_missing_database_connection_fails_closed",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0233531",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Missing_csrf_is_rejected_even_same_origin",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0008573",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Exact_coverage_normalizes_strongest_duplicate_without_granting_authority",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0009834",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SessionRevocationSqlLabTests.Unknown_or_stale_session_never_selects_an_arbitrary_user_to_revoke",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.1075255",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Invalid_opaque_proofs_are_rejected(value: \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa+\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000052",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.CommitGateSqlLabTests.Boundary_refuses_nested_transactions",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.1122183",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Duplicate_retired_role_code_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0005030",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Opaque_proofs_are_random_canonical_and_purpose_bound",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002950",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.HumanHttpSqlLabTests.Actual_https_and_sql_deny_forged_identity_revoked_cookie_and_unavailable_authority",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.6265244",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Expired_grant_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0022908",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.FeatureActivationGateTests.Validated_release_still_requires_current_committed_activation",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0016258",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.CommitGateSqlLabTests.Committed_revoke_is_read_before_next_protected_mutation",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.1721264",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Incomplete_or_unknown_intent_denied(field: \"actor\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0003440",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ServiceBoundaryTests.Unbounded_role_queries_are_rejected(limit: 101)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004163",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Grant_expiry_beyond_assignment_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0003702",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Beneficiary_cannot_approve_own_escalation",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0003850",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Machine_or_legacy_credentials_cannot_authorize_human_action(kind: LegacyApiKey)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002890",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Requester_becomes_beneficiary_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0006533",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AssignmentPolicyTests.Unapproved_assignment_conflict_policy_does_not_grant",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0018955",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SignedPolicyReleaseEvidenceTests.Exact_signed_release_requires_current_authorized_approver(fault: \"option\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0025805",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Ancestor_unit_requires_reviewed_hierarchy_membership",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0328668",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.OperationMappingTests.Unimplemented_wildcard_and_ot_deny_cannot_map(code: \"*\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002926",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Grant_expiry_is_exclusive_boundary",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0005060",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SessionRevocationSqlLabTests.Required_outbox_failure_rolls_back_revoke_security_version_and_challenge_invalidation",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.8362031",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.FeatureActivationGateTests.Invalid_activation_cannot_enable_runtime(fault: \"missing-actor\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0013073",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Reviewer_cannot_approve",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0762825",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Cross_origin_is_rejected_before_antiforgery",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0009570",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Alias_person_string_does_not_become_independent_role",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004815",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Hierarchy_change_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0005197",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Incomplete_or_unknown_intent_denied(field: \"affected\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002201",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Pending_mfa_policy_blocks_activation",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0009002",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Requester_cannot_approve",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0005952",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Same_origin_valid_csrf_passes_guard",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0034801",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.CommitGateSqlLabTests.Exclusive_policy_change_blocks_mutation_by_another_actor",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.1250288",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Authority_outage_challenges_503_without_authenticated_principal",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0541301",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SessionRevocationSqlLabTests.Revoke_current_then_everywhere_invalidates_only_current_subject_sessions_and_challenges",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.1410688",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementReadTests.Invalid_page_is_rejected(offset: 0, limit: 0)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000058",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.WorkflowAndSchemaTests.Approval_does_not_remain_usable_after_revoke_or_new_beneficiary",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0011430",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthenticationCompletionTests.Failed_commit_never_releases_session_handle",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0017188",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Station_grant_does_not_grant_global_administration",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0012933",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Empty_required_set_is_not_vacuously_approved",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0009563",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.New_role_has_no_active_authority_and_copy_carries_no_assignment",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0061173",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorityCommitIntentTests.Incomplete_or_unknown_intent_denied(field: \"operation\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0001518",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.OperationMappingTests.Stale_policy_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0003800",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Policy_change_prevents_apply",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0018602",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Real_antiforgery_provider_rejects_missing_proof_and_accepts_bound_token_pair",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0202596",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SignedPolicyReleaseEvidenceTests.Exact_signed_release_requires_current_authorized_approver(fault: \"untrusted\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0025515",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.CommitGateSqlLabTests.Callback_failure_rolls_back_database_and_discards_tracked_changes",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0659968",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SignedPolicyReleaseEvidenceTests.Exact_signed_release_requires_current_authorized_approver(fault: \"signature\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0058236",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.RoleCrudTests.Invalid_idempotency_key_rejected(key: \"../unsafe\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0001978",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"decisions\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004528",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.CommitGatePlanTests.Pending_plan_denies_before_connection_or_callback",
+      "Outcome": "Passed",
+      "Duration": "00:00:01.1255578",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.RoleCrudSqlLabTests.P4_D001_request_target_must_match_immutable_payload_target",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.1016875",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthenticationCompletionTests.Invalid_credentials_cannot_reach_completion",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0035446",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SignedPolicyReleaseEvidenceTests.Exact_signed_release_requires_current_authorized_approver(fault: \"revoked\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.1584793",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.IndependentWorkflowTests.Wrong_digest_rejected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0005568",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Hashes_are_salted_and_passwords_are_verified",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0061486",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"evidence\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0001764",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"release\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0008598",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.OperationMappingTests.Manage_permission_never_implies_another_operation",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004143",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.FeatureActivationGateTests.Invalid_activation_cannot_enable_runtime(fault: \"wrong-scope\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0006535",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Forged_proxy_identity_headers_are_ignored",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0011798",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Ied_write_is_forbidden_even_if_every_catalog_flag_is_true",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0009054",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ServiceBoundaryTests.Machine_credentials_are_rejected_before_authority_lookup",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0029752",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.FeatureActivationGateTests.Changes_during_verification_are_detected",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0032215",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SeedAndStoreTests.Pending_D09_does_not_open_sql_or_add_audit_rows",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.9871911",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Invalid_opaque_proofs_are_rejected(value: \"\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002526",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Incomplete_stale_tampered_or_wrong_environment_release_denied_before_trust(field: \"payload\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000652",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Machine_certificate_with_human_cookie_is_rejected_before_sql",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.1558028",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.PolicyReleaseValidationTests.Unconfigured_current_versions_denied(policy: 1, catalog: 1, hierarchy: 0)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0006313",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Policy_version_change_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0001964",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Restored_old_session_epoch_is_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002802",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementReadTests.Invalid_page_is_rejected(offset: -1, limit: 1)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000144",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementProposalTests.Activate_preview_does_not_activate_effective_role",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004014",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthenticationCompletionTests.Invalid_completion_never_releases_proof(completion: Unavailable, expected: Unavailable)",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0019746",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.ManagementReadTests.Read_adapters_are_canonical_human_get_only",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0497947",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SignedPolicyReleaseEvidenceTests.Exact_signed_release_requires_current_authorized_approver(fault: \"payload\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0027349",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.AuthorizationTests.Assignment_expiry_is_exclusive_boundary",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002812",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.FeatureActivationGateTests.Every_feature_defaults_to_blocked_without_trusted_records",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0026396",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Every_handler_call_checks_current_authority_and_revoke_is_seen",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0024124",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.SignedPolicyReleaseEvidenceTests.Exact_signed_release_requires_current_authorized_approver(fault: \"expiry\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0023082",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Invalid_digest_never_creates_sql_context",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0009107",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Identity.Tests.Phase2SecurityTests.Higher_cost_requests_rehash_without_rejecting_correct_password",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0039602",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.A10LabWorkflowTests.Browser_session_authority_changes_clear_DOM_and_ignore_delayed_response(scenario: \"mfa\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:10.5699393",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterRuntimeDatabaseTests.Actual_center_starts_against_new_database_with_non_sa_principal_and_pending_boundaries",
+      "Outcome": "NotExecuted",
+      "Duration": "00:00:00.0010000",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterStartupTests.Identity_startup_is_actual_center_with_real_sql_reader_and_no_operational_workers",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.2729693",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.DatabaseModelTests.New_schemas_do_not_copy_iam_authority_or_store_binary_waveforms",
+      "Outcome": "Passed",
+      "Duration": "00:00:01.1641839",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterDatabaseSqlTests.Fault_record_file_chain_is_station_bound_and_unimplemented_analysis_has_no_fabricated_result",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.8570970",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.PrivateComtradeFileSourceTests.Wrong_size_digest_traversal_and_excess_size_do_not_return_a_stream",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0105275",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterDatabaseSqlTests.Real_files_ingest_replay_and_concurrent_duplicates_are_atomic",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.7102121",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Invalid_proposals_fail_closed(field: \"CONTROL\", expected: \"EXPLICIT_READ_ONLY_SCOPE_REQUIRED\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000160",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Invalid_proposals_fail_closed(field: \"LIMIT\", expected: \"FINITE_LIMITS_REQUIRED\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000147",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.A10LabWorkflowTests.Shared_HTTPS_reverse_proxy_and_browser_contexts_do_not_reuse_private_station_data_after_revoke",
+      "Outcome": "Passed",
+      "Duration": "00:00:04.0670602",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.TransactionalAuthoritySqlTests.Empty_lab_session_miss_profile_is_not_login_or_capacity_acceptance",
+      "Outcome": "Passed",
+      "Duration": "00:00:01.6921281",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterRuntimeDatabaseTests.Dedicated_runtime_principal_denies_authority_dml_secret_reads_and_unscoped_aggregates",
+      "Outcome": "NotExecuted",
+      "Duration": "00:00:00.0010000",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Invalid_proposals_fail_closed(field: \"WILDCARD\", expected: \"EXACT_UNICAST_ENDPOINT_REQUIRED\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000406",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterDatabaseSqlTests.Scope_filter_precedes_page_and_pending_machine_and_human_authorities_deny",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.6289635",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.A10CertificateTests.Signed_full_CRL_valid_revoked_unknown_and_unavailable_are_distinct_and_mTLS_fails_closed",
+      "Outcome": "Passed",
+      "Duration": "00:00:01.3933070",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Invalid_proposals_fail_closed(field: \"ROLLBACK\", expected: \"ROLLBACK_REQUIRED\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0003906",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.A10LabWorkflowTests.Browser_Lab_workflow_and_idle_expiry_clear_two_sensitive_tabs_against_real_sql",
+      "Outcome": "Passed",
+      "Duration": "00:00:11.6024923",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterDatabaseSqlTests.Checksum_tamper_is_rejected_before_sql_mutation",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.7414541",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.A10LabWorkflowTests.Disposable_migration_rollback_refuses_existing_evidence_and_reverses_empty_optional_schemas",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.9399522",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.DatabaseModelTests.All_29_domain_tables_have_key_rowversion_restrict_and_utc_constraints",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.2697671",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterRuntimeDatabaseTests.Center_database_cannot_be_enabled_with_sa_or_legacy_keys",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0037463",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Invalid_proposals_fail_closed(field: \"MODEL\", expected: \"INVENTORY_FIELDS_REQUIRED\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000305",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.PilotIntakeContractTests.Malformed_manifest_never_opens_sql_or_creates_storage(field: \"hash\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0023162",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.A10LabWorkflowTests.Synthetic_collector_registry_change_requires_four_independent_people_and_commits_audit",
+      "Outcome": "Passed",
+      "Duration": "00:00:01.4815304",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterStartupTests.Production_activation_not_enabled_by_a_config_flag",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0899715",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterDatabaseSqlTests.OFFLINE_FIXTURE_collector_sqlite_staging_to_canonical_sql_receipt_restart_and_replay",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.7705832",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Invalid_proposals_fail_closed(field: \"MANIFEST\", expected: \"INVALID_EVIDENCE_MANIFEST\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000238",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.DatabaseModelTests.Station_consistency_is_enforced_by_composite_foreign_keys",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0127412",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Missing_evidence_reference_fails_closed(kind: \"SECURITY\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000252",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterDatabaseSqlTests.Synthetic_5000_record_scoped_query_profile_and_actual_plan",
+      "Outcome": "Passed",
+      "Duration": "00:00:02.8657613",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.A10LabWorkflowTests.Failed_binding_apply_discards_tracked_mutation_before_same_scope_retry",
+      "Outcome": "Passed",
+      "Duration": "00:00:01.2701795",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.A10LabWorkflowTests.Browser_session_authority_changes_clear_DOM_and_ignore_delayed_response(scenario: \"revoked\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:11.2166105",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.PilotIntakeContractTests.Malformed_manifest_never_opens_sql_or_creates_storage(field: \"station\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0008546",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.A10LabWorkflowTests.Browser_collector_registry_request_review_approve_apply_uses_real_SQL_and_SoD",
+      "Outcome": "Passed",
+      "Duration": "00:00:04.4181049",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterHttpsSqlLabTests.Browser_password_mfa_cookie_profile_logout_and_reuse_against_disposable_sql",
+      "Outcome": "Passed",
+      "Duration": "00:00:03.4106903",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Missing_evidence_reference_fails_closed(kind: \"INVENTORY\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000407",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterDatabaseSqlTests.Required_outbox_failure_rolls_back_record_files_attempt_and_history",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.7774077",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.A10LabWorkflowTests.Browser_session_authority_changes_clear_DOM_and_ignore_delayed_response(scenario: \"security\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:10.5344027",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.A10LabWorkflowTests.Concurrent_approval_missing_grants_cross_assignment_and_expired_permit_are_denied_atomically",
+      "Outcome": "Passed",
+      "Duration": "00:00:01.3186678",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.PrivateComtradeFileSourceTests.Prepared_stream_is_verified_bounded_and_independent_of_later_source_changes",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0600564",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterDatabaseSqlTests.Actual_core_soe_contract_replay_is_idempotent_and_conflicting_replay_denied",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.6963294",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterHttpsSqlLabTests.Browser_business_authority_and_download_against_fresh_disposable_sql",
+      "Outcome": "Passed",
+      "Duration": "00:00:08.4195045",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.PilotIntakeContractTests.Malformed_manifest_never_opens_sql_or_creates_storage(field: \"id\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004582",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Invalid_proposals_fail_closed(field: \"PATH\", expected: \"EXPLICIT_READ_ONLY_SCOPE_REQUIRED\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000278",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.A10LabWorkflowTests.Synthetic_lab_workflow_enforces_person_station_revision_permit_and_atomic_history_over_https",
+      "Outcome": "Passed",
+      "Duration": "00:00:02.2987145",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.PilotMachineBoundaryTests.Isolated_loopback_https_machine_contract_rejects_human_cookie_forged_headers_and_unsigned_authority",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.8977232",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Invalid_proposals_fail_closed(field: \"TIMEZONE\", expected: \"VALID_WINDOW_REQUIRED\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0338776",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.PilotIntakeContractTests.Malformed_manifest_never_opens_sql_or_creates_storage(field: \"files\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.2001098",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterDatabaseSqlTests.Schema_has_53_tables_canonical_iam_and_three_views",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.5569147",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Invalid_proposals_fail_closed(field: \"STOP\", expected: \"STOP_OWNER_REQUIRED\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000283",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.A10LabWorkflowTests.Export_worker_barrier_rechecks_revoked_SQL_authority_and_quarantines_without_HTTP_artifact",
+      "Outcome": "Passed",
+      "Duration": "00:00:01.2371445",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Missing_evidence_reference_fails_closed(kind: \"NETWORK\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000188",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.A10LabWorkflowTests.Synthetic_failure_and_explicit_abort_are_terminal_and_audited",
+      "Outcome": "Passed",
+      "Duration": "00:00:01.4171822",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Invalid_proposals_fail_closed(field: \"FIRMWARE\", expected: \"INVENTORY_FIELDS_REQUIRED\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000149",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Invalid_proposals_fail_closed(field: \"FILE\", expected: \"EXPLICIT_READ_ONLY_SCOPE_REQUIRED\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000248",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterHttpsSqlLabTests.Actual_https_and_sql_deny_forged_identity_revoked_cookie_and_unavailable_authority",
+      "Outcome": "Passed",
+      "Duration": "00:00:03.1110512",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.PrivateComtradeFileSourceTests.Path_swapped_after_attributes_check_cannot_stage_matching_bytes_outside_root",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.5652838",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.A8MachineIngressTests.Fresh_SQL_registry_and_test_CA_allow_only_bound_machine_ingress",
+      "Outcome": "Passed",
+      "Duration": "00:00:04.0680531",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.PilotIntakeContractTests.Malformed_manifest_never_opens_sql_or_creates_storage(field: \"name\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0025994",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Scope_changes_and_new_versions_produce_distinct_hashes",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0725944",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterStartupTests.Missing_connection_does_not_fallback_to_demo",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0032989",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.A10LabWorkflowTests.Expired_permit_revoked_actor_and_outbox_failure_never_commit_a_transition",
+      "Outcome": "Passed",
+      "Duration": "00:00:01.3761384",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterDatabaseSqlTests.Composite_station_fk_checks_unique_and_rowversion_are_enforced",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.7550320",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Invalid_proposals_fail_closed(field: \"MULTICAST\", expected: \"EXACT_UNICAST_ENDPOINT_REQUIRED\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0000183",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterDatabaseSqlTests.Business_reads_scope_aggregate_and_objects_and_recheck_revocation",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.7998463",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Missing_evidence_reference_fails_closed(kind: \"TIME\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0002970",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.TransactionalAuthoritySqlTests.Missing_session_read_does_not_consume_or_dispose_borrowed_transaction",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.5081921",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Complete_proposal_remains_blocked_even_with_well_formed_evidence",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0037993",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Exact_expiration_boundary_is_expired",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0004248",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.TransactionalAuthoritySqlTests.Borrowed_authority_read_observes_transaction_local_revoke_and_never_commits_fixture",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.5207269",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.CenterDatabaseSqlTests.OFFLINE_FIXTURE_through_SIMULATED_pinned_mtls_API_to_SQL_outbox_and_verified_edge_ack",
+      "Outcome": "Passed",
+      "Duration": "00:00:01.2554980",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.LabReadinessGateTests.Missing_evidence_reference_fails_closed(kind: \"SCADA\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:00.0006882",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.A10LabWorkflowTests.Authorized_HTTP_path_swap_returns_zero_bytes_and_commits_correlated_denial_audit_outbox",
+      "Outcome": "Passed",
+      "Duration": "00:00:01.2495592",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    },
+    {
+      "Name": "Fdc.Center.Tests.A10LabWorkflowTests.Browser_session_authority_changes_clear_DOM_and_ignore_delayed_response(scenario: \"absolute\")",
+      "Outcome": "Passed",
+      "Duration": "00:00:10.9393893",
+      "Trx": "lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx"
+    }
+  ],
+  "Files": [
+    {
+      "Path": "a10-absolute-cleared.png",
+      "Bytes": 19014,
+      "Sha256": "e414d1756ab8ffa077c15fd39de49117fbfd006bed55a4298be969b52449ec93"
+    },
+    {
+      "Path": "a10-binding-applied.png",
+      "Bytes": 30143,
+      "Sha256": "05a1d74ac282b816612a7a8b41de9d94478b126b5b81528e63583773e7ed6d05"
+    },
+    {
+      "Path": "a10-binding-browser.json",
+      "Bytes": 329,
+      "Sha256": "4a34eeb03a0b9f1a9d92def17f39294a452b3230e2b0741b92f25ce7912dace8"
+    },
+    {
+      "Path": "a10-binding-rollback.json",
+      "Bytes": 263,
+      "Sha256": "249de789bedb956a207959c87c2dfd6499a4a382077bff0986b0cc3e0c181b64"
+    },
+    {
+      "Path": "a10-binding.json",
+      "Bytes": 349,
+      "Sha256": "0883c81785ee4a975f1023f6432cc9001c70589af60fd942a542818981e51802"
+    },
+    {
+      "Path": "a10-cache-browser.json",
+      "Bytes": 456,
+      "Sha256": "faf4700673523047fbc7ad3a0abe683c57c9024ed92b11e9fb10dbe24de0fa11"
+    },
+    {
+      "Path": "a10-cache-session-switch.png",
+      "Bytes": 76654,
+      "Sha256": "ed5d59ebf24ca22a8d6049390b79dfbd9eeb70ae9766ec0f5f7b8b28e0b03ae2"
+    },
+    {
+      "Path": "a10-crl-mtls.json",
+      "Bytes": 371,
+      "Sha256": "1ff2ddb8a397401dea970fc8e869c1a2ff8211827e85610a5c25ed0ef504d942"
+    },
+    {
+      "Path": "a10-export-revoke.json",
+      "Bytes": 374,
+      "Sha256": "431f3f5da7c3a81df2cc4371d48cbb23df07475c40c25a9077900d37591e136f"
+    },
+    {
+      "Path": "a10-http-path-swap.json",
+      "Bytes": 230,
+      "Sha256": "836853e428cd1fbecb5fb743186e3ef4ef8b138d2317323007ad425567e63198"
+    },
+    {
+      "Path": "a10-idle-cleared.png",
+      "Bytes": 19014,
+      "Sha256": "e414d1756ab8ffa077c15fd39de49117fbfd006bed55a4298be969b52449ec93"
+    },
+    {
+      "Path": "a10-lab-browser-absolute.json",
+      "Bytes": 6638,
+      "Sha256": "0d5a634f29d4754ec72fd7c874dfac52412a470828895ecee759e9971eacbeb0"
+    },
+    {
+      "Path": "a10-lab-browser-idle.json",
+      "Bytes": 6634,
+      "Sha256": "fb83859755f97624da8a6a96f4bd7e3debe9aa9b01a239f25e2f59c34a50c4fa"
+    },
+    {
+      "Path": "a10-lab-browser-mfa.json",
+      "Bytes": 6845,
+      "Sha256": "e4961e5933562325b81694a9beb96963cc6fc7c6e0838a2f064f5c844ccf3f08"
+    },
+    {
+      "Path": "a10-lab-browser-revoked.json",
+      "Bytes": 6494,
+      "Sha256": "79594ff06978df2f7db3c8a3c04e7fc3149655b05caea8be70def649cca27283"
+    },
+    {
+      "Path": "a10-lab-browser-security.json",
+      "Bytes": 6638,
+      "Sha256": "2b9ed9487218be8a9ae629f1bd5da9503adbc27503c1e4f86e8f0c5e96749aaa"
+    },
+    {
+      "Path": "a10-lab-completed.png",
+      "Bytes": 105036,
+      "Sha256": "64909abd62e800ac2408ff402cef07958c389cf2be9d10666530616a80b55112"
+    },
+    {
+      "Path": "a10-lab-concurrency.json",
+      "Bytes": 217,
+      "Sha256": "c238654a773363e8e6168f057b6dc36b6280554190c708d0cb8b85f81162e38f"
+    },
+    {
+      "Path": "a10-mfa-cleared.png",
+      "Bytes": 35184,
+      "Sha256": "15251ca12a8a3ae92e6425714b9883d80e2567a235cc19a25c04ae98b46e0720"
+    },
+    {
+      "Path": "a10-migration-rollback.json",
+      "Bytes": 243,
+      "Sha256": "8d3420f971a34a2554fa651c6c519f60a99dd896152bb229a9eb7e527c85e37e"
+    },
+    {
+      "Path": "a10-proxy-sql.json",
+      "Bytes": 348,
+      "Sha256": "71f0b0a6a2d552bdf73a95f6c9f762b24dec4944797e9b7d55083770ea684ec6"
+    },
+    {
+      "Path": "a10-revoked-cleared.png",
+      "Bytes": 19014,
+      "Sha256": "e414d1756ab8ffa077c15fd39de49117fbfd006bed55a4298be969b52449ec93"
+    },
+    {
+      "Path": "a10-security-cleared.png",
+      "Bytes": 19014,
+      "Sha256": "e414d1756ab8ffa077c15fd39de49117fbfd006bed55a4298be969b52449ec93"
+    },
+    {
+      "Path": "a10-terminal-outcomes.json",
+      "Bytes": 227,
+      "Sha256": "8d172fa7d13dfa7f9821c74b2e675a99629f438243614a9cc2612bb14465ecea"
+    },
+    {
+      "Path": "a5-browser.json",
+      "Bytes": 2058,
+      "Sha256": "a7f674a95dacdef685dde70b96db4d392d6c93414dc69f9f41a8ec572526328b"
+    },
+    {
+      "Path": "a5-isolated-profile.png",
+      "Bytes": 10124,
+      "Sha256": "9fefd448dfa9f0ed0142fec90660bbc3bdc737a5d390e538580dd8294d133739"
+    },
+    {
+      "Path": "a5-isolated-replay-denied.png",
+      "Bytes": 10544,
+      "Sha256": "748894dc2ac7f974d558fb0199ec30f237aea5384c15be0bf784a8f599259685"
+    },
+    {
+      "Path": "a5-sql-verification.json",
+      "Bytes": 155,
+      "Sha256": "0d08dff5ab077e830645db87c0f821347be6fb666c1d19ca1eff8db4dfac1dfe"
+    },
+    {
+      "Path": "a7-browser.json",
+      "Bytes": 5048,
+      "Sha256": "8e76d9a947458868cc809f6834fff9427c26e00132d65ff107d5fb17be1a3094"
+    },
+    {
+      "Path": "a7-download-link.png",
+      "Bytes": 32981,
+      "Sha256": "cd5be7f30db7d93a6fed10203fd4a4d424cd10ee886ee55f57de94ccd2e651c3"
+    },
+    {
+      "Path": "a7-role-sql.json",
+      "Bytes": 501,
+      "Sha256": "e7ebd1fbb4c42426261b284795b641f86ce695ed16723c8681c993257e8f39ca"
+    },
+    {
+      "Path": "a7-sql-verification.json",
+      "Bytes": 129,
+      "Sha256": "3668c3080204df7c08a83f35553fdf22b484a2004ae61c2186fe8e0b4376beef"
+    },
+    {
+      "Path": "a7-stations.png",
+      "Bytes": 30097,
+      "Sha256": "33b9e6a6149ced2248f00d16ddcb01ad4131d8685eecdb6c9debc0e23971a0f0"
+    },
+    {
+      "Path": "a8-collector-mobile.png",
+      "Bytes": 47790,
+      "Sha256": "6aea3299a03b991ca75400c93ac24a00e9f2e8d1e14ff8dd01e80788518455f8"
+    },
+    {
+      "Path": "a8-mtls.json",
+      "Bytes": 284,
+      "Sha256": "9315be5a8a6ae543406aafe9d01f92519caddd25801cf476b4a10fcecd122a3b"
+    },
+    {
+      "Path": "authority-miss-profile.json",
+      "Bytes": 4633,
+      "Sha256": "3642e1d10942baf84973e63655327d025844764adb288fbb074b6b8518421821"
+    },
+    {
+      "Path": "build.log",
+      "Bytes": 2141,
+      "Sha256": "1337fe00f122bea242deb11f4164d1f400ab5aeea8f277d340a497ab04bb3acc"
+    },
+    {
+      "Path": "center-browser-traffic.json",
+      "Bytes": 8322,
+      "Sha256": "aec7bcedba44d80ccbb7b34a44446047f6bde10341a3af45997f9306f6741699"
+    },
+    {
+      "Path": "center-live-browser.json",
+      "Bytes": 1539,
+      "Sha256": "d3a17e021c0289793d8acaecd376d9cd8e618011506237811b24cf0327218ae4"
+    },
+    {
+      "Path": "center-live-desktop.png",
+      "Bytes": 36780,
+      "Sha256": "5ec6e1cfd07a4674fd9de72f2c49c8d35ea7a34cd4c02c1a53664c6488194931"
+    },
+    {
+      "Path": "center-live-mobile.png",
+      "Bytes": 30102,
+      "Sha256": "976e5f962193fa381606fcb1d3e3158ef2072e036f5acd4c60b4210922a2c887"
+    },
+    {
+      "Path": "center-live-tablet.png",
+      "Bytes": 34721,
+      "Sha256": "8b8dee15186a7b7b2e64d317a1207fe2321e9a0397868b6b0eb00b5eb4cd40fe"
+    },
+    {
+      "Path": "cleanup.log",
+      "Bytes": 3,
+      "Sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354"
+    },
+    {
+      "Path": "iam-audit.png",
+      "Bytes": 36863,
+      "Sha256": "55586ecc7a48a934448919dc4f37edd005286d7ba6d62220e043b9901d40b463"
+    },
+    {
+      "Path": "iam-grants.png",
+      "Bytes": 48503,
+      "Sha256": "05e47672f4a3b9ba4ce0e35648b5bd9a8b276cd48e9bc1a11fd7c92e5ab83b7b"
+    },
+    {
+      "Path": "iam-login.png",
+      "Bytes": 40216,
+      "Sha256": "f22a956545ae75f7c0db3750abe9679edee6d182b1b09e4df2a5fd25989678cb"
+    },
+    {
+      "Path": "iam-mfa.png",
+      "Bytes": 39256,
+      "Sha256": "36b0b5120b7858d5887aaf6033a0ce71de723ec3edbe2b86301224e4866f7990"
+    },
+    {
+      "Path": "iam-permissions.png",
+      "Bytes": 32161,
+      "Sha256": "e6888405971feba6d0858135e5164880151b26edd8a7042c5e0976d494c1bbd8"
+    },
+    {
+      "Path": "iam-profile.png",
+      "Bytes": 38616,
+      "Sha256": "f930ff1f4539d999c4475f899f47a6ffe711dfc0094dff1c8ce95daa2c619ab7"
+    },
+    {
+      "Path": "iam-recovery.png",
+      "Bytes": 36100,
+      "Sha256": "8ae0515b50a3b914c0fbb84ada53cd8e4ca7a71644ed7583fcb2e03e0e1edfb3"
+    },
+    {
+      "Path": "iam-roles.png",
+      "Bytes": 35240,
+      "Sha256": "d6895ea3f1b76964ce3c0bd49a6b7631b6493b423e893122a7264014dc001303"
+    },
+    {
+      "Path": "iam-users.png",
+      "Bytes": 38553,
+      "Sha256": "5e50a04c4cfc7adbd4205b4cd4e9682ba6dbdee61de948ed92d128fd2c05abc2"
+    },
+    {
+      "Path": "lab-http.json",
+      "Bytes": 457,
+      "Sha256": "dbd39e75f7151929602955e0c4f4a63488b94eb08bbaa6bfdb8e1bb47868bc69"
+    },
+    {
+      "Path": "lab-rollback.json",
+      "Bytes": 230,
+      "Sha256": "65f556a399cdc39b54b1c2ae83ddfc5bce22b414b7f161e3026e9334bd19a1e5"
+    },
+    {
+      "Path": "native-simulated.json",
+      "Bytes": 777,
+      "Sha256": "54e2e476fb50550cee5f1f5437716289219d12113db7db3def31827d93b14ed7"
+    },
+    {
+      "Path": "P41-GATE-01.json",
+      "Bytes": 348,
+      "Sha256": "2f64c85b8b269d1989912cd2fb0d2817f765a56f9667f0cb21ea9342e1dd37a2"
+    },
+    {
+      "Path": "P41-GATE-02.json",
+      "Bytes": 354,
+      "Sha256": "4d4130f8b8f22c0820483564bda202c326b1be3d6033e3ab816c63687ca806d1"
+    },
+    {
+      "Path": "P41-GATE-03.json",
+      "Bytes": 323,
+      "Sha256": "d38e7d91ba9e6d94c98f067a1b05d6d85e4eef6a9a2da9e42da2d1aa54297b45"
+    },
+    {
+      "Path": "P41-GATE-04.json",
+      "Bytes": 328,
+      "Sha256": "ea9e972cd130071aecb600edf55499ff417820fcd1ecf38d3949b475bce9228f"
+    },
+    {
+      "Path": "P41-GATE-05.json",
+      "Bytes": 361,
+      "Sha256": "cfa5e5efcc8b967ed9c95dc1aa8ca9f16a96a0dcb7e66e25870d349957b13bad"
+    },
+    {
+      "Path": "P41-GATE-06.json",
+      "Bytes": 390,
+      "Sha256": "5f54b6453cd31479617e90d490f6e6ea3d9f8fcfcfa9df2555051ab4079beca8"
+    },
+    {
+      "Path": "query-profile.json",
+      "Bytes": 1220,
+      "Sha256": "c120fc54e788fcc0b15bec247d6eb5008a1b2e75b45a35bb27d23d2a9007df01"
+    },
+    {
+      "Path": "run.json",
+      "Bytes": 295,
+      "Sha256": "f8c6706cc19a4bfe805810245ddd24ce80fb3b94c7c365f08ef8781d6d54f32a"
+    },
+    {
+      "Path": "scoped-query-plan.sqlplan",
+      "Bytes": 8850,
+      "Sha256": "7c7afdfefd83b25cbf22066f7baeb666b2e2b7a98b6dd4bd4e47b235d81fa241"
+    },
+    {
+      "Path": "scoped-query-profile.json",
+      "Bytes": 2034,
+      "Sha256": "3df766488333db44b441e233e18102438b7765af3c5476062549f283db60da81"
+    },
+    {
+      "Path": "source-stat.txt",
+      "Bytes": 2879,
+      "Sha256": "03d89e05e307d85b9865cd1cd395efca7c69bf0275c720a66da3edd882764189"
+    },
+    {
+      "Path": "source.diff",
+      "Bytes": 252697,
+      "Sha256": "5791e77e75bd224ca7ce42434a6e37bff78db7d2ec09b9627e298ee22488b2b4"
+    },
+    {
+      "Path": "tests.log",
+      "Bytes": 2415,
+      "Sha256": "5e9eca5a42f414ff82e946fb4910b84e079c2dc9fe4f9707faf182948fc9c3fe"
+    },
+    {
+      "Path": "trx/lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0.trx",
+      "Bytes": 76299,
+      "Sha256": "0b03337818b1fc11abc4498b97b0d6eb87292263cc778437cbaffc550930432e"
+    },
+    {
+      "Path": "trx/lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[1].trx",
+      "Bytes": 422537,
+      "Sha256": "8868eddc88b810346c27eb8d92f9d6d908b5906433f1eb5a57a7d71a1bced805"
+    },
+    {
+      "Path": "trx/lavie_XOTH-ETC-2_2026-11-10_11_27_39_net10.0[2].trx",
+      "Bytes": 118564,
+      "Sha256": "bd60a72a368d446ae7cd49ab3665d1e8dae41dd0e55e33c01a364d6fc362aec0"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FDC/FRS · Thử nghiệm mô phỏng</title><link rel="stylesheet" href="styles/axl-base.css">
+<link rel="stylesheet" href="styles/live-management.css"><script type="module" src="lab.mjs"></script></head>
+<body><main class="management-content">
+<a href="/identity/business.html">Dữ liệu theo trạm</a><h1>Thử nghiệm mô phỏng</h1>
+<p>Phê duyệt ở màn hình này chỉ áp dụng cho kế hoạch mô phỏng được cấp quyền.</p>
+<p id="lab-status" role="status"></p><button id="lab-refresh" type="button">Tải danh sách</button>
+<ul id="lab-list"></ul><section id="lab-detail" aria-live="polite"></section>
+<form id="lab-create" class="management-panel"><h2>Tạo kế hoạch</h2>
+<label>Inventory ID <input name="inventory" required></label>
+<label>Station ID <input name="station" required></label><label>IED ID <input name="ied" required></label>
+<label>Kế hoạch mô phỏng <input name="plan" maxlength="2048" required></label>
+<label>SHA-256 bằng chứng <input name="evidence" maxlength="64" required></label>
+<label>Kết quả định trước của kịch bản mô phỏng <select name="outcome">
+<option value="COMPLETED">Completed</option><option value="FAILED">Failed</option><option value="ABORTED">Aborted</option>
+</select></label>
+<label>Bắt đầu UTC <input name="start" type="datetime-local" required></label>
+<label>Kết thúc UTC <input name="end" type="datetime-local" required></label>
+<button type="submit">Tạo bản nháp</button></form>
+</main></body></html>

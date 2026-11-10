@@ -72,7 +72,33 @@ internal sealed class A9DisposableSql : IAsyncDisposable
             """, name: Name);
         await iam.Database.MigrateAsync();
 
-        await using var center = new CenterDbContext(new DbContextOptionsBuilder<CenterDbContext>().UseSqlServer(Connection).Options);
+        await ApplyCenterMigrationsAsync(sql, Name);
+
+        await ExecuteAsync(sql, """
+            CREATE USER [fdc_a9_runtime] WITHOUT LOGIN;
+            GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::iam TO [fdc_a9_runtime];
+            GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::catalog TO [fdc_a9_runtime];
+            GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::ops TO [fdc_a9_runtime];
+            GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::ingest TO [fdc_a9_runtime];
+            GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::audit TO [fdc_a9_runtime];
+            GRANT SELECT ON OBJECT::dbo.__EFMigrationsHistory TO [fdc_a9_runtime];
+            GRANT SHOWPLAN TO [fdc_a9_runtime];
+            """);
+    }
+
+    internal static async Task ApplyCenterMigrationsAsync(SqlConnection sql, string name)
+    {
+        var prefix = name.StartsWith("FDC_A9_TEST_", StringComparison.Ordinal) ? "FDC_A9_TEST_" : "FDC_A10_TEST_";
+        if (!name.StartsWith(prefix, StringComparison.Ordinal) || !Guid.TryParseExact(name[prefix.Length..], "N", out var run) ||
+            sql.Database != name) throw new InvalidOperationException("Owned disposable database required.");
+        await VerifyHostAsync(sql);
+        await using var guard = new SqlCommand("""
+            SELECT COUNT(*) FROM sys.extended_properties WHERE class=0 AND name IN(N'Fdc.A9.Run',N'Fdc.A10.Run')
+                AND CONVERT(nvarchar(32),value)=@run
+            """, sql);
+        guard.Parameters.AddWithValue("@run", run.ToString("N"));
+        if (Convert.ToInt32(await guard.ExecuteScalarAsync()) != 1) throw new InvalidOperationException("Run marker mismatch.");
+        await using var center = new CenterDbContext(new DbContextOptionsBuilder<CenterDbContext>().UseSqlServer(sql).Options);
         var migrations = center.GetService<IMigrationsAssembly>();
         var history = center.GetService<IHistoryRepository>();
         foreach (var (id, type) in migrations.Migrations)
@@ -85,7 +111,7 @@ internal sealed class A9DisposableSql : IAsyncDisposable
                 // Preserve the original batch boundaries and every guard except the fixed catalog name.
                 if (command.TransactionSuppressed || !command.CommandText.Contains(CatalogGuard, StringComparison.Ordinal))
                     throw new InvalidOperationException("Unexpected Center migration command.");
-                var batch = command.CommandText.Replace(CatalogGuard, $"DB_NAME()<>N'{Name}'", StringComparison.Ordinal);
+                var batch = command.CommandText.Replace(CatalogGuard, $"DB_NAME()<>N'{name}'", StringComparison.Ordinal);
                 await using var migrate = new SqlCommand(batch, sql, transaction);
                 await migrate.ExecuteNonQueryAsync();
             }
@@ -94,16 +120,6 @@ internal sealed class A9DisposableSql : IAsyncDisposable
             await transaction.CommitAsync();
         }
 
-        await ExecuteAsync(sql, """
-            CREATE USER [fdc_a9_runtime] WITHOUT LOGIN;
-            GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::iam TO [fdc_a9_runtime];
-            GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::catalog TO [fdc_a9_runtime];
-            GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::ops TO [fdc_a9_runtime];
-            GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::ingest TO [fdc_a9_runtime];
-            GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::audit TO [fdc_a9_runtime];
-            GRANT SELECT ON OBJECT::dbo.__EFMigrationsHistory TO [fdc_a9_runtime];
-            GRANT SHOWPLAN TO [fdc_a9_runtime];
-            """);
     }
 
     public DbContextOptionsBuilder<T> Options<T>() where T : DbContext =>

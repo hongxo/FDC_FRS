@@ -9,6 +9,8 @@
   <ItemGroup>
     <EmbeddedResource Include="IdentityUi/management.html" />
     <EmbeddedResource Include="IdentityUi/business.html" />
+    <EmbeddedResource Include="IdentityUi/lab.html" />
+    <EmbeddedResource Include="IdentityUi/collector-bindings.html" />
     <InternalsVisibleTo Include="Fdc.Center.Tests" />
   </ItemGroup>
 

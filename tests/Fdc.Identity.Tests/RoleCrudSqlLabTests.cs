@@ -1,3 +1,4 @@
+using Fdc.Testing;
 using System.Collections.Immutable;
 using Fdc.Identity.Application;
 using Fdc.Identity.Infrastructure;
@@ -8,7 +9,7 @@ namespace Fdc.Identity.Tests;
 
 // SQL DML/integrity tests with explicitly test-only authority/gate fixtures. Not runtime policy or D09 race acceptance.
 [Collection("IAM database lab")]
-public sealed class RoleCrudSqlLabTests
+public sealed class RoleCrudSqlLabTests : A10IamSqlTest
 {
     [SqlProfileFact] public async Task P4_scoped_user_query_profile_observation_only()
     {
@@ -36,7 +37,8 @@ public sealed class RoleCrudSqlLabTests
                 P50Milliseconds = P(.50), P95Milliseconds = P(.95), P99Milliseconds = P(.99), ThroughputPerSecond = 100 / total.Elapsed.TotalSeconds,
                 ErrorRate = 0.0, ClientCpuMilliseconds = (process.TotalProcessorTime - cpuBefore).TotalMilliseconds, ClientWorkingSetBytes = process.WorkingSet64,
                 ServerCpu = "NOT_MEASURED", DiskNetworkPoolDeadlocks = "NOT_MEASURED", AcceptanceThreshold = "PENDING", SamplesMilliseconds = durations };
-            var evidence = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../docs/auth-d12-backend-implementation/phase-4/evidence"));
+            var evidence = Environment.GetEnvironmentVariable("FDC_IAM_EVIDENCE") ??
+                Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../docs/auth-d12-backend-implementation/phase-4/evidence"));
             Directory.CreateDirectory(evidence);
             await File.WriteAllTextAsync(Path.Combine(evidence, "scoped-query-profile.json"), System.Text.Json.JsonSerializer.Serialize(observation, new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
         }
@@ -220,14 +222,14 @@ public sealed class RoleCrudSqlLabTests
     }
     private static IamDbContext Context()
     {
-        var connection = Environment.GetEnvironmentVariable("FDC_IAM_LAB_CONNECTION") ?? throw new InvalidOperationException("Lab connection required.");
+        var connection = A10IamSqlTest.Connection ?? throw new InvalidOperationException("Lab connection required.");
         var options = new SqlConnectionStringBuilder(connection);
-        if (options.DataSource != "lpc:." || options.InitialCatalog != "FdcIam_DevelopmentLab") throw new InvalidOperationException("Unexpected lab.");
+        if (options.DataSource != "lpc:." || options.InitialCatalog != A10IamSqlTest.TargetDatabase) throw new InvalidOperationException("Unexpected lab.");
         return new(new DbContextOptionsBuilder<IamDbContext>().UseSqlServer(connection).Options);
     }
     private static async Task Target(IamDbContext db)
     {
-        var ok = await db.Database.SqlQueryRaw<int>("SELECT CASE WHEN CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND DB_NAME()=N'FdcIam_DevelopmentLab' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) THEN 1 ELSE 0 END AS [Value]").SingleAsync();
+        var ok = await db.Database.SqlQueryRaw<int>(A10IamSqlTest.GuardSql("SELECT CASE WHEN CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND DB_NAME()=N'FdcIam_DevelopmentLab' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) THEN 1 ELSE 0 END AS [Value]")).SingleAsync();
         Assert.Equal(1, ok); Assert.False(await db.Set<UserRow>().AnyAsync()); Assert.False(await db.Set<RoleRow>().AnyAsync());
     }
 }
@@ -236,7 +238,7 @@ public sealed class SqlProfileFactAttribute : FactAttribute
 {
     public SqlProfileFactAttribute()
     {
-        if (Environment.GetEnvironmentVariable("FDC_IAM_CONFIRMED_LAB") != "FdcIam_DevelopmentLab" || Environment.GetEnvironmentVariable("FDC_IAM_RUN_PROFILE") != "1")
+        if ((!A10IamSqlTest.Enabled && Environment.GetEnvironmentVariable("FDC_IAM_CONFIRMED_LAB") != "FdcIam_DevelopmentLab") || Environment.GetEnvironmentVariable("FDC_IAM_RUN_PROFILE") != "1")
             Skip = "Explicit local lab and observation-only profile required.";
     }
 }

@@ -12,6 +12,7 @@ const navigation = document.getElementById('business-navigation');
 const views = [...navigation.querySelectorAll('[data-view]')];
 const pageSize = 20;
 let request, sessionCheck, view = 'dashboard', offset = 0, lastOffset = 0, expired = false;
+let sessionView;
 
 function clear() {
   request?.abort();
@@ -27,6 +28,12 @@ async function fetchBusiness(path, signal) {
     headers: { Accept: 'application/json' }, signal
   });
   if (!response.ok) throw Object.assign(new Error(), { status: response.status });
+  const stamp = response.headers.get('X-Human-Session-View');
+  if (!stamp || (sessionView && sessionView !== stamp)) {
+    invalidate({ status: 401 });
+    throw Object.assign(new Error(), { status: 401 });
+  }
+  sessionView = stamp;
   return response;
 }
 
@@ -68,6 +75,43 @@ const message = error => ({ 401: 'Phiên đăng nhập đã hết hạn.', 403: 
   404: 'Không tìm thấy dữ liệu trong phạm vi.', 503: 'Chưa thể xác minh chính sách hoặc quyền truy cập.' })[error.status]
   ?? 'Không tải được dữ liệu.';
 
+async function collectorHistory(section, id, endpoint, describe, current) {
+  let historyOffset = 0;
+  const body = document.createElement('div');
+  const total = document.createElement('p');
+  const back = document.createElement('button');
+  const forward = document.createElement('button');
+  back.type = forward.type = 'button';
+  back.textContent = 'Lịch sử trước';
+  forward.textContent = 'Lịch sử sau';
+  section.append(total, body, back, forward);
+  async function page() {
+    back.disabled = forward.disabled = true;
+    body.replaceChildren();
+    try {
+      const data = await read('collectors/' + encodeURIComponent(id) + '/' + endpoint +
+        '?paged=true&limit=20&offset=' + historyOffset, current.signal);
+      if (current.signal.aborted) return;
+      total.textContent = 'Tổng lịch sử trong phạm vi: ' + data.total;
+      for (const entry of data.items) {
+        const row = document.createElement('p');
+        row.textContent = describe(entry);
+        body.append(row);
+      }
+      if (!data.items.length) body.append('Không có dữ liệu trong phạm vi.');
+      back.disabled = historyOffset === 0;
+      forward.disabled = historyOffset + data.items.length >= data.total;
+    } catch (error) {
+      if (current.signal.aborted) return;
+      if (error.status === 401 || error.status === 503) invalidate(error);
+      else body.textContent = message(error);
+    }
+  }
+  back.addEventListener('click', () => { historyOffset = Math.max(0, historyOffset - 20); page(); });
+  forward.addEventListener('click', () => { historyOffset += 20; page(); });
+  await page();
+}
+
 async function openObject(id, objectView = view) {
   if (expired) return;
   request?.abort();
@@ -108,26 +152,14 @@ async function openObject(id, objectView = view) {
     if (objectView === 'collectors') {
       for (const [endpoint, title, describe] of [
         ['heartbeat', 'Nhịp kết nối', item => item.receivedAtUtc + ' · ' + item.status],
-        ['transfers', 'Lịch sử truyền', item => item.createdAtUtc + ' · ' + item.outcome]
+        ['transfers', 'Lịch sử truyền', item => item.createdAtUtc + ' · ' + item.outcome + ' · lần ' + item.attempt + (item.errorCode ? ' · ' + item.errorCode : '')]
       ]) {
         const section = document.createElement('section');
         const label = document.createElement('h3');
         label.textContent = title;
         section.append(label);
-        try {
-          const history = await read('collectors/' + encodeURIComponent(id) + '/' + endpoint, current.signal);
-          if (current.signal.aborted) return;
-          for (const entry of history) {
-            const row = document.createElement('p');
-            row.textContent = describe(entry);
-            section.append(row);
-          }
-          if (!history.length) section.append('Không có dữ liệu trong phạm vi.');
-        } catch (error) {
-          if (current.signal.aborted) return;
-          if (error.status === 401) throw error;
-          section.append(message(error));
-        }
+        await collectorHistory(section, id, endpoint, describe, current);
+        if (current.signal.aborted) return;
         detail.append(section);
       }
       return;
@@ -217,6 +249,10 @@ async function load() {
 }
 
 for (const button of views) button.addEventListener('click', () => {
+  if (button.dataset.view === 'lab' || button.dataset.view === 'bindings') {
+    location.assign(button.dataset.view === 'lab' ? '/identity/lab.html' : '/identity/collector-bindings.html');
+    return;
+  }
   view = button.dataset.view;
   offset = 0;
   search.value = '';

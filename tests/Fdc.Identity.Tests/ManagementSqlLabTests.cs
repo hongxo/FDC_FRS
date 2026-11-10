@@ -1,3 +1,4 @@
+using Fdc.Testing;
 using System.Collections.Immutable;
 using Fdc.Identity.Application;
 using Fdc.Identity.Infrastructure;
@@ -7,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Fdc.Identity.Tests;
 
 [Collection("IAM database lab")]
-public sealed class ManagementSqlLabTests
+public sealed class ManagementSqlLabTests : A10IamSqlTest
 {
     [SqlLabFact]
     public async Task Sql_management_scope_precedes_paging_and_cross_subject_grants_are_hidden()
@@ -64,14 +65,14 @@ public sealed class ManagementSqlLabTests
     }
     private static IamDbContext Context()
     {
-        var value = Environment.GetEnvironmentVariable("FDC_IAM_LAB_CONNECTION") ?? throw new InvalidOperationException("Lab connection required.");
+        var value = A10IamSqlTest.Connection ?? throw new InvalidOperationException("Lab connection required.");
         var options = new SqlConnectionStringBuilder(value);
-        if (options.DataSource != "lpc:." || options.InitialCatalog != "FdcIam_DevelopmentLab") throw new InvalidOperationException("Unexpected lab connection.");
+        if (options.DataSource != "lpc:." || options.InitialCatalog != A10IamSqlTest.TargetDatabase) throw new InvalidOperationException("Unexpected lab connection.");
         return new(new DbContextOptionsBuilder<IamDbContext>().UseSqlServer(value).Options);
     }
     private static async Task AssertTarget(IamDbContext db)
     {
-        var ok = await db.Database.SqlQueryRaw<int>("SELECT CASE WHEN CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND DB_NAME()=N'FdcIam_DevelopmentLab' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Environment' AND CONVERT(nvarchar(128),value)=N'DevelopmentLab') THEN 1 ELSE 0 END AS [Value]").SingleAsync();
+        var ok = await db.Database.SqlQueryRaw<int>(A10IamSqlTest.GuardSql("SELECT CASE WHEN CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND DB_NAME()=N'FdcIam_DevelopmentLab' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Environment' AND CONVERT(nvarchar(128),value)=N'DevelopmentLab') THEN 1 ELSE 0 END AS [Value]")).SingleAsync();
         Assert.Equal(1, ok); Assert.False(await db.Set<UserRow>().AnyAsync());
     }
 }

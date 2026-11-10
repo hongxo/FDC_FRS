@@ -9,7 +9,9 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Fdc.Center;
 
-public enum BusinessReadOperation { Dashboard, Station, Ied, Record, RecordDownload, Collector, CollectorHeartbeat, CollectorTransfer, DashboardTrend, DashboardAlert }
+public enum BusinessReadOperation { Dashboard, Station, Ied, Record, RecordDownload, Collector, CollectorHeartbeat, CollectorTransfer, DashboardTrend, DashboardAlert,
+    LabRead, LabRequest, LabSubmit, LabReview, LabApprove, LabPermit, LabReady, LabApply, LabExport,
+    CollectorBindingRead, CollectorBindingRequest, CollectorBindingReview, CollectorBindingApprove, CollectorBindingApply }
 
 public interface IReviewedBusinessOperationPolicy
 {
@@ -34,7 +36,8 @@ public sealed record BusinessPage(int Total, IReadOnlyList<BusinessObject> Items
 public sealed record BusinessTrend(DateTimeOffset DayUtc, int Records);
 public sealed record BusinessAlert(DateTimeOffset CreatedAtUtc, string Code);
 public sealed record CollectorHeartbeatView(DateTimeOffset ReceivedAtUtc, string Status, long QueueDepth);
-public sealed record CollectorTransferView(Guid RecordId, DateTimeOffset CreatedAtUtc, int Attempt, string Outcome);
+public sealed record CollectorTransferView(Guid RecordId, DateTimeOffset CreatedAtUtc, int Attempt, string Outcome, string? ErrorCode = null);
+public sealed record CollectorHistoryPage<T>(int Total, IReadOnlyList<T> Items);
 public sealed class BusinessFile { public Guid Id { get; init; } public required string Name { get; init; } public long SizeBytes { get; init; } }
 
 public interface IReviewedBusinessFileSource
@@ -54,6 +57,9 @@ public sealed class BusinessAuthorization(CenterDbContext db, IReviewedBusinessO
     IReviewedPermissionPolicy permissionPolicy, ITrustedResourceResolver resourceResolver, PermissionEvaluator evaluator,
     TimeProvider clock)
 {
+    internal Task<T> AuthorizedLabAsync<T>(string digest, BusinessReadOperation operation,
+        Func<IamDbContext, Guid[], AuthorizationSnapshot, CancellationToken, Task<T>> action, CancellationToken ct) =>
+        ReadAsync(digest, operation, action, ct);
     public Task<int> DashboardAsync(string digest, CancellationToken ct) =>
         ReadAsync(digest, BusinessReadOperation.Dashboard, (iam, stations, _, token) =>
             iam.Set<StationRow>().CountAsync(row => stations.Contains(row.Id), token), ct);
@@ -65,7 +71,8 @@ public sealed class BusinessAuthorization(CenterDbContext db, IReviewedBusinessO
         {
             ("dashboard", BusinessReadOperation.Dashboard), ("stations", BusinessReadOperation.Station),
             ("ieds", BusinessReadOperation.Ied), ("records", BusinessReadOperation.Record),
-            ("collectors", BusinessReadOperation.Collector)
+            ("collectors", BusinessReadOperation.Collector), ("lab", BusinessReadOperation.LabRead),
+            ("bindings", BusinessReadOperation.CollectorBindingRead)
         })
         {
             try
@@ -184,7 +191,9 @@ public sealed class BusinessAuthorization(CenterDbContext db, IReviewedBusinessO
                               on new { Id = attempt.RecordId, attempt.StationId } equals new { record.Id, record.StationId }
                           where record.CollectorId == collectorId && stations.Contains(record.StationId)
                           orderby attempt.CreatedAtUtc descending, attempt.Id
-                          select new CollectorTransferView(record.Id, attempt.CreatedAtUtc, attempt.Number, attempt.Outcome))
+                          select new CollectorTransferView(record.Id, attempt.CreatedAtUtc, attempt.Number, attempt.Outcome,
+                              attempt.ErrorCode == "TIMEOUT" || attempt.ErrorCode == "CHECKSUM_MISMATCH" ||
+                              attempt.ErrorCode == "STORAGE_UNAVAILABLE" || attempt.ErrorCode == "TRANSFER_INTERRUPTED" ? attempt.ErrorCode : null))
                 .Skip(offset).Take(limit).ToListAsync(token);
         }, ct);
 
@@ -192,6 +201,38 @@ public sealed class BusinessAuthorization(CenterDbContext db, IReviewedBusinessO
     {
         if (offset is < 0 or > 10000 || limit is < 1 or > 100) throw new ArgumentException("Invalid page.");
     }
+
+    public Task<CollectorHistoryPage<CollectorHeartbeatView>?> HeartbeatPageAsync(string digest, Guid collectorId,
+        int offset, int limit, CancellationToken ct) =>
+        ReadAsync<CollectorHistoryPage<CollectorHeartbeatView>?>(digest, BusinessReadOperation.CollectorHeartbeat, async (_, stations, _, token) =>
+        {
+            if (offset < 0 || limit is < 1 or > 100) throw new ArgumentException("Invalid page.");
+            if (!await db.Set<CollectorRegistration>().AnyAsync(row => row.Id == collectorId && stations.Contains(row.StationId), token))
+                return null;
+            var rows = db.Set<CollectorHeartbeat>().AsNoTracking().Where(row => row.CollectorId == collectorId && stations.Contains(row.StationId));
+            var count = await rows.CountAsync(token);
+            var items = await rows.OrderByDescending(row => row.ReceivedAtUtc).ThenBy(row => row.Id).Skip(offset).Take(limit)
+                .Select(row => new CollectorHeartbeatView(row.ReceivedAtUtc, row.Status, row.QueueDepth)).ToListAsync(token);
+            return new(count, items);
+        }, ct);
+
+    public Task<CollectorHistoryPage<CollectorTransferView>?> TransferPageAsync(string digest, Guid collectorId,
+        int offset, int limit, CancellationToken ct) =>
+        ReadAsync<CollectorHistoryPage<CollectorTransferView>?>(digest, BusinessReadOperation.CollectorTransfer, async (_, stations, _, token) =>
+        {
+            if (offset < 0 || limit is < 1 or > 100) throw new ArgumentException("Invalid page.");
+            if (!await db.Set<CollectorRegistration>().AnyAsync(row => row.Id == collectorId && stations.Contains(row.StationId), token))
+                return null;
+            var rows = from attempt in db.Set<IngestionAttempt>().AsNoTracking()
+                       join record in db.Set<DisturbanceRecord>().AsNoTracking()
+                         on new { Id = attempt.RecordId, attempt.StationId } equals new { record.Id, record.StationId }
+                       where record.CollectorId == collectorId && stations.Contains(record.StationId)
+                       orderby attempt.CreatedAtUtc descending, attempt.Id
+                       select new CollectorTransferView(record.Id, attempt.CreatedAtUtc, attempt.Number, attempt.Outcome,
+                           attempt.ErrorCode == "TIMEOUT" || attempt.ErrorCode == "CHECKSUM_MISMATCH" ||
+                           attempt.ErrorCode == "STORAGE_UNAVAILABLE" || attempt.ErrorCode == "TRANSFER_INTERRUPTED" ? attempt.ErrorCode : null);
+            return new(await rows.CountAsync(token), await rows.Skip(offset).Take(limit).ToListAsync(token));
+        }, ct);
 
     public Task<List<BusinessFile>> DownloadableFilesAsync(string digest, Guid recordId, CancellationToken ct) =>
         ReadAsync(digest, BusinessReadOperation.RecordDownload, (_, stations, _, token) =>
@@ -224,19 +265,29 @@ public sealed class BusinessAuthorization(CenterDbContext db, IReviewedBusinessO
                     file.StorageObjectKey != $"records/{row.ManifestId}/{file.Name}") return null;
 
                 prepared = await storage.OpenVerifiedAsync(file.StorageObjectKey, file.SizeBytes, file.Sha256, cap, token);
-                if (prepared is null) return null;
-                var now = clock.GetUtcNow();
-                var audit = new SecurityEventRow { Id = Guid.NewGuid(), CreatedAt = now, ActorUserId = snapshot.User.Id,
-                    EventCode = "business.record.download.prepared", OutcomeCode = "prepared", CorrelationId = correlationId,
-                    PolicyVersion = snapshot.CurrentVersion.Policy, RestoreEpoch = snapshot.CurrentVersion.RestoreEpoch };
-                iam.AddRange(audit, new AuditOutboxRow { Id = Guid.NewGuid(), CreatedAt = now, EventId = audit.Id });
-                await iam.SaveChangesAsync(token);
+                if (prepared is null)
+                {
+                    await DownloadAuditAsync(iam, snapshot, "business.record.download.verification_denied", "denied", correlationId, token);
+                    return null;
+                }
+                await DownloadAuditAsync(iam, snapshot, "business.record.download.prepared", "prepared", correlationId, token);
                 return new BusinessDownload(file.Name, prepared);
             }, ct);
             prepared = null; // Committed result now owns the verified temporary stream.
             return result;
         }
         finally { if (prepared is not null) await prepared.DisposeAsync(); }
+    }
+
+    private async Task DownloadAuditAsync(IamDbContext iam, AuthorizationSnapshot snapshot, string code, string outcome,
+        string correlationId, CancellationToken token)
+    {
+        var now = clock.GetUtcNow();
+        var audit = new SecurityEventRow { Id = Guid.NewGuid(), CreatedAt = now, ActorUserId = snapshot.User.Id,
+            EventCode = code, OutcomeCode = outcome, CorrelationId = correlationId,
+            PolicyVersion = snapshot.CurrentVersion.Policy, RestoreEpoch = snapshot.CurrentVersion.RestoreEpoch };
+        iam.AddRange(audit, new AuditOutboxRow { Id = Guid.NewGuid(), CreatedAt = now, EventId = audit.Id });
+        await iam.SaveChangesAsync(token);
     }
 
     private IQueryable<BusinessObject> Objects(IamDbContext iam, BusinessReadOperation operation, Guid[] stations, Guid? station)

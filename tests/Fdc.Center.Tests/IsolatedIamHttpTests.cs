@@ -1,3 +1,4 @@
+using Fdc.Testing;
 using System.Collections.Immutable;
 using Fdc.Center;
 using Fdc.Center.Persistence;
@@ -37,13 +38,13 @@ public sealed partial class CenterHttpsSqlLabTests
 
     private static async Task RunBrowserAsync(A7BusinessFixture? business)
     {
-        var connection = business?.Connection ?? Environment.GetEnvironmentVariable("FDC_IAM_LAB_CONNECTION")!;
+        var connection = business?.Connection ?? A10IamSqlTest.Connection!;
         var target = new SqlConnectionStringBuilder(connection);
         Assert.Equal("lpc:.", target.DataSource);
-        Assert.Equal(business?.Name ?? "FdcIam_DevelopmentLab", target.InitialCatalog);
+        Assert.Equal(business?.Name ?? A10IamSqlTest.TargetDatabase, target.InitialCatalog);
         await using var db = new IamDbContext(new DbContextOptionsBuilder<IamDbContext>().UseSqlServer(connection).Options);
         if (business is null)
-            Assert.Equal(1, await db.Database.SqlQueryRaw<int>("SELECT CASE WHEN DB_NAME()=N'FdcIam_DevelopmentLab' AND CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) THEN 1 ELSE 0 END AS [Value]").SingleAsync());
+            Assert.Equal(1, await db.Database.SqlQueryRaw<int>(A10IamSqlTest.GuardSql("SELECT CASE WHEN DB_NAME()=N'FdcIam_DevelopmentLab' AND CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) THEN 1 ELSE 0 END AS [Value]")).SingleAsync());
         Assert.False(await db.Set<UserRow>().AnyAsync());
         await using var tx = business is null ? await db.Database.BeginTransactionAsync() : null;
         var now = DateTimeOffset.UtcNow;

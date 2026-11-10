@@ -33,6 +33,10 @@ public static class CenterIdentityRuntime
         {
             builder.Services.AddScoped<IReviewedBusinessOperationPolicy, PendingBusinessOperationPolicy>();
             builder.Services.AddScoped<BusinessAuthorization>();
+            builder.Services.AddScoped<LabWorkflowService>();
+            builder.Services.AddScoped<LabExportCoordinator>();
+            builder.Services.AddScoped<CollectorBindingService>();
+            builder.Services.AddSingleton<ILabHttpOrigin, PendingLabHttpOrigin>();
             builder.Services.AddScoped<IReviewedBusinessFileSource, PendingBusinessFileSource>();
         }
         // Per Human lane, not global RequireCertificate inherited from legacy machine setup.
@@ -86,6 +90,7 @@ public static class CenterIdentityRuntime
         app.UseWhen(context => context.Request.Path.StartsWithSegments("/identity"), branch => { branch.UseDefaultFiles(); branch.UseStaticFiles(); });
         app.UseAuthentication(); app.UseAuthorization();
         app.MapIdentityRoleQueries(); app.MapIdentityManagementQueries(); app.MapLabReadiness(); app.MapHumanIdentityUi();
+        if (businessDatabase) { app.MapLabWorkflow(); app.MapCollectorBindings(); }
         // Existing business API identities preserved, but no data handler runs before reviewed station mapping exists.
         app.MapGet("/api/status", BlockBusiness).RequireAuthorization("Fdc.Human");
         app.MapGet("/api/events", BlockBusiness).RequireAuthorization("Fdc.Human");
