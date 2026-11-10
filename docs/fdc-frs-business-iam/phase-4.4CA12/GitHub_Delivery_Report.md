@@ -9,3 +9,5 @@ Existing UI/test/assignment edits, .vs and locally generated Properties files ar
 ## Security integration follow-up
 
 Branch `feature/fdc-frs-phase4-4ca12-security-integration`, stacked on Draft #24. Technical SHA `2930a32ea2a02fe5579785cbeb8302b37819cf47`. The new race closes two original blocker IDs. The final regression and the separate cleanup recheck are recorded in the [raw manifest](FDC_A12_Raw_Evidence_Manifest.md).
+
+Draft [#25](https://github.com/hongxo/FDC_FRS/pull/25) contains the security integration follow-up.
