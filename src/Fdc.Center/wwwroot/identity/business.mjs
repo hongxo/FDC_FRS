@@ -1,3 +1,4 @@
+import { onLogout } from './session-lifecycle.mjs';
 const status = document.getElementById('status');
 const results = document.getElementById('results');
 const controls = document.getElementById('filters');
@@ -263,6 +264,7 @@ previous.addEventListener('click', () => { offset = Math.max(0, offset - pageSiz
 next.addEventListener('click', () => { offset += pageSize; load(); });
 first.addEventListener('click', () => { offset = 0; load(); });
 last.addEventListener('click', () => { offset = lastOffset; load(); });
+onLogout(() => { sessionCheck?.abort(); invalidate({ status: 401 }); });
 addEventListener('pagehide', () => { sessionCheck?.abort(); clear(); });
 addEventListener('pageshow', checkSession);
 checkSession();

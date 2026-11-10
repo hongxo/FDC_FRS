@@ -1,4 +1,6 @@
 using System.Net;
+using System.Numerics;
+using Microsoft.AspNetCore.Http;
 using System.Net.Http.Json;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
@@ -24,7 +26,12 @@ namespace Fdc.Center.Tests;
 public sealed class A8MachineIngressTests
 {
     [A7BrowserFact]
-    public async Task Fresh_SQL_registry_and_test_CA_allow_only_bound_machine_ingress()
+    public Task Fresh_SQL_registry_and_test_CA_allow_only_bound_machine_ingress() => RunAsync(false);
+
+    [A7BrowserFact]
+    public Task Strict_CRL_and_OCSP_are_required_on_real_SQL_bound_machine_ingress() => RunAsync(true);
+
+    private static async Task RunAsync(bool strict)
     {
         await using var fixture = await A7BusinessFixture.CreateAsync();
         var now = DateTimeOffset.UtcNow;
@@ -43,7 +50,7 @@ public sealed class A8MachineIngressTests
         using var rootKey = RSA.Create(2048);
         var rootRequest = new CertificateRequest("CN=A8-test-root", rootKey, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
         rootRequest.CertificateExtensions.Add(new X509BasicConstraintsExtension(true, false, 0, true));
-        rootRequest.CertificateExtensions.Add(new X509KeyUsageExtension(X509KeyUsageFlags.KeyCertSign, true));
+        rootRequest.CertificateExtensions.Add(new X509KeyUsageExtension(X509KeyUsageFlags.KeyCertSign | X509KeyUsageFlags.CrlSign, true));
         using var root = rootRequest.CreateSelfSigned(now.AddHours(-2), now.AddHours(2));
         using var client = Issue(root, TlsCertificates.ClientAuth, now.AddMinutes(-1), now.AddMinutes(30));
         using var wrongEku = Issue(root, TlsCertificates.ServerAuth, now.AddMinutes(-1), now.AddMinutes(30));
@@ -54,11 +61,45 @@ public sealed class A8MachineIngressTests
         Assert.False(TlsCertificates.Validate(expired, root, TlsCertificates.ClientAuth, false));
 
         var pin = client.GetCertHashString(HashAlgorithmName.SHA256);
+        var scenario = "good";
+        using var foreignKey = RSA.Create(2048);
+        var responderBuilder = WebApplication.CreateBuilder();
+        responderBuilder.Logging.ClearProviders();
+        responderBuilder.WebHost.ConfigureKestrel(k => k.Listen(IPAddress.Loopback, 0));
+        await using var responder = responderBuilder.Build();
+        responder.MapPost("/ocsp", async (HttpContext context) =>
+        {
+            var current = Volatile.Read(ref scenario);
+            if (current == "http-500") return Results.StatusCode(500);
+            if (current == "timeout") await Task.Delay(Timeout.InfiniteTimeSpan, context.RequestAborted);
+            return await A11OcspTests.SignedResponse(context, current, now, rootKey, foreignKey);
+        });
+        await responder.StartAsync();
+        var responderAddress = responder.Services.GetRequiredService<IServer>().Features.Get<IServerAddressesFeature>()!.Addresses.Single();
+        using var ocsp = new PinnedOcspCertificateValidator(root, TimeProvider.System,
+            new Uri(new Uri(responderAddress), "/ocsp"), TimeSpan.FromSeconds(3));
+        var crlBuilder = new CertificateRevocationListBuilder();
+        var goodCrl = crlBuilder.Build(root, BigInteger.One, now.AddHours(1), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1, now.AddMinutes(-2));
+        crlBuilder.AddEntry(client, now.AddMinutes(-1));
+        var revokedCrl = crlBuilder.Build(root, new BigInteger(2), now.AddHours(1), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1, now.AddMinutes(-2));
+        byte[]? activeCrl = goodCrl;
         var builder = WebApplication.CreateBuilder(new WebApplicationOptions { Args = [], EnvironmentName = "Testing" });
         builder.Logging.ClearProviders();
-        builder.Services.AddSingleton(new PilotMachineBoundaryTests.FixtureCertificatePin(pin));
-        builder.Services.AddAuthentication(PilotIngestionEndpoints.MachineScheme)
-            .AddScheme<AuthenticationSchemeOptions, PilotMachineBoundaryTests.PinnedFixtureHandler>(PilotIngestionEndpoints.MachineScheme, _ => { });
+        var authentication = builder.Services.AddAuthentication(PilotIngestionEndpoints.MachineScheme);
+        if (strict)
+        {
+            builder.Services.AddSingleton(new IsolatedMachineRevocation(new(root, TimeProvider.System),
+                () => Volatile.Read(ref activeCrl) is { } bytes ? new ReadOnlyMemory<byte>(bytes) : null,
+                ocsp, fingerprint => fingerprint == pin ? collector.Id : null));
+            authentication.AddScheme<AuthenticationSchemeOptions, IsolatedMachineRevocationHandler>(
+                PilotIngestionEndpoints.MachineScheme, _ => { });
+        }
+        else
+        {
+            builder.Services.AddSingleton(new PilotMachineBoundaryTests.FixtureCertificatePin(pin));
+            authentication.AddScheme<AuthenticationSchemeOptions, PilotMachineBoundaryTests.PinnedFixtureHandler>(
+                PilotIngestionEndpoints.MachineScheme, _ => { });
+        }
         builder.Services.AddAuthorization();
         builder.Services.AddDbContext<CenterDbContext>(options => options.UseSqlServer(fixture.Connection));
         var registry = new TestRegistry(fixture.Connection, collector.Id);
@@ -107,6 +148,30 @@ public sealed class A8MachineIngressTests
             using var wrong = await machine.PostAsJsonAsync(route, Create("A8-OTHER"));
             Assert.Equal(HttpStatusCode.Forbidden, wrong.StatusCode);
             Assert.Contains("STATION_BINDING_DENIED", await wrong.Content.ReadAsStringAsync());
+            var deniedScenarios = new Dictionary<string, int>();
+            async Task AssertDeniedAsync(string name)
+            {
+                using var response = await machine.PostAsJsonAsync(route, manifest);
+                Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+                Assert.Empty(await response.Content.ReadAsByteArrayAsync());
+                deniedScenarios.Add(name, (int)response.StatusCode);
+                Assert.Equal(0, await db.Set<DisturbanceRecord>().CountAsync());
+                Assert.Equal(0, await db.Set<ProcessingOutbox>().CountAsync());
+            }
+            if (strict)
+            {
+                foreach (var input in new[] { "revoked", "unknown", "timeout", "stale", "bad-signature", "foreign-signer", "wrong-cert-id", "http-500" })
+                {
+                    Volatile.Write(ref scenario, input);
+                    await AssertDeniedAsync(input);
+                }
+                Volatile.Write(ref scenario, "good");
+                Volatile.Write(ref activeCrl, revokedCrl);
+                await AssertDeniedAsync("crl-revoked");
+                Volatile.Write(ref activeCrl, null);
+                await AssertDeniedAsync("crl-unavailable");
+                Volatile.Write(ref activeCrl, goodCrl);
+            }
             using var accepted = await machine.PostAsJsonAsync(route, manifest);
             Assert.Equal(HttpStatusCode.Created, accepted.StatusCode);
             var ticket = await accepted.Content.ReadFromJsonAsync<PilotUploadTicket>();
@@ -130,7 +195,17 @@ public sealed class A8MachineIngressTests
             using var outage = await machine.PostAsJsonAsync(route, manifest);
             Assert.Equal(HttpStatusCode.ServiceUnavailable, outage.StatusCode);
             Assert.Contains("AUTHORITY_UNAVAILABLE", await outage.Content.ReadAsStringAsync());
-            if (Environment.GetEnvironmentVariable("FDC_UI_EVIDENCE") is { } output)
+            if (strict && Environment.GetEnvironmentVariable("FDC_UI_EVIDENCE") is { } strictOutput)
+                await File.WriteAllTextAsync(Path.Combine(strictOutput, "a12-mtls-revocation.json"),
+                    System.Text.Json.JsonSerializer.Serialize(new
+                    {
+                        utc = DateTimeOffset.UtcNow, commit = Environment.GetEnvironmentVariable("FDC_A5_COMMIT"),
+                        collector = collector.Id, station = station.Id, fingerprint = pin,
+                        ca = root.GetCertHashString(HashAlgorithmName.SHA256), deniedScenarios,
+                        wrongStation = (int)wrong.StatusCode, humanDenied = (int)humanDenied.StatusCode,
+                        accepted = (int)accepted.StatusCode, records = 1, outbox = 1
+                    }));
+            if (!strict && Environment.GetEnvironmentVariable("FDC_UI_EVIDENCE") is { } output)
                 await File.WriteAllTextAsync(Path.Combine(output, "a8-mtls.json"),
                     System.Text.Json.JsonSerializer.Serialize(new { chain = "ephemeral test CA", eku = TlsCertificates.ClientAuth,
                         wrongEkuDenied = true, expiredDenied = true, human = 401, wrongStation = 403, upload = 201, completion = 200,

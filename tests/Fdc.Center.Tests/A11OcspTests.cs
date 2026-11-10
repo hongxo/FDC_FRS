@@ -53,26 +53,7 @@ public sealed class A11OcspTests
             Interlocked.Increment(ref requests);
             if (scenario == "http-500") return Results.StatusCode(500);
             if (scenario == "timeout") await Task.Delay(Timeout.InfiniteTimeSpan, context.RequestAborted);
-            using var incoming = new MemoryStream();
-            await context.Request.Body.CopyToAsync(incoming, context.RequestAborted);
-            var id = new OcspReq(incoming.ToArray()).GetRequestList().Single().GetCertID();
-            if (scenario == "wrong-cert-id")
-                id = CertificateID.DeriveCertificateID(id, id.SerialNumber.Add(Org.BouncyCastle.Math.BigInteger.One));
-            var signer = DotNetUtilities.GetRsaKeyPair(scenario is "foreign-signer" or "bad-signature" ? foreignKey : issuerKey);
-            var responder = scenario == "bad-signature" ? DotNetUtilities.GetRsaKeyPair(issuerKey).Public : signer.Public;
-            var generator = new BasicOcspRespGenerator(responder);
-            CertificateStatus? state = scenario switch
-            {
-                "revoked" => new RevokedStatus(now.AddMinutes(-5).UtcDateTime),
-                "unknown" => new UnknownStatus(),
-                _ => null
-            };
-            generator.AddResponse(id, state, now.AddMinutes(-10).UtcDateTime,
-                (scenario == "stale" ? now.AddMinutes(-1) : now.AddMinutes(10)).UtcDateTime, null);
-            var basic = generator.Generate(new Asn1SignatureFactory("SHA256WITHRSA", signer.Private), null, now.AddMinutes(-2).UtcDateTime);
-            var encoded = new OcspResponse(new OcspResponseStatus(0),
-                new ResponseBytes(OcspObjectIdentifiers.PkixOcspBasic, new DerOctetString(basic.GetEncoded()))).GetDerEncoded();
-            return Results.Bytes(encoded, "application/ocsp-response");
+            return await SignedResponse(context, scenario, now, issuerKey, foreignKey);
         });
         await app.StartAsync();
         var origin = new Uri(app.Services.GetRequiredService<IServer>().Features.Get<IServerAddressesFeature>()!.Addresses.Single());
@@ -81,5 +62,29 @@ public sealed class A11OcspTests
             scenario == "timeout" ? TimeSpan.FromSeconds(2) : TimeSpan.FromSeconds(5));
         Assert.Equal(expected, await validator.ValidateAsync(leaf, default));
         Assert.Equal(scenario == "unreachable" ? 0 : 1, requests);
+    }
+
+    internal static async Task<IResult> SignedResponse(HttpContext context, string scenario, DateTimeOffset now, RSA issuerKey, RSA foreignKey)
+    {
+        using var incoming = new MemoryStream();
+        await context.Request.Body.CopyToAsync(incoming, context.RequestAborted);
+        var id = new OcspReq(incoming.ToArray()).GetRequestList().Single().GetCertID();
+        if (scenario == "wrong-cert-id")
+            id = CertificateID.DeriveCertificateID(id, id.SerialNumber.Add(Org.BouncyCastle.Math.BigInteger.One));
+        var signer = DotNetUtilities.GetRsaKeyPair(scenario is "foreign-signer" or "bad-signature" ? foreignKey : issuerKey);
+        var responder = scenario == "bad-signature" ? DotNetUtilities.GetRsaKeyPair(issuerKey).Public : signer.Public;
+        var generator = new BasicOcspRespGenerator(responder);
+        CertificateStatus? state = scenario switch
+        {
+            "revoked" => new RevokedStatus(now.AddMinutes(-5).UtcDateTime),
+            "unknown" => new UnknownStatus(),
+            _ => null
+        };
+        generator.AddResponse(id, state, now.AddMinutes(-10).UtcDateTime,
+            (scenario == "stale" ? now.AddMinutes(-1) : now.AddMinutes(10)).UtcDateTime, null);
+        var basic = generator.Generate(new Asn1SignatureFactory("SHA256WITHRSA", signer.Private), null, now.AddMinutes(-2).UtcDateTime);
+        var encoded = new OcspResponse(new OcspResponseStatus(0),
+            new ResponseBytes(OcspObjectIdentifiers.PkixOcspBasic, new DerOctetString(basic.GetEncoded()))).GetDerEncoded();
+        return Results.Bytes(encoded, "application/ocsp-response");
     }
 }

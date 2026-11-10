@@ -18,17 +18,17 @@
 <p id="policy-status" role="status">Đăng nhập chưa được mở theo chính sách hiện tại.</p>
 <p id="runtime-status" class="hint" role="status"></p>
 <fieldset id="login-controls" disabled hidden>
-  <legend>Đăng nhập · chưa mở</legend>
-  <label>Tên đăng nhập <input autocomplete="off"></label>
-  <label>Mật khẩu <input type="password" autocomplete="off"></label>
-  <button type="button">Đăng nhập</button>
+  <legend>Đăng nhập</legend><div id="login-form">
+  <label>Tên đăng nhập <input name="username" required maxlength="256" autocomplete="username"></label>
+  <label>Mật khẩu <input name="password" required maxlength="2048" type="password" autocomplete="current-password"></label>
+  <button type="submit">Đăng nhập</button></div>
 </fieldset>
 <fieldset id="mfa-controls" disabled hidden>
-  <legend>Xác minh MFA · chưa mở</legend>
-  <label>Mã xác minh <input inputmode="numeric" autocomplete="off"></label>
-  <button type="button">Xác minh</button>
+  <legend>Xác minh MFA</legend><div id="mfa-form">
+  <label>Mã xác minh <input name="factor" required maxlength="2048" autocomplete="one-time-code"></label>
+  <button type="submit">Xác minh</button></div>
 </fieldset>
-<p id="profile-controls" hidden>Danh sách phiên và đăng xuất đang chờ chính sách phiên.</p>
+<div id="profile-controls" hidden><button id="logout-button" type="button" disabled>Đăng xuất</button><nav id="authenticated-links" hidden><a href="/identity/business.html">Mở dữ liệu FDC/FRS theo trạm</a></nav></div><p id="auth-feedback" role="status" aria-live="polite"></p>
 <p class="hint">Liên hệ bộ phận quản trị qua kênh hỗ trợ đã xác nhận.</p></section>
 <nav id="effective-navigation" class="management-tabs" aria-label="Chức năng được cấp quyền" hidden></nav>
 <section class="card management-panel"><h2>Phân hệ vận hành</h2>

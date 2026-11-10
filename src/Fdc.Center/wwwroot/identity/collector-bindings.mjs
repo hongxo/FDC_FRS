@@ -1,3 +1,4 @@
+import { onLogout } from './session-lifecycle.mjs';
 const status = document.getElementById('binding-status');
 const list = document.getElementById('binding-list');
 const form = document.getElementById('binding-form');
@@ -101,7 +102,9 @@ async function checkSession() {
   } catch (error) { if (!current.signal.aborted) failed(error); }
   finally { monitor = null; }
 }
+onLogout(() => { monitor?.abort(); failed({ status: 401 }); });
 setInterval(checkSession, 15000);
+addEventListener('pageshow', checkSession);
 addEventListener('pagehide', () => { monitor?.abort(); clear(); });
 document.addEventListener('visibilitychange', () => { if (document.hidden) clear(); else refresh(); });
 refresh();

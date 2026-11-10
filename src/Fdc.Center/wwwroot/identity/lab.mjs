@@ -1,3 +1,4 @@
+import { onLogout } from './session-lifecycle.mjs';
 const status = document.getElementById('lab-status');
 const list = document.getElementById('lab-list');
 const detail = document.getElementById('lab-detail');
@@ -162,6 +163,7 @@ form.addEventListener('submit', async event => {
 document.getElementById('lab-refresh').addEventListener('click', refresh);
 addEventListener('pagehide', () => { monitor?.abort(); clear(); });
 addEventListener('pageshow', checkSession);
+onLogout(() => { monitor?.abort(); failed({ status: 401 }); });
 setInterval(checkSession, 15000);
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) clear();
