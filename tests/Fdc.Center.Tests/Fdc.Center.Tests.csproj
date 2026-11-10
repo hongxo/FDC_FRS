@@ -9,4 +9,5 @@
     <ProjectReference Include="../../src/Fdc.Center.Persistence/Fdc.Center.Persistence.csproj" />
     <Using Include="Xunit" />
   </ItemGroup>
+  <ItemGroup><Compile Include="../Fdc.Identity.Tests/A10IamSqlTest.cs" Link="A10IamSqlTest.cs" /></ItemGroup>
 </Project>

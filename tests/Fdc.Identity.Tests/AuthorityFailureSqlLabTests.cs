@@ -1,3 +1,4 @@
+using Fdc.Testing;
 using System.Data.Common;
 using Fdc.Identity.Application;
 using Fdc.Identity.Infrastructure;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 namespace Fdc.Identity.Tests;
 
 [Collection("IAM database lab")]
-public sealed class AuthorityFailureSqlLabTests
+public sealed class AuthorityFailureSqlLabTests : A10IamSqlTest
 {
     [SqlLabFact] public async Task P4_real_sql_missing_database_connection_fails_closed()
     {
@@ -24,11 +25,11 @@ public sealed class AuthorityFailureSqlLabTests
     }
     private static async Task<string> ConfirmedConnection()
     {
-        var connection = Environment.GetEnvironmentVariable("FDC_IAM_LAB_CONNECTION") ?? throw new InvalidOperationException("Lab required.");
+        var connection = A10IamSqlTest.Connection ?? throw new InvalidOperationException("Lab required.");
         var settings = new SqlConnectionStringBuilder(connection);
-        if (settings.DataSource != "lpc:." || settings.InitialCatalog != "FdcIam_DevelopmentLab") throw new InvalidOperationException("Unexpected target.");
+        if (settings.DataSource != "lpc:." || settings.InitialCatalog != A10IamSqlTest.TargetDatabase) throw new InvalidOperationException("Unexpected target.");
         await using var db = new IamDbContext(new DbContextOptionsBuilder<IamDbContext>().UseSqlServer(connection).Options);
-        var valid = await db.Database.SqlQueryRaw<int>("SELECT CASE WHEN CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND DB_NAME()=N'FdcIam_DevelopmentLab' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) THEN 1 ELSE 0 END AS [Value]").SingleAsync();
+        var valid = await db.Database.SqlQueryRaw<int>(A10IamSqlTest.GuardSql("SELECT CASE WHEN CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND DB_NAME()=N'FdcIam_DevelopmentLab' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) THEN 1 ELSE 0 END AS [Value]")).SingleAsync();
         Assert.Equal(1, valid); return connection;
     }
     private sealed class Factory(string connection, bool delay) : IDbContextFactory<IamDbContext>

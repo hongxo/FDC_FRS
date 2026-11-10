@@ -1,3 +1,4 @@
+using Fdc.Testing;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
@@ -12,7 +13,7 @@ namespace Fdc.Identity.Tests;
 // Candidate gate protocol tests using committed, non-authoritative probe rows with unique keys, removed in finally.
 // No session/user/role/grant is created. Test plan provider does not become a runtime D09 approval.
 [Collection("IAM database lab")]
-public sealed class CommitGateSqlLabTests
+public sealed class CommitGateSqlLabTests : A10IamSqlTest
 {
     [SqlLabFact] public async Task Lost_ack_after_real_sql_commit_is_unknown_outcome_not_safe_retry()
     {
@@ -167,11 +168,11 @@ public sealed class CommitGateSqlLabTests
         }
         public static async Task<Probe> CreateAsync()
         {
-            var connection = Environment.GetEnvironmentVariable("FDC_IAM_LAB_CONNECTION") ?? throw new InvalidOperationException("Lab connection required.");
+            var connection = A10IamSqlTest.Connection ?? throw new InvalidOperationException("Lab connection required.");
             var options = new SqlConnectionStringBuilder(connection);
-            if (options.DataSource != "lpc:." || options.InitialCatalog != "FdcIam_DevelopmentLab") throw new InvalidOperationException("Unexpected target.");
+            if (options.DataSource != "lpc:." || options.InitialCatalog != A10IamSqlTest.TargetDatabase) throw new InvalidOperationException("Unexpected target.");
             var fixture = new Probe(connection); await using var db = fixture.Context();
-            var valid = await db.Database.SqlQueryRaw<int>("SELECT CASE WHEN CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND DB_NAME()=N'FdcIam_DevelopmentLab' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Environment' AND CONVERT(nvarchar(128),value)=N'DevelopmentLab') THEN 1 ELSE 0 END AS [Value]").SingleAsync();
+            var valid = await db.Database.SqlQueryRaw<int>(A10IamSqlTest.GuardSql("SELECT CASE WHEN CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND DB_NAME()=N'FdcIam_DevelopmentLab' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Environment' AND CONVERT(nvarchar(128),value)=N'DevelopmentLab') THEN 1 ELSE 0 END AS [Value]")).SingleAsync();
             Assert.Equal(1, valid);
             db.Add(new AuthorityVersionRow { Id = fixture.Id, CreatedAt = DateTimeOffset.UtcNow, AuthorityKey = fixture.Key, PolicyConfigured = false, RestoreEpoch = Guid.NewGuid() });
             await db.SaveChangesAsync(); return fixture;
@@ -189,7 +190,8 @@ public sealed class CommitGateSqlLabTests
         }
         public async Task EvidenceAsync(string id, string result)
         {
-            var directory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../docs/auth-d12-backend-implementation/phase-4-1/evidence"));
+            var directory = Environment.GetEnvironmentVariable("FDC_IAM_EVIDENCE") ??
+                Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../docs/auth-d12-backend-implementation/phase-4-1/evidence"));
             Directory.CreateDirectory(directory);
             await File.WriteAllTextAsync(Path.Combine(directory, id + ".json"), System.Text.Json.JsonSerializer.Serialize(new { TestId = id,
                 SourceCommit = Environment.GetEnvironmentVariable("FDC_IAM_SOURCE_SHA"), TimestampUtc = DateTimeOffset.UtcNow, Result = "PASS", Observation = result,

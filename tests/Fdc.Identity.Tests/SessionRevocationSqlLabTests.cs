@@ -1,3 +1,4 @@
+using Fdc.Testing;
 using Fdc.Identity.Application;
 using Fdc.Identity.Infrastructure;
 using Fdc.Identity.Security;
@@ -9,7 +10,7 @@ namespace Fdc.Identity.Tests;
 
 // Real SQL DML tests in a rollback-only fixture. Policy and outer boundary are TEST-ONLY, not live approval/MFA.
 [Collection("IAM database lab")]
-public sealed class SessionRevocationSqlLabTests
+public sealed class SessionRevocationSqlLabTests : A10IamSqlTest
 {
     [SqlLabFact] public async Task Credential_reader_and_authentication_complete_isolated_sql_session_and_rollback()
     {
@@ -180,13 +181,13 @@ public sealed class SessionRevocationSqlLabTests
     }
     private static async Task<IamDbContext> Context()
     {
-        var connection = Environment.GetEnvironmentVariable("FDC_IAM_LAB_CONNECTION") ?? throw new InvalidOperationException("Lab required.");
+        var connection = A10IamSqlTest.Connection ?? throw new InvalidOperationException("Lab required.");
         var settings = new SqlConnectionStringBuilder(connection);
-        if (settings.DataSource != "lpc:." || settings.InitialCatalog != "FdcIam_DevelopmentLab") throw new InvalidOperationException("Unexpected target.");
+        if (settings.DataSource != "lpc:." || settings.InitialCatalog != A10IamSqlTest.TargetDatabase) throw new InvalidOperationException("Unexpected target.");
         var db = new IamDbContext(new DbContextOptionsBuilder<IamDbContext>().UseSqlServer(connection).Options);
         try
         {
-            var valid = await db.Database.SqlQueryRaw<int>("SELECT CASE WHEN CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND DB_NAME()=N'FdcIam_DevelopmentLab' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) THEN 1 ELSE 0 END AS [Value]").SingleAsync();
+            var valid = await db.Database.SqlQueryRaw<int>(A10IamSqlTest.GuardSql("SELECT CASE WHEN CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND DB_NAME()=N'FdcIam_DevelopmentLab' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) THEN 1 ELSE 0 END AS [Value]")).SingleAsync();
             Assert.Equal(1, valid); Assert.False(await db.Set<UserRow>().AnyAsync()); Assert.False(await db.Set<AuthorityVersionRow>().AnyAsync(x => x.AuthorityKey == "Center")); return db;
         }
         catch { await db.DisposeAsync(); throw; }

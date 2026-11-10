@@ -1,3 +1,4 @@
+using Fdc.Testing;
 using Fdc.Identity.Application;
 using Fdc.Identity.Infrastructure;
 using Fdc.Identity.Security;
@@ -11,14 +12,14 @@ public sealed class SqlLabFactAttribute : FactAttribute
 {
     public SqlLabFactAttribute()
     {
-        if (Environment.GetEnvironmentVariable("FDC_IAM_CONFIRMED_LAB") != "FdcIam_DevelopmentLab")
+        if (!A10IamSqlTest.Enabled && Environment.GetEnvironmentVariable("FDC_IAM_CONFIRMED_LAB") != "FdcIam_DevelopmentLab")
             Skip = "Explicit disposable local lab environment not supplied.";
     }
 }
 
 // Synthetic rows are written only inside a rolled-back transaction, never installed as users/seeds.
 [Collection("IAM database lab")]
-public sealed class Phase2SqlLabTests
+public sealed class Phase2SqlLabTests : A10IamSqlTest
 {
     [SqlLabFact]
     public async Task Sql_session_reader_sees_current_versions_disable_and_revoke()
@@ -68,14 +69,14 @@ public sealed class Phase2SqlLabTests
 
     private static IamDbContext Context()
     {
-        var connection = Environment.GetEnvironmentVariable("FDC_IAM_LAB_CONNECTION") ?? throw new InvalidOperationException("Lab connection not provided.");
+        var connection = A10IamSqlTest.Connection ?? throw new InvalidOperationException("Lab connection not provided.");
         var builder = new SqlConnectionStringBuilder(connection);
-        if (builder.DataSource != "lpc:." || builder.InitialCatalog != "FdcIam_DevelopmentLab") throw new InvalidOperationException("Unexpected lab connection.");
+        if (builder.DataSource != "lpc:." || builder.InitialCatalog != A10IamSqlTest.TargetDatabase) throw new InvalidOperationException("Unexpected lab connection.");
         return new(new DbContextOptionsBuilder<IamDbContext>().UseSqlServer(connection).Options);
     }
     private static async Task AssertTarget(IamDbContext db)
     {
-        var allowed = await db.Database.SqlQueryRaw<int>("SELECT CASE WHEN CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND DB_NAME()=N'FdcIam_DevelopmentLab' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Environment' AND CONVERT(nvarchar(128),value)=N'DevelopmentLab') THEN 1 ELSE 0 END AS [Value]").SingleAsync();
+        var allowed = await db.Database.SqlQueryRaw<int>(A10IamSqlTest.GuardSql("SELECT CASE WHEN CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND DB_NAME()=N'FdcIam_DevelopmentLab' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Environment' AND CONVERT(nvarchar(128),value)=N'DevelopmentLab') THEN 1 ELSE 0 END AS [Value]")).SingleAsync();
         Assert.Equal(1, allowed);
         Assert.False(await db.Set<UserRow>().AnyAsync());
     }
