@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 namespace Fdc.Center;
 
 public sealed record SyntheticLabDraft(Guid InventoryId, Guid StationId, Guid IedId, DateTimeOffset Start,
-    DateTimeOffset End, string Plan, string[] EvidenceSha256);
+    DateTimeOffset End, string Plan, string[] EvidenceSha256, string SyntheticOutcome = "COMPLETED");
 public sealed record LabTransition(string Action, string ETag, Guid RequestId, Guid? PermitIed = null, string? TestType = null);
 public sealed record LabTransitionResult(string Id, int Revision, string State, string ETag, bool Replay);
 public sealed class LabConflictException : Exception;
@@ -46,7 +46,8 @@ public sealed class LabWorkflowService(CenterDbContext center, BusinessAuthoriza
             draft.Start >= draft.End || draft.End - draft.Start > TimeSpan.FromHours(24) ||
             string.IsNullOrWhiteSpace(draft.Plan) || draft.Plan.Length > 2048 || draft.Plan.Any(char.IsControl) ||
             draft.EvidenceSha256 is not { Length: > 0 and <= 16 } ||
-            draft.EvidenceSha256.Any(value => value is null || value.Length != 64 || !value.All(char.IsAsciiHexDigit)))
+            draft.EvidenceSha256.Any(value => value is null || value.Length != 64 || !value.All(char.IsAsciiHexDigit)) ||
+            draft.SyntheticOutcome is not ("COMPLETED" or "FAILED" or "ABORTED"))
             throw new ArgumentException("Bounded synthetic plan, evidence hashes and UTC window required.");
         var body = JsonSerializer.Serialize(draft);
         var digestValue = Hash(body);
@@ -154,7 +155,11 @@ public sealed class LabWorkflowService(CenterDbContext center, BusinessAuthoriza
                     row.DraftStatus = "SYNTHETIC_EXECUTION";
                     await SaveAsync(iam, lab, row, snapshot, Guid.NewGuid(), requestDigest, "synthetic.start", correlation, token);
                     row.ResultDigest = Hash(row.DraftJson);
-                    row.DraftStatus = "COMPLETED";
+                    var plan = JsonSerializer.Deserialize<SyntheticLabDraft>(row.DraftJson)
+                        ?? throw new ArgumentException("Stored synthetic plan invalid.");
+                    if (plan.SyntheticOutcome is not ("COMPLETED" or "FAILED" or "ABORTED"))
+                        throw new ArgumentException("Stored synthetic outcome invalid.");
+                    row.DraftStatus = plan.SyntheticOutcome;
                     break;
                 case "abort":
                     Require(row.DraftStatus is not ("COMPLETED" or "ABORTED" or "FAILED"));

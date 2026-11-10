@@ -154,6 +154,7 @@ form.addEventListener('submit', async event => {
   try {
     const row = await call('', { inventoryId: fields.get('inventory'), stationId: fields.get('station'),
       iedId: fields.get('ied'), plan: fields.get('plan'), evidenceSha256: [fields.get('evidence')],
+      syntheticOutcome: fields.get('outcome'),
       start: fields.get('start') + ':00Z', end: fields.get('end') + ':00Z' });
     await show(row.id, row.revision);
   } catch (error) { failed(error); }

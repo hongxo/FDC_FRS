@@ -80,6 +80,27 @@ public sealed class A10LabWorkflowTests : A10IamSqlTest
     }
 
     [A10Fact]
+    public async Task Synthetic_failure_and_explicit_abort_are_terminal_and_audited()
+    {
+        await using var fixture = await Host.CreateAsync();
+        var row = await fixture.Create(fixture.Client("demo.operator"), Guid.NewGuid(), fixture.Draft() with { SyntheticOutcome = "FAILED" });
+        row = await fixture.Move(fixture.Client("demo.operator"), row, "submit");
+        row = await fixture.Move(fixture.Client("demo.reviewer"), row, "review");
+        row = await fixture.Move(fixture.Client("demo.approver"), row, "approve");
+        row = await fixture.Move(fixture.Client("demo.approver"), row, "permit");
+        row = await fixture.Move(fixture.Client("demo.system-admin"), row, "ready");
+        row = await fixture.Move(fixture.Client("demo.system-admin"), row, "apply");
+        Assert.Equal("FAILED", row.State);
+        await fixture.Denied(fixture.Client("demo.system-admin"), row, "apply");
+        var draft = await fixture.Create(fixture.Client("demo.operator"), Guid.NewGuid(), fixture.Draft());
+        var aborted = await fixture.Move(fixture.Client("demo.system-admin"), draft, "abort");
+        Assert.Equal("ABORTED", aborted.State);
+        await fixture.Denied(fixture.Client("demo.operator"), aborted, "submit");
+        await fixture.WriteEvidence("a10-terminal-outcomes.json", new { PrescribedSyntheticFailure = "FAILED",
+            ExplicitAbort = "ABORTED", TerminalReplayMutation = 403, RealExecution = false });
+    }
+
+    [A10Fact]
     public async Task Browser_collector_registry_request_review_approve_apply_uses_real_SQL_and_SoD()
     {
         await using var fixture = await Host.CreateAsync();

@@ -12,6 +12,9 @@
 <label>Station ID <input name="station" required></label><label>IED ID <input name="ied" required></label>
 <label>Kế hoạch mô phỏng <input name="plan" maxlength="2048" required></label>
 <label>SHA-256 bằng chứng <input name="evidence" maxlength="64" required></label>
+<label>Kết quả định trước của kịch bản mô phỏng <select name="outcome">
+<option value="COMPLETED">Completed</option><option value="FAILED">Failed</option><option value="ABORTED">Aborted</option>
+</select></label>
 <label>Bắt đầu UTC <input name="start" type="datetime-local" required></label>
 <label>Kết thúc UTC <input name="end" type="datetime-local" required></label>
 <button type="submit">Tạo bản nháp</button></form>
