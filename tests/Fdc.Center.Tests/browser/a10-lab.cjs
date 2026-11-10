@@ -82,6 +82,12 @@ const path = require('node:path');
     await second.goto(new URL('/identity/lab.html', origin).href);
     await second.locator('#lab-list button').filter({ hasText: id }).click();
     await second.locator('#lab-detail').getByText('Trạng thái · COMPLETED', { exact: true }).waitFor();
+    const business = await viewer.context().newPage();
+    await business.clock.install();
+    await business.goto(new URL('/identity/business.html', origin).href);
+    await business.getByRole('button', { name: 'Trạm', exact: true }).click();
+    await business.getByRole('button', { name: 'A10-A', exact: true }).click();
+    await business.locator('#object-detail h2').getByText('A10-A', { exact: true }).waitFor();
     let resume, held;
     const resumeResponse = new Promise(resolve => { resume = resolve; });
     const responseHeld = new Promise(resolve => { held = resolve; });
@@ -114,11 +120,18 @@ const path = require('node:path');
     resume();
     await viewer.clock.runFor(50);
     assert.equal(await viewer.locator('#lab-detail').textContent(), '');
+    await business.clock.runFor(15050);
+    await business.locator('#status').getByText(scenario === 'mfa' ? 'Chọn phân hệ được phép.' : 'Phiên đăng nhập đã hết hạn.').waitFor();
+    assert.equal(await business.locator('#object-detail').textContent(), '');
+    assert.equal(await business.locator('#results').textContent(), '');
+    const businessBackend = await business.request.get(new URL('/api/business/v1/stations', origin).href);
+    assert.equal(businessBackend.status(), scenario === 'mfa' ? 200 : 401);
+    if (scenario === 'mfa') assert.deepEqual(await businessBackend.json(), []);
     if (evidence) {
       await viewer.screenshot({ path: path.join(evidence, 'a10-' + scenario + '-cleared.png'), fullPage: true });
       await fs.writeFile(path.join(evidence, 'a10-lab-browser-' + scenario + '.json'), JSON.stringify({ run: path.basename(evidence),
         utc: new Date().toISOString(), commit: process.env.FDC_A5_COMMIT, identity: 'synthetic SQL session fixtures',
-        workflow: 'DRAFT→SUBMITTED→REVIEWED→APPROVED→READY→COMPLETED', idleExpiryTabs: 2,
+        workflow: 'DRAFT→SUBMITTED→REVIEWED→APPROVED→READY→COMPLETED', protectedTabs: ['Lab detail', 'Lab second tab', 'Business station detail'],
         sensitiveDomCleared: true, delayedResponseIgnored: true, scenario,
         backendAfterExpiry: scenario === 'mfa' ? '200 empty scope' : 401, trace }, null, 2));
     }

@@ -317,6 +317,7 @@ public sealed class A10LabWorkflowTests : A10IamSqlTest
         ITrustedResourceResolver, ISqlCommitGatePlanProvider, ILabHttpOrigin
     {
         private readonly Dictionary<string, (Guid Id, string Raw)> actors = new();
+        private readonly HashSet<BusinessReadOperation> grantedOperations = [];
         private readonly List<HttpClient> clients = [];
         private WebApplication app = null!;
         private X509Certificate2 certificate = null!;
@@ -452,8 +453,11 @@ public sealed class A10LabWorkflowTests : A10IamSqlTest
                 BusinessReadOperation.CollectorBindingApprove, BusinessReadOperation.CollectorBindingApply];
             operations["demo.system-admin"] = [..operations["demo.system-admin"], BusinessReadOperation.CollectorBindingRead, BusinessReadOperation.CollectorBindingApply];
             operations["approver.other-station"] = [..operations["approver.other-station"], BusinessReadOperation.CollectorBindingRead, BusinessReadOperation.CollectorBindingApply];
+            operations["demo.viewer"] = [..operations["demo.viewer"], BusinessReadOperation.Dashboard, BusinessReadOperation.Station, BusinessReadOperation.Ied];
+            operations["operator.other-station"] = [..operations["operator.other-station"], BusinessReadOperation.Dashboard, BusinessReadOperation.Station];
             foreach (var operation in operations.Values.SelectMany(value => value).Distinct())
             {
+                grantedOperations.Add(operation);
                 var permission = Row(new PermissionRow { PermissionCode = Code(operation), Module = "fixture", Action = "fixture",
                     ScopeRequirement = "Station", SoDPolicy = "fixture", RiskLevel = "fixture", CatalogVersion = 1,
                     IsApproved = true, IsImplemented = true, ApprovalReference = "TEST_ONLY" });
@@ -524,8 +528,7 @@ public sealed class A10LabWorkflowTests : A10IamSqlTest
 
         private static string Code(BusinessReadOperation operation) => "a10.fixture." + operation.ToString().ToLowerInvariant();
         public string DemandPermission(BusinessReadOperation operation, AuthorityVersion version) =>
-            operation.ToString().StartsWith("Lab", StringComparison.Ordinal) || operation.ToString().StartsWith("CollectorBinding", StringComparison.Ordinal) ||
-                operation == BusinessReadOperation.RecordDownload
+            grantedOperations.Contains(operation)
                 ? Code(operation) : throw new OwnerDecisionRequiredException("Unmapped fixture operation.");
         public PermissionDescriptor? Resolve(PermissionRow row, AuthorityVersion version) =>
             row.PermissionCode.StartsWith("a10.fixture.", StringComparison.Ordinal)

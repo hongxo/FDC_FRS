@@ -31,6 +31,12 @@ const path = require('node:path');
       assert.deepEqual((await response.json()).map(row => row.permitId), [id]);
       const denied = await page.request.get(new URL('/api/lab/v1/tests/' + hidden + '/1', origin).href);
       assert.equal(denied.status(), 404);
+      const stations = await page.request.get(new URL('/api/business/v1/stations', origin).href);
+      assert.equal(stations.status(), 200);
+      assert.deepEqual((await stations.json()).map(row => row.label), [id === idA ? 'A10-A' : 'A10-B']);
+      const dashboard = await page.request.get(new URL('/api/business/v1/dashboard', origin).href);
+      assert.equal(dashboard.status(), 200);
+      assert.equal((await dashboard.json()).stations, 1);
     }
     const signal = process.env.FDC_A10_REVOKE;
     await fs.writeFile(signal, 'revoke', { flag: 'wx' });
