@@ -197,6 +197,20 @@ public sealed partial class CenterHttpsSqlLabTests
                                orderby e.EventCode select e.EventCode).ToArrayAsync();
             Assert.Equal(business is null || ui ? ["fixture.login.mfa", "fixture.logout"] :
                 ["business.record.download.prepared", "business.record.download.prepared", "fixture.login.mfa", "fixture.logout"], audit);
+            if (ui && Environment.GetEnvironmentVariable("FDC_UI_EVIDENCE") is { } uiEvidence)
+            {
+                var paired = await (from e in db.Set<SecurityEventRow>()
+                                    join o in db.Set<AuditOutboxRow>() on e.Id equals o.EventId
+                                    orderby e.EventCode
+                                    select new { e.EventCode, e.CorrelationId }).ToArrayAsync();
+                await File.WriteAllTextAsync(Path.Combine(uiEvidence, "a12-auth-ui-sql.json"),
+                    System.Text.Json.JsonSerializer.Serialize(new
+                    {
+                        utc = DateTimeOffset.UtcNow, commit = Environment.GetEnvironmentVariable("FDC_A5_COMMIT"),
+                        sessionRevoked = session.Revoked, mfaVerified = session.MfaAt is not null,
+                        challengeConsumed = true, auditOutbox = paired
+                    }));
+            }
             if (business is not null && !ui && Environment.GetEnvironmentVariable("FDC_UI_EVIDENCE") is { } businessEvidence)
             {
                 using var artifact = System.Text.Json.JsonDocument.Parse(await File.ReadAllTextAsync(Path.Combine(businessEvidence, "a7-browser.json")));

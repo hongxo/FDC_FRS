@@ -15,6 +15,10 @@ async function run() {
   });
   try {
     const context = await browser.newContext({ ignoreHTTPSErrors: true });
+    const network = [];
+    context.on('response', response => network.push({
+      path: new URL(response.url()).pathname, method: response.request().method(), status: response.status()
+    }));
     await context.addInitScript(() => {
       addEventListener('pageshow', event => { window.a12Persisted = event.persisted; });
     });
@@ -112,7 +116,7 @@ async function run() {
         login: 202, mfa: 204, logout: 204, pendingResponseIgnored: true,
         multiTabCleared: true, historyNoStaleContent: noStaleContent,
         backNavigation, backStatus, persistedBFCacheObserved: persisted, persistedBFCacheAcceptance: persisted ? 'PASS' : 'BLOCKED',
-        revokedCookieReplay: replay, proofMaterial: 'omitted'
+        revokedCookieReplay: replay, network, proofMaterial: 'omitted'
       }, null, 2));
     }
   } finally { await browser.close(); }
