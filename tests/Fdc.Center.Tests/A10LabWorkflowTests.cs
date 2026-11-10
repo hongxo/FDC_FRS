@@ -31,6 +31,59 @@ namespace Fdc.Center.Tests;
 public sealed class A10LabWorkflowTests : A10IamSqlTest
 {
     [A10Fact]
+    public async Task Expired_export_claim_can_be_recovered_and_previous_owner_is_fenced()
+    {
+        await using var fixture = await Host.CreateAsync();
+        var permit = await fixture.Create(fixture.Client("demo.operator"), Guid.NewGuid(), fixture.Draft());
+        var job = await fixture.ExportRequest(fixture.Client("demo.auditor"), permit);
+        var first = Guid.NewGuid();
+        var replacement = Guid.NewGuid();
+        Assert.True(await fixture.Prepare(job, first));
+        fixture.Clock.Advance(TimeSpan.FromSeconds(61));
+        Assert.True(await fixture.Prepare(job, replacement));
+        Assert.False(await fixture.Release(job, first));
+        Assert.True(await fixture.Release(job, replacement));
+        Assert.False(await fixture.Release(job, replacement));
+        await using var iam = fixture.Iam();
+        Assert.Equal(1, await iam.Set<SecurityEventRow>().CountAsync(row => row.EventCode == "lab.export.released"));
+        await fixture.WriteEvidence("a11-export-lease.json", new { Reclaimed = true, PriorOwnerDenied = true, ReleaseCount = 1,
+            Scope = "Independent DI scopes in one test process" });
+    }
+
+    [A10Fact]
+    public async Task Recovered_revoked_export_and_corrupt_staging_are_quarantined()
+    {
+        await using var fixture = await Host.CreateAsync();
+        var permit = await fixture.Create(fixture.Client("demo.operator"), Guid.NewGuid(), fixture.Draft());
+        var auditor = fixture.Client("demo.auditor");
+        var corrupt = await fixture.ExportRequest(auditor, permit);
+        var worker = Guid.NewGuid();
+        Assert.True(await fixture.Prepare(corrupt, worker));
+        await using var lab = fixture.Lab();
+        await lab.Exports.Where(row => row.Id == corrupt).ExecuteUpdateAsync(set => set.SetProperty(row => row.Payload, new byte[] { 1, 2 }));
+        Assert.False(await fixture.Release(corrupt, worker));
+        var revoked = await fixture.ExportRequest(auditor, permit);
+        Assert.True(await fixture.Prepare(revoked, Guid.NewGuid()));
+        await fixture.RevokeActor("demo.auditor");
+        fixture.Clock.Advance(TimeSpan.FromSeconds(61));
+        Assert.False(await fixture.Prepare(revoked, Guid.NewGuid()));
+        var rows = await lab.Exports.AsNoTracking().ToListAsync();
+        Assert.Equal(2, rows.Count);
+        Assert.All(rows, row =>
+        {
+            Assert.Equal("Quarantined", row.State);
+            Assert.Null(row.Payload);
+            Assert.Null(row.PayloadDigest);
+        });
+        await using var iam = fixture.Iam();
+        Assert.Equal(2, await (from audit in iam.Set<SecurityEventRow>()
+            join outbox in iam.Set<AuditOutboxRow>() on audit.Id equals outbox.EventId
+            where audit.EventCode == "lab.export.quarantined" select audit.Id).CountAsync());
+        await fixture.WriteEvidence("a11-export-quarantine.json", new { CorruptStage = "Quarantined", RevokedReclaim = "Quarantined",
+            RetainedPayloads = 0, AuditOutboxPairs = 2 });
+    }
+
+    [A10Fact]
     public async Task Synthetic_lab_workflow_enforces_person_station_revision_permit_and_atomic_history_over_https()
     {
         await using var fixture = await Host.CreateAsync();

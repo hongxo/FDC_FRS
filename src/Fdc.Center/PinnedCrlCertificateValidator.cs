@@ -16,6 +16,16 @@ public sealed class PinnedCrlCertificateValidator(X509Certificate2 issuer, TimeP
 {
     public CollectorCertificateStatus Validate(X509Certificate2 leaf, ReadOnlyMemory<byte>? fullCrl)
     {
+        var chainStatus = ValidateChain(leaf);
+        if (chainStatus != CollectorCertificateStatus.CertValid) return chainStatus;
+        if (fullCrl is null) return CollectorCertificateStatus.RevocationUnavailable;
+        try { return CheckCrl(leaf, fullCrl.Value, clock.GetUtcNow()); }
+        catch (Exception error) when (error is AsnContentException or CryptographicException or ArgumentException)
+        { return CollectorCertificateStatus.RevocationUnknown; }
+    }
+
+    internal CollectorCertificateStatus ValidateChain(X509Certificate2 leaf)
+    {
         var now = clock.GetUtcNow();
         if (now.UtcDateTime < leaf.NotBefore.ToUniversalTime() || now.UtcDateTime >= leaf.NotAfter.ToUniversalTime())
             return CollectorCertificateStatus.CertExpired;
@@ -34,10 +44,7 @@ public sealed class PinnedCrlCertificateValidator(X509Certificate2 issuer, TimeP
         if (!chain.Build(leaf) || chain.ChainElements.Count != 2 ||
             !chain.ChainElements[1].Certificate.RawData.AsSpan().SequenceEqual(issuer.RawData))
             return CollectorCertificateStatus.CertInvalid;
-        if (fullCrl is null) return CollectorCertificateStatus.RevocationUnavailable;
-        try { return CheckCrl(leaf, fullCrl.Value, now); }
-        catch (Exception error) when (error is AsnContentException or CryptographicException or ArgumentException)
-        { return CollectorCertificateStatus.RevocationUnknown; }
+        return CollectorCertificateStatus.CertValid;
     }
 
     private CollectorCertificateStatus CheckCrl(X509Certificate2 leaf, ReadOnlyMemory<byte> encoded, DateTimeOffset now)
