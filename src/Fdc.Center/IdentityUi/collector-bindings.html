@@ -1,0 +1,10 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FDC/FRS · Yêu cầu binding</title><link rel="stylesheet" href="styles/axl-base.css">
+<link rel="stylesheet" href="styles/live-management.css"><script type="module" src="collector-bindings.mjs"></script></head>
+<body><main class="management-content"><a href="/identity/business.html">Dữ liệu theo trạm</a>
+<h1>Yêu cầu trạng thái Collector</h1><p>Quy trình mô phỏng giữ nguyên trạm của Collector.</p>
+<p id="binding-status" role="status"></p><button id="binding-refresh" type="button">Tải yêu cầu</button><ul id="binding-list"></ul>
+<form id="binding-form" class="management-panel"><label>Collector ID <input name="collector" required></label>
+<label>Configuration version <input name="version" type="number" min="1" required></label>
+<label>Trạng thái đích <select name="target"><option value="Bound">Bound</option><option value="Revoked">Revoked</option></select></label>
+<button type="submit">Tạo yêu cầu binding</button></form></main></body></html>

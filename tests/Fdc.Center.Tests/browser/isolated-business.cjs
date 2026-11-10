@@ -41,7 +41,12 @@ module.exports = async function verifyBusiness(page, call, expect, evidence) {
   assert.deepEqual(pageTwo, []);
   for (const [route, value] of [['heartbeat', 'Healthy'], ['transfers', 'Accepted']]) {
     const allowed = await expect('Collector A ' + route, await call(base + 'collectors/' + ids.collectorA + '/' + route), 200);
-    assert.deepEqual(allowed.map(row => row.status ?? row.outcome), [value]);
+    assert.equal(allowed.length, 22);
+    assert.equal(allowed[0].status ?? allowed[0].outcome, value);
+    if (route === 'transfers') {
+      assert.ok(allowed.every(row => row.recordId === ids.recordA && (row.errorCode === null || row.errorCode === 'TIMEOUT')));
+      assert.ok(allowed.some(row => row.errorCode === 'TIMEOUT'));
+    }
     assert.equal(await expect('Collector B ' + route + ' denied', await call(base + 'collectors/' + ids.collectorB + '/' + route), 404), null);
   }
   const businessPage = await page.context().newPage();
@@ -84,8 +89,29 @@ module.exports = async function verifyBusiness(page, call, expect, evidence) {
     }
     await businessPage.getByRole('button', { name: 'Collector', exact: true }).click();
     await businessPage.getByRole('button', { name: 'A7-Collector-A', exact: true }).click();
-    await businessPage.locator('#object-detail').getByText(/Healthy/).waitFor();
+    await businessPage.locator('#object-detail').getByText(/Healthy/).first().waitFor();
     await businessPage.locator('#object-detail').getByText(/Accepted/).waitFor();
+    for (const title of ['Nhịp kết nối', 'Lịch sử truyền']) {
+      const section = businessPage.locator('#object-detail section').filter({ has: businessPage.getByRole('heading', { name: title, exact: true }) });
+      await section.getByText('Tổng lịch sử trong phạm vi: 22', { exact: true }).waitFor();
+      const before = await section.locator('div > p').allTextContents();
+      assert.equal(before.length, 20);
+      await section.getByRole('button', { name: 'Lịch sử sau', exact: true }).click();
+      await section.getByRole('button', { name: 'Lịch sử trước', exact: true }).waitFor({ state: 'visible' });
+      await section.page().waitForFunction(title => {
+        const section = [...document.querySelectorAll('#object-detail section')].find(section => section.querySelector('h3')?.textContent === title);
+        return section?.querySelectorAll('div > p').length === 2;
+      }, title);
+      const after = await section.locator('div > p').allTextContents();
+      assert.equal(new Set([...before, ...after]).size, 22);
+      await section.getByRole('button', { name: 'Lịch sử trước', exact: true }).click();
+      await section.page().waitForFunction(title => {
+        const section = [...document.querySelectorAll('#object-detail section')].find(section => section.querySelector('h3')?.textContent === title);
+        return section?.querySelectorAll('div > p').length === 20;
+      }, title);
+      assert.deepEqual(await section.locator('div > p').allTextContents(), before);
+    }
+    assert.equal((await businessPage.locator('#object-detail').textContent()).includes('opaque.unreviewed.detail'), false);
     await businessPage.setViewportSize({ width: 390, height: 844 });
     assert.ok(await businessPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     if (evidence) await businessPage.screenshot({ path: path.join(evidence, 'a8-collector-mobile.png') });

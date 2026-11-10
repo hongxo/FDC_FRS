@@ -129,6 +129,15 @@ internal sealed class A7BusinessFixture : IAsyncDisposable, IReviewedPermissionP
                     Status = suffix == "A" ? "Healthy" : "Offline", QueueDepth = 1, IsSynthetic = true },
                 new IngestionAttempt { StationId = station.Id, RecordId = record.Id, Number = 1,
                     Outcome = suffix == "A" ? "Accepted" : "Failed", CorrelationId = "fixture", IsSynthetic = true });
+            if (suffix == "A")
+            {
+                for (var i = 1; i <= 21; i++)
+                    db.AddRange(new CollectorHeartbeat { StationId = station.Id, CollectorId = collector.Id,
+                        ReceivedAtUtc = now.AddSeconds(-i), Status = "Healthy", QueueDepth = i, IsSynthetic = true },
+                        new IngestionAttempt { StationId = station.Id, RecordId = record.Id, Number = i + 1,
+                            CreatedAtUtc = now.AddSeconds(-i), Outcome = "Failed", ErrorCode = i % 2 == 0 ? "TIMEOUT" : "opaque.unreviewed.detail",
+                            CorrelationId = "fixture", IsSynthetic = true });
+            }
             await db.SaveChangesAsync();
             return (ied.Id, collector.Id, record.Id, file.Id, digest, cfg.Id, cfgDigest);
         }
@@ -220,8 +229,12 @@ internal sealed class A7BusinessFixture : IAsyncDisposable, IReviewedPermissionP
         await File.WriteAllTextAsync(Signal + ".done", "revoked", ct);
     }
 
-    public string DemandPermission(BusinessReadOperation operation, AuthorityVersion version) =>
-        operation == BusinessReadOperation.RecordDownload ? "a7.fixture.download" : "a5.fixture.read";
+    public string DemandPermission(BusinessReadOperation operation, AuthorityVersion version)
+    {
+        if (operation.ToString().StartsWith("Lab", StringComparison.Ordinal) || operation.ToString().StartsWith("CollectorBinding", StringComparison.Ordinal))
+            throw new Fdc.Identity.Application.OwnerDecisionRequiredException("Operation outside A.7 fixture.");
+        return operation == BusinessReadOperation.RecordDownload ? "a7.fixture.download" : "a5.fixture.read";
+    }
     public PermissionDescriptor? Resolve(PermissionRow row, AuthorityVersion version) =>
         row.PermissionCode is "a5.fixture.read" or "a7.fixture.download"
             ? new(row.PermissionCode, true, true, version.Catalog, false, null) : null;

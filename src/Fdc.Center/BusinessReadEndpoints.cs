@@ -33,12 +33,28 @@ public static class BusinessReadEndpoints
             Guard(h, async digest => Results.Ok(await auth.CollectorsForIedAsync(digest, id, ct))));
         group.MapGet("/collectors/{id:guid}/records", (HttpContext h, BusinessAuthorization auth, Guid id, CancellationToken ct) =>
             Guard(h, async digest => Results.Ok(await auth.RecordsForCollectorAsync(digest, id, ct))));
-        group.MapGet("/collectors/{id:guid}/heartbeat", (HttpContext h, BusinessAuthorization auth, Guid id, int? offset, int? limit, CancellationToken ct) =>
-            Guard(h, async digest => await auth.CollectorHeartbeatAsync(digest, id, offset ?? 0, limit ?? 50, ct) is { } rows
-                ? Results.Ok(rows) : Results.NotFound()));
-        group.MapGet("/collectors/{id:guid}/transfers", (HttpContext h, BusinessAuthorization auth, Guid id, int? offset, int? limit, CancellationToken ct) =>
-            Guard(h, async digest => await auth.CollectorTransfersAsync(digest, id, offset ?? 0, limit ?? 50, ct) is { } rows
-                ? Results.Ok(rows) : Results.NotFound()));
+        group.MapGet("/collectors/{id:guid}/heartbeat", (HttpContext h, BusinessAuthorization auth, Guid id, int? offset, int? limit, bool? paged, CancellationToken ct) =>
+            Guard(h, async digest =>
+            {
+                if (paged == true)
+                {
+                    var page = await auth.HeartbeatPageAsync(digest, id, offset ?? 0, limit ?? 50, ct);
+                    return page is null ? Results.NotFound() : Results.Ok(page);
+                }
+                var rows = await auth.CollectorHeartbeatAsync(digest, id, offset ?? 0, limit ?? 50, ct);
+                return rows is null ? Results.NotFound() : Results.Ok(rows);
+            }));
+        group.MapGet("/collectors/{id:guid}/transfers", (HttpContext h, BusinessAuthorization auth, Guid id, int? offset, int? limit, bool? paged, CancellationToken ct) =>
+            Guard(h, async digest =>
+            {
+                if (paged == true)
+                {
+                    var page = await auth.TransferPageAsync(digest, id, offset ?? 0, limit ?? 50, ct);
+                    return page is null ? Results.NotFound() : Results.Ok(page);
+                }
+                var rows = await auth.CollectorTransfersAsync(digest, id, offset ?? 0, limit ?? 50, ct);
+                return rows is null ? Results.NotFound() : Results.Ok(rows);
+            }));
         group.MapGet("/records/{id:guid}/downloadable-files", (HttpContext h, BusinessAuthorization auth, Guid id, CancellationToken ct) =>
             Guard(h, async digest => Results.Ok(await auth.DownloadableFilesAsync(digest, id, ct))));
         group.MapGet("/record-files/{id:guid}/download", (HttpContext h, BusinessAuthorization auth,
@@ -68,6 +84,7 @@ public static class BusinessReadEndpoints
         var digest = human?.FindFirst("fdc.session.digest")?.Value;
         if (!context.Request.IsHttps || context.Connection.ClientCertificate is not null || string.IsNullOrWhiteSpace(digest))
             return Results.Unauthorized();
+        HumanViewStamp.Set(context, digest);
         try { return await action(digest); }
         catch (UnauthorizedAccessException) { return Results.Forbid(); }
         catch (ArgumentException) { return Results.BadRequest(new { code = "INVALID_QUERY" }); }

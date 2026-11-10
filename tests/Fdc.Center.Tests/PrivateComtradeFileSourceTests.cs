@@ -87,7 +87,7 @@ public sealed class PrivateComtradeFileSourceTests
         }
     }
 
-    private static void CreateDirectoryRedirect(string path, string target)
+    internal static void CreateDirectoryRedirect(string path, string target)
     {
         if (!OperatingSystem.IsWindows())
         {
