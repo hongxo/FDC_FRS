@@ -5,3 +5,7 @@ A.12 feature branch is `feature/fdc-frs-phase4-4ca12-e2e-security-recovery`, sta
 Technical source `064a1751c6b0e85c0bf618e1ed27a154cdd51941` was tested from a clean export. Final full xUnit run has 415 PASS / 0 FAIL / 1 child-only SKIP. Node has 11 PASS. Build and cleanup passed. See the raw manifest for prior failed attempts and remaining gaps.
 
 Existing UI/test/assignment edits, .vs and locally generated Properties files are excluded from A.12 delivery. Draft PR [#24](https://github.com/hongxo/FDC_FRS/pull/24) is OPEN and stacked on A.11 #23.
+
+## Security integration follow-up
+
+Branch `feature/fdc-frs-phase4-4ca12-security-integration`, stacked on Draft #24. Technical SHA `2930a32ea2a02fe5579785cbeb8302b37819cf47`. The new race closes two original blocker IDs. The final regression and the separate cleanup recheck are recorded in the [raw manifest](FDC_A12_Raw_Evidence_Manifest.md).

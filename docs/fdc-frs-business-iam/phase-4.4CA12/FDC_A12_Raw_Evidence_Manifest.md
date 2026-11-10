@@ -53,3 +53,36 @@ c81b9abaa37a47e44356fd53b25356bf6caad9d5b09d0d0978175baf199c0e89  a12-worker-pro
 3745ff46cce44bfe74e3bb8717038e0f2eca318115ce8f185edb4dbd176d8670  a12-auth-ui.json
 6a199b80cb72f963cc121059d2139a5b2bcb187737dfc5beb6bf7d22d5f8a983  a12-auth-ui-sql.json
 ```
+
+## Security integration follow-up
+
+Exact tested source `2930a32ea2a02fe5579785cbeb8302b37819cf47`. Evidence under `tmp/a12-security/tmp/phase4-4ca10/a12-security` and `tmp/a12-security/tmp/worker-recheck-02`. The original manifest above identifies the earlier Draft #24 delivery.
+
+Build: 0 warnings, 0 errors. Full xUnit: 416 PASS, 0 FAIL, 1 child-entry SKIP (Center 90, Identity 279, Collector 47). Node: 11 PASS. The initial full runner exited 1 because its global cleanup count reported one matching database. A later metadata check no longer found that database. The first focused precheck observed another matching fixture and deferred execution. No database was manually removed. The second focused run completed 2 PASS with database and test-login counts both zero before and after. Focused reruns are excluded from full-suite totals.
+
+Worker scope: deterministic OS child processes, real SQL lease and transaction gates, and existing release/outbox logic. SQL worker test credentials use local fixture administration. SQL principal separation remains BLOCKED.
+
+Full execution used Invoke-A10DisposableRegression.ps1 -ConfirmDisposable -RunId a12-security with the pinned DLL/simulator inputs. Focused rerun used dotnet test --no-build with the filters Two_worker_processes_contend and Worker_process_is_killed, using FDC_RUN_A10_SQL=1 and the local Windows-integrated master profile.
+
+SHA-256 for full regression, followed by focused rerun hashes:
+
+```text
+Fdc.Collector.Pilot.Tests.ComtradeParserTests A7207656E059DAD96EDA825D57A770EFC7E8220A13FB06259C9DE1FE0C1471F6
+Fdc.Identity.Tests.Phase2SecurityTests 580F24DE9D3A8B6131911793527560987265A3F414C523F8A0F0444EFE8D256E
+Fdc.Center.Tests.A10LabWorkflowTests 66BB5F312AAC26509C3F1DF30F57143502C29733D1A7A60FA54410936BD9C216
+FFA68CBE24C1478CA3455BBD53E7D6104E1F9D2D8EB10F8350C54D2DA6CCEEAB  build.log
+DF10FF08DCFD6AD5B3AAB9AF2BDFBF539CE3A56C1520E32B59A8C3895E701290  tests.log
+F1B2F662800122BED0FF255693DF89C4487FBDCF453D3524A42D4EC20C3D9C04  cleanup.log
+271C71F0F58CA3D96B6883E2BC410804CF836A09D90B7C19A52034967ED3C87D  node.log
+0F2C08646A86DC81C5A4A74F55CD23266320C4E0647DC4C5AA1C287732017EC7  a12-worker-lease-race.json
+C219504F726874B28B38B4D6BFE4BABF9E39AC41CB1E61A3C240B2237053D36C  a12-worker-process.json
+90300801673D4D58D867D0FD2DD61F1A5AAADD6205FF3D3C7049F1A168E49CD6  a12-mtls-revocation.json
+0D844B59F32B08E4D874D7F40642E23D6FDB3D7DDCC10D601A4AF512A8A78971  a12-auth-ui.json
+2D715C32AD96DD320D14E09578FC945B8A3D9B22DCF3CE18070B815E772EF952  a12-auth-ui-sql.json
+ADF465F5D740BF61D209BDB781F54408CB5DE02F5E1E14E828916D9A5698F448  a12-worker-lease-race.json
+FD87D29593262AD25900C148B1DBA7F186DE7689255DFC6DF58948737311063E  a12-worker-process.json
+ACF013C1B1283FDECDE06C6066271D42A31384674678C9B1406611266F34A749  worker recheck TRX
+1B65B6B25638D3319FE371D1443F075EB1BA0ABA97F1050D620C88AAD483BAD2  postcheck.log
+1B65B6B25638D3319FE371D1443F075EB1BA0ABA97F1050D620C88AAD483BAD2  precheck.log
+14B853D9E2FF99C9F9DDBCD59710B6D27423A854EF2540B6164964F7574B08D0  tests.log
+```

@@ -16,7 +16,7 @@ All three run on the final technical source noted above. Evidence records UTC an
 | 05 | BLOCKED | No certificate rotation |
 | 06 | BLOCKED | No kill during staging transaction |
 | 07–08 | PASS | Kill before release and actual replacement process |
-| 09 | BLOCKED | No simultaneous lease race |
+| 09 | PASS | Two OS processes compete at a synchronized SQL lease barrier |
 | 10 | PASS | Revocation during downtime prevented bytes |
 | 11 | BLOCKED | No persisted BFCache observation |
 | 12–13 | PASS | Held responses and cross-tab session invalidation; backend replay denial |
@@ -25,4 +25,12 @@ All three run on the final technical source noted above. Evidence records UTC an
 | 19 | BLOCKED | Restore verification absent |
 | 20 | BLOCKED | Activation harness not executed; approvals pending |
 
-Mandatory totals: 9 PASS, 11 BLOCKED, zero FAIL/SKIP. Independent review is pending.
+Mandatory totals: 10 PASS, 10 BLOCKED, zero FAIL/SKIP. Independent review is pending.
+
+## Worker contention execution
+
+| Method | Original IDs | Environment | Expected | Actual | Exact source and UTC | Evidence / status |
+|---|---|---|---|---|---|---|
+| Two_worker_processes_contend_for_one_lease_and_only_owner_releases | A11-043, A11-061 | Two dotnet testhost worker OS processes and disposable SQL | One prepared owner, one release, replay denied, one audit/outbox pair | PIDs 20788 and 37872. Owner 20788. Preparing to Completed. Losing release false. One paired event | 2930a32ea2a02fe5579785cbeb8302b37819cf47, 2026-11-10 13:44:55 UTC | a12-worker-lease-race.json and Center TRX, PASS |
+
+Executed in the clean export using Invoke-A10DisposableRegression.ps1 -ConfirmDisposable -RunId a12-security with pinned simulator artifacts. Claim and release were separated by explicit marker barriers. The losing result was published before the winning release result in this run. A kill during staging is a separate BLOCKED case.

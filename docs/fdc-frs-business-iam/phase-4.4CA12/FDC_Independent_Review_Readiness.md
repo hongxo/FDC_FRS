@@ -11,3 +11,7 @@ Threat checks cover forged certificate headers, invalid/unknown/unavailable revo
 Rollback uses a normal Git revert of A.12 technical commits and clean rebuild. Kill only owned test child processes. Verify generated fixture names and ownership markers before cleanup; verify DB and login counts afterwards. Preserve raw failures and unrelated checkout edits.
 
 The independent reviewer must provide a signed disposition tied to source/evidence hashes, findings and scope. No reviewer assignment or signature has been evidenced.
+
+## Security follow-up source
+
+Review the worker lease race against exact source 2930a32ea2a02fe5579785cbeb8302b37819cf47. The initial regression used the same canonical IAM baseline as Draft #24. Cross-branch IAM V1 testing requires a checked-out IAM V1 ref. See [worker closure](FDC_A12_Security_Closure_Register.md).
