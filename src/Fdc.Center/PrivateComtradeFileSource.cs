@@ -26,7 +26,12 @@ public sealed class PrivateComtradeFileSource : IReviewedBusinessFileSource
         name.IndexOfAny([':', '/', (char)92]) < 0 &&
         name.IndexOfAny(Path.GetInvalidFileNameChars()) < 0 && !name.Any(char.IsControl);
 
-    public async Task<Stream?> OpenVerifiedAsync(string objectKey, long size, string sha256, int cap, CancellationToken ct)
+    public Task<Stream?> OpenVerifiedAsync(string objectKey, long size, string sha256, int cap, CancellationToken ct) =>
+        OpenVerifiedAsync(objectKey, size, sha256, cap,
+            source => new FileStream(source, FileMode.Open, FileAccess.Read, FileShare.Read, 65536, FileOptions.Asynchronous), ct);
+
+    internal async Task<Stream?> OpenVerifiedAsync(string objectKey, long size, string sha256, int cap,
+        Func<string, FileStream> open, CancellationToken ct)
     {
         if (size <= 0 || size > cap || sha256.Length != 64 || !sha256.All(char.IsAsciiHexDigit)) return null;
         var parts = objectKey.Split('/');
@@ -45,7 +50,7 @@ public sealed class PrivateComtradeFileSource : IReviewedBusinessFileSource
             for (var directory = new DirectoryInfo(staging); directory is not null; directory = directory.Parent)
                 if ((directory.Attributes & FileAttributes.ReparsePoint) != 0 || !directory.Exists) return null;
             if ((File.GetAttributes(source) & (FileAttributes.ReparsePoint | FileAttributes.Directory)) != 0) return null;
-            await using var input = new FileStream(source, FileMode.Open, FileAccess.Read, FileShare.Read, 65536, FileOptions.Asynchronous);
+            await using var input = open(source);
             if (!MatchesOpenedPath(input.SafeFileHandle, source) || input.Length != size) return null;
 
             copy = new FileStream(Path.Combine(staging, Guid.NewGuid().ToString("N")), FileMode.CreateNew, FileAccess.ReadWrite,

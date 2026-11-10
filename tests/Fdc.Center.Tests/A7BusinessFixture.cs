@@ -123,6 +123,8 @@ internal sealed class A7BusinessFixture : IAsyncDisposable, IReviewedPermissionP
                 SizeBytes = cfgBytes.Length, Sha256 = cfgDigest, StorageObjectKey = $"records/{manifest}/fixture.cfg",
                 ValidationStatus = "Verified", IsSynthetic = true };
             db.AddRange(file, cfg,
+                new OperationalEvent { StationId = station.Id, CollectorId = collector.Id,
+                    Code = "FIXTURE-ALERT-" + suffix, CorrelationId = "fixture", IsSynthetic = true },
                 new CollectorHeartbeat { StationId = station.Id, CollectorId = collector.Id, ReceivedAtUtc = now,
                     Status = suffix == "A" ? "Healthy" : "Offline", QueueDepth = 1, IsSynthetic = true },
                 new IngestionAttempt { StationId = station.Id, RecordId = record.Id, Number = 1,
@@ -132,6 +134,12 @@ internal sealed class A7BusinessFixture : IAsyncDisposable, IReviewedPermissionP
         }
         var first = await Objects(a, "A");
         var second = await Objects(b, "B");
+        for (var i = 0; i < 21; i++)
+        {
+            db.Add(new IedDevice { StationId = a.Id, Code = $"PAGE-{i:D2}", DisplayName = $"A9-PAGE-{i:D2}", IsSynthetic = true });
+        }
+        db.Add(new IedDevice { StationId = b.Id, Code = "PAGE-EXCLUDED", DisplayName = "A9-PAGE-EXCLUDED", IsSynthetic = true });
+        await db.SaveChangesAsync();
         await VerifyOtherRolesAsync(a.Id, b.Id, permission, epoch);
         Ids = new { stationA = a.Id, stationB = b.Id, iedA = first.Ied, iedB = second.Ied, collectorA = first.Collector,
             collectorB = second.Collector, recordA = first.Record, recordB = second.Record, fileA = first.File, fileB = second.File, digestA = first.Digest, cfgA = first.Cfg, cfgB = second.Cfg, cfgDigestA = first.CfgDigest };

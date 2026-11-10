@@ -4,13 +4,15 @@
 <link rel="stylesheet" href="styles/live-management.css"><script type="module" src="business.mjs"></script></head>
 <body><main class="management-content"><a href="/identity/">Danh tính và phân quyền</a>
 <h1>Dữ liệu theo trạm</h1><p>Máy chủ kiểm tra quyền riêng cho từng mục. Màn hình này chỉ đọc.</p>
-<nav class="management-tabs" aria-label="Phân hệ">
+<nav id="business-navigation" class="management-tabs" aria-label="Phân hệ" hidden>
 <button type="button" data-view="dashboard">Tổng quan</button><button type="button" data-view="stations">Trạm</button>
 <button type="button" data-view="ieds">IED</button><button type="button" data-view="records">COMTRADE</button>
 <button type="button" data-view="collectors">Collector</button>
 </nav><p id="status" role="status">Chọn phân hệ để tải dữ liệu.</p><div id="filters" hidden><label for="business-search">Tìm theo tên hoặc mã</label>
 <input id="business-search" maxlength="80" autocomplete="off">
-<button type="button" id="business-find">Tìm</button><button type="button" id="business-prev" disabled>Trước</button>
-<button type="button" id="business-next" disabled>Sau</button></div>
+<button type="button" id="business-find">Tìm</button><button type="button" id="business-first" disabled>Đầu</button>
+<button type="button" id="business-prev" disabled>Trước</button>
+<button type="button" id="business-next" disabled>Sau</button><button type="button" id="business-last" disabled>Cuối</button>
+<span id="business-count" aria-live="polite"></span></div>
 <ul id="results"></ul><section id="object-detail" aria-label="Chi tiết" aria-live="polite"></section>
 </main></body></html>

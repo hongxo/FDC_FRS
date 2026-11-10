@@ -8,11 +8,28 @@ module.exports = async function verifyBusiness(page, call, expect, evidence) {
   const base = '/api/business/v1/';
   const dashboard = await expect('Dashboard only Station A', await call(base + 'dashboard'), 200);
   assert.equal(dashboard.stations, 1);
+  const trends = await expect('Scoped seven-day trends', await call(base + 'dashboard/trends'), 200);
+  assert.equal(trends.length, 7);
+  assert.equal(trends.reduce((total, row) => total + row.records, 0), 1);
+  const alerts = await expect('Scoped alerts', await call(base + 'dashboard/alerts'), 200);
+  assert.deepEqual(alerts.map(row => row.code), ['FIXTURE-ALERT-A']);
+  const nav = await expect('Scoped business navigation', await call(base + 'navigation'), 200);
+  assert.deepEqual(nav, ['dashboard', 'stations', 'ieds', 'records', 'collectors']);
+  for (const [parent, idA, idB, child, expected] of [
+    ['stations', ids.stationA, ids.stationB, 'ieds', ids.iedA],
+    ['ieds', ids.iedA, ids.iedB, 'collectors', ids.collectorA],
+    ['collectors', ids.collectorA, ids.collectorB, 'records', ids.recordA]
+  ]) {
+    const rows = await expect(parent + ' relationship A', await call(base + parent + '/' + idA + '/' + child), 200);
+    assert.ok(rows.some(row => row.id === expected));
+    assert.ok(rows.every(row => row.stationId === ids.stationA));
+    assert.deepEqual(await expect(parent + ' relationship B hidden', await call(base + parent + '/' + idB + '/' + child), 200), []);
+  }
   for (const [route, visible, hidden] of [
     ['stations', ids.stationA, ids.stationB], ['ieds', ids.iedA, ids.iedB],
     ['records', ids.recordA, ids.recordB], ['collectors', ids.collectorA, ids.collectorB]
   ]) {
-    const rows = await expect(route + ' scoped list', await call(base + route), 200);
+    const rows = await expect(route + ' scoped list', await call(base + route + (route === 'ieds' ? '?search=A7-IED' : '')), 200);
     assert.deepEqual(rows.map(row => row.id), [visible]);
     const row = await expect(route + ' detail A', await call(base + route + '/' + visible), 200);
     assert.equal(row.stationId, ids.stationA);
@@ -32,16 +49,39 @@ module.exports = async function verifyBusiness(page, call, expect, evidence) {
     await businessPage.goto(new URL('/identity/business.html', page.url()).href);
     await businessPage.getByRole('button', { name: 'Tổng quan' }).click();
     await businessPage.getByRole('status').filter({ hasText: 'Số trạm trong phạm vi: 1' }).waitFor();
+    await businessPage.locator('#object-detail').getByText(/FIXTURE-ALERT-A/).waitFor();
+    assert.equal(await businessPage.locator('#object-detail').getByText(/FIXTURE-ALERT-B/).count(), 0);
     await businessPage.getByRole('button', { name: 'Trạm', exact: true }).click();
     await businessPage.locator('#results li').filter({ hasText: 'A7-Station-A' }).waitFor();
     assert.equal(await businessPage.locator('#results li').count(), 1);
     await businessPage.getByRole('button', { name: 'A7-Station-A', exact: true }).click();
     await businessPage.locator('#object-detail h2').filter({ hasText: 'A7-Station-A' }).waitFor();
     if (evidence) await businessPage.screenshot({ path: path.join(evidence, 'a7-stations.png') });
+    await businessPage.locator('#object-detail').getByRole('button', { name: 'A7-IED-A', exact: true }).click();
+    await businessPage.locator('#object-detail').getByRole('button', { name: 'A7-Collector-A', exact: true }).click();
+    await businessPage.locator('#object-detail').getByRole('button', { name: /^[a-f0-9]{64}$/ }).click();
+    await businessPage.locator('#object-detail').getByRole('link', { name: /fixture\.dat/ }).waitFor();
     await businessPage.locator('#business-search').fill('A7-Station-B');
     await businessPage.locator('#business-find').click();
     await businessPage.getByRole('status').filter({ hasText: 'Không có dữ liệu trong phạm vi.' }).waitFor();
     assert.equal(await businessPage.locator('#results li').count(), 0);
+    await businessPage.getByRole('button', { name: 'IED', exact: true }).click();
+    await businessPage.locator('#business-search').fill('A9-PAGE');
+    await businessPage.locator('#business-find').click();
+    await businessPage.locator('#business-count').getByText('Tổng trong phạm vi: 21').waitFor();
+    const labels = () => businessPage.locator('#results li').allTextContents();
+    const firstPage = await labels();
+    assert.equal(firstPage.length, 20);
+    await businessPage.locator('#business-next').click();
+    await businessPage.locator('#business-count').getByText('Tổng trong phạm vi: 21').waitFor();
+    const lastPage = await labels();
+    assert.equal(lastPage.length, 1);
+    assert.deepEqual([...firstPage, ...lastPage].sort(), Array.from({length: 21}, (_, i) => 'A9-PAGE-' + String(i).padStart(2, '0')));
+    for (const [selector, expected] of [['#business-prev', firstPage], ['#business-last', lastPage], ['#business-first', firstPage]]) {
+      await businessPage.locator(selector).click();
+      await businessPage.locator('#business-count').getByText('Tổng trong phạm vi: 21').waitFor();
+      assert.deepEqual(await labels(), expected);
+    }
     await businessPage.getByRole('button', { name: 'Collector', exact: true }).click();
     await businessPage.getByRole('button', { name: 'A7-Collector-A', exact: true }).click();
     await businessPage.locator('#object-detail').getByText(/Healthy/).waitFor();
@@ -92,6 +132,7 @@ module.exports = async function verifyBusiness(page, call, expect, evidence) {
   assert.equal(revoked.bytes.length, 0);
   const after = await expect('Dashboard after revoke', await call(base + 'dashboard'), 200);
   assert.equal(after.stations, 0);
+  assert.deepEqual(await expect('Navigation hidden after grant revoke', await call(base + 'navigation'), 200), []);
   return { digest: ids.digestA, bytes: allowed.bytes.length, deniedBytes: [denied.bytes.length, revoked.bytes.length],
     correlation: allowed.correlation, cfgCorrelation: cfg.correlation, cfgDigest: ids.cfgDigestA, cfgBytes: cfg.bytes.length };
 };
