@@ -11,6 +11,86 @@ namespace Fdc.Center.Tests;
 public sealed partial class A10LabWorkflowTests
 {
     [A10Fact]
+    public async Task Two_worker_processes_contend_for_one_lease_and_only_owner_releases()
+    {
+        await using var fixture = await Host.CreateAsync();
+        var permit = await fixture.Create(fixture.Client("demo.operator"), Guid.NewGuid(), fixture.Draft());
+        var job = await fixture.ExportRequest(fixture.Client("demo.auditor"), permit);
+        var barrier = Path.Combine(Path.GetTempPath(), "fdc-a12-race-" + Guid.NewGuid().ToString("N"));
+        var signals = new[] { barrier + ".a", barrier + ".b" };
+        var owners = new[] { Guid.NewGuid(), Guid.NewGuid() };
+        var processes = new List<Process>();
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(50));
+        try
+        {
+            for (var index = 0; index < signals.Length; index++)
+                processes.Add(StartProcess(job, owners[index], signals[index], "race", barrier));
+            for (var index = 0; index < signals.Length; index++)
+                await WaitForMarkerAsync(signals[index] + ".ready", processes[index], timeout.Token);
+            File.Create(barrier + ".claim").Dispose();
+            var claims = new WorkerResult[2];
+            for (var index = 0; index < signals.Length; index++)
+                claims[index] = await ReadResultAsync(signals[index] + ".claimed", processes[index], timeout.Token);
+            Assert.NotEqual(claims[0].Pid, claims[1].Pid);
+            var winner = Assert.Single(claims, result => result.Prepared);
+            var winnerIndex = Array.IndexOf(claims, winner);
+            await using var lab = fixture.Lab();
+            var leased = await lab.Exports.AsNoTracking().SingleAsync(row => row.Id == job);
+            Assert.Equal("Preparing", leased.State);
+            Assert.Equal(owners[winnerIndex], leased.LeaseOwner);
+            File.Create(barrier + ".release").Dispose();
+            await Task.WhenAll(processes.Select(process => process.WaitForExitAsync(timeout.Token)));
+            Assert.All(processes, process => Assert.Equal(0, process.ExitCode));
+            var results = new WorkerResult[2];
+            for (var index = 0; index < signals.Length; index++)
+                results[index] = await ReadResultAsync(signals[index], processes[index], timeout.Token);
+            Assert.Equal(winner.Pid, Assert.Single(results, result => result.Released).Pid);
+            Assert.All(results, result => Assert.False(result.Replayed));
+            var completed = await lab.Exports.AsNoTracking().SingleAsync(row => row.Id == job);
+            Assert.Equal("Completed", completed.State);
+            Assert.Null(completed.LeaseOwner);
+            await using var iam = fixture.Iam();
+            var events = await (from audit in iam.Set<SecurityEventRow>()
+                join outbox in iam.Set<AuditOutboxRow>() on audit.Id equals outbox.EventId
+                where audit.EventCode == "lab.export.released" select audit.Id).ToListAsync();
+            Assert.Single(events);
+            await fixture.WriteEvidence("a12-worker-lease-race.json", new
+            {
+                Claims = claims, Results = results, WinnerPid = winner.Pid,
+                Before = leased.State, After = completed.State, ReleaseAuditPairs = events.Count
+            });
+        }
+        finally
+        {
+            foreach (var process in processes)
+            {
+                if (!process.HasExited) { process.Kill(true); await process.WaitForExitAsync(); }
+                process.Dispose();
+            }
+            foreach (var signal in signals)
+                foreach (var suffix in new[] { "", ".pending", ".ready", ".claimed", ".claimed.pending" })
+                    File.Delete(signal + suffix);
+            File.Delete(barrier + ".claim");
+            File.Delete(barrier + ".release");
+        }
+    }
+
+    private static async Task WaitForMarkerAsync(string path, Process process, CancellationToken ct)
+    {
+        while (!File.Exists(path))
+        {
+            Assert.False(process.HasExited, "Worker exited before publishing its barrier marker.");
+            await Task.Delay(25, ct);
+        }
+    }
+
+    private static async Task<WorkerResult> ReadResultAsync(string path, Process process, CancellationToken ct)
+    {
+        await WaitForMarkerAsync(path, process, ct);
+        return JsonSerializer.Deserialize<WorkerResult>(await File.ReadAllTextAsync(path, ct))!;
+    }
+
+    [A10Fact]
     public async Task Worker_process_is_killed_after_staging_and_replacement_rechecks_SQL_authority()
     {
         await using var fixture = await Host.CreateAsync();
@@ -102,7 +182,7 @@ public sealed partial class A10LabWorkflowTests
         }
     }
 
-    private static Process StartProcess(Guid job, Guid token, string signal, string action)
+    private static Process StartProcess(Guid job, Guid token, string signal, string action, string? barrier = null)
     {
         var command = new ProcessStartInfo("dotnet") { UseShellExecute = false, CreateNoWindow = true };
         command.ArgumentList.Add("vstest");
@@ -114,6 +194,7 @@ public sealed partial class A10LabWorkflowTests
         command.Environment["FDC_A12_JOB"] = job.ToString("D");
         command.Environment["FDC_A12_OWNER"] = token.ToString("D");
         command.Environment["FDC_A12_SIGNAL"] = signal;
+        if (barrier is not null) command.Environment["FDC_A12_BARRIER"] = barrier;
         return Process.Start(command) ?? throw new InvalidOperationException("Could not start worker testhost.");
     }
 
@@ -144,13 +225,36 @@ public sealed partial class A10LabWorkflowTests
         var owner = Guid.Parse(Environment.GetEnvironmentVariable("FDC_A12_OWNER")!);
         var signal = Environment.GetEnvironmentVariable("FDC_A12_SIGNAL")!;
         await using var worker = await Host.StartWorkerAsync(settings.ConnectionString, action == "recover");
+        var barrier = Environment.GetEnvironmentVariable("FDC_A12_BARRIER");
+        if (action == "race")
+        {
+            Assert.False(string.IsNullOrEmpty(barrier));
+            File.Create(signal + ".ready").Dispose();
+            await AwaitReleaseAsync(barrier + ".claim");
+        }
         var prepared = await worker.Prepare(job, owner);
-        var released = action == "recover" && prepared && await worker.Release(job, owner);
+        if (action == "race")
+        {
+            await PublishAsync(signal + ".claimed", prepared, false, false);
+            await AwaitReleaseAsync(barrier + ".release");
+        }
+        var released = (action == "race" || action == "recover" && prepared) && await worker.Release(job, owner);
         var replayed = released && await worker.Release(job, owner);
-        await File.WriteAllTextAsync(signal + ".pending", JsonSerializer.Serialize(
-            new WorkerResult(Environment.ProcessId, DateTimeOffset.UtcNow, prepared, released, replayed)));
-        File.Move(signal + ".pending", signal);
+        await PublishAsync(signal, prepared, released, replayed);
         if (action == "stage") await Task.Delay(TimeSpan.FromSeconds(90));
+    }
+
+    private static async Task AwaitReleaseAsync(string path)
+    {
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(35));
+        while (!File.Exists(path)) await Task.Delay(25, timeout.Token);
+    }
+
+    private static async Task PublishAsync(string path, bool prepared, bool released, bool replayed)
+    {
+        await File.WriteAllTextAsync(path + ".pending", JsonSerializer.Serialize(
+            new WorkerResult(Environment.ProcessId, DateTimeOffset.UtcNow, prepared, released, replayed)));
+        File.Move(path + ".pending", path);
     }
 
     private sealed record WorkerResult(int Pid, DateTimeOffset Utc, bool Prepared, bool Released, bool Replayed);
@@ -160,7 +264,7 @@ internal sealed class A12WorkerFactAttribute : FactAttribute
 {
     public A12WorkerFactAttribute()
     {
-        if (Environment.GetEnvironmentVariable("FDC_A12_WORKER") is not ("stage" or "recover"))
+        if (Environment.GetEnvironmentVariable("FDC_A12_WORKER") is not ("stage" or "recover" or "race"))
             Skip = "Explicit disposable A.12 worker child process required.";
     }
 }

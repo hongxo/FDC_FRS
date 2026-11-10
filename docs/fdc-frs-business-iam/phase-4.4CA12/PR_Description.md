@@ -1,7 +1,7 @@
-## A.12 isolated ingress, worker recovery and Login UI
+# A.12 security integration follow-up
 
-Machine uploads now have an isolated Testing scheme requiring both fresh signed CRL and OCSP before SQL station/IED ingestion. Revoked, unknown, stale and unavailable evidence denies the request. A process harness hard-kills a worker after SQL staging and verifies replacement release or quarantine after grant revocation.
+Two worker OS processes can contend for the same export lease. The integration test releases them from a shared claim barrier, checks that SQL records one owner, and lets both attempt release. Exactly one release and one audit/outbox pair were observed. The losing release and the winning worker's replay returned false.
 
-The Login/MFA/logout forms now call canonical CSRF and authentication endpoints when the server reports the feature ACTIVE. Logout clears Business tabs and fences delayed responses. Actual browser verification covers form submission, MFA cookie issuance, held logout/detail responses, and cookie replay denial.
+The security branch is stacked on Draft #24. The source change is confined to the worker test harness. Existing canonical IAM contracts were exercised on the baseline because the IAM V1 ref was absent from local and checked remote branches. The separate user-role UI experiment is outside this branch.
 
-Eight original A.11 blocker IDs are closed at their tested isolated layers. Persisted BFCache, atomic rebind, multi-node HA/DR, principal separation and owner approvals remain open. G1/G2 blocked, G3 pending, G4 unauthorized and production no-go. Draft stacked on A.11.
+The follow-up closes A11-043 and A11-061 at isolated scope. Mandatory E2E remains 10 PASS and 10 BLOCKED. G1/G2 remain BLOCKED and G3/G4 have no approval. Production remains NO-GO.

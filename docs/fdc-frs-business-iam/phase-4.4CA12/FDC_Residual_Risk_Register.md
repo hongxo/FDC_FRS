@@ -3,7 +3,7 @@
 | Priority / ID | Gap | Disposition / required evidence |
 |---|---|---|
 | P0 | Registry cutover and revocation policy | Atomic old/new cert binding and actual mTLS cutover |
-| P0 | Worker failures inside transactions and competing leases | Separate processes, deterministic barriers, rollback/fencing outcomes |
+| P0 | Worker failures inside transactions | Hard kill before SQL staging commits and evidence of rollback |
 | P0 | Persisted BFCache | Actual persisted pageshow after logout on supported browser |
 | P1 | Proxy, HA and DR | Two-node revoke/spoof/bypass and owned restore |
 | P1 | SQL identities | Distinct migrator/runtime/fixture administration with rollback |

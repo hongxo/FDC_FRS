@@ -105,3 +105,7 @@ Original rows above preserve the A.11 baseline. The following four IDs are now P
 ## UI closure update
 
 A11-067,068,069,070 are additionally PASS on source d65b6931e792e390f52f9317963f1d6f2fb63f9a, raw tmp/a12ui/tmp/focused-03/a12-auth-ui.json and TRX. Actual Chromium observed committed logout held at the response, no stale Business DOM across tabs or delayed detail, and protected Back refused with 401. SQL verified revoked session, consumed challenge and paired audit events. Total closure is now 8 original IDs; 78 remain BLOCKED. A11-066 remains BLOCKED because persisted pageshow was not observed.
+
+## Security integration follow-up
+
+A11-043 and A11-061 close using the same qualifying two-process race execution. Two real PIDs crossed the claim barrier, SQL retained one owner, and the losing process returned false on release. The winner released once and replay returned false. Source 2930a32ea2a02fe5579785cbeb8302b37819cf47, UTC 2026-11-10 13:44:55. Raw a12-worker-lease-race.json and Center TRX. Closure is now 10 of 86 original IDs. The other 76 remain BLOCKED.
