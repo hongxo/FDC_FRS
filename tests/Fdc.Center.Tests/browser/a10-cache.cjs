@@ -7,6 +7,7 @@ const path = require('node:path');
   assert.equal(origin.protocol, 'https:');
   assert.equal(origin.hostname, '127.0.0.1');
   const idA = process.env.FDC_A10_CACHE_A, idB = process.env.FDC_A10_CACHE_B;
+  const jobA = process.env.FDC_A10_JOB_A, jobB = process.env.FDC_A10_JOB_B;
   const browser = await chromium.launch({ executablePath: process.env.FDC_UI_BROWSER ||
     'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe' });
   try {
@@ -20,7 +21,7 @@ const path = require('node:path');
     const pageA = await a.newPage(), pageB = await b.newPage();
     await pageA.clock.install();
     const route = new URL('/identity/lab.html', origin).href;
-    for (const [page, id, hidden] of [[pageA, idA, idB], [pageB, idB, idA]]) {
+    for (const [page, id, hidden, ownedJob, hiddenJob] of [[pageA, idA, idB, jobA, jobB], [pageB, idB, idA, jobB, jobA]]) {
       await page.goto(route);
       await page.locator('#lab-list button').filter({ hasText: id }).click();
       await page.locator('#lab-status').getByText('Đã tải chi tiết trong phạm vi.').waitFor();
@@ -37,6 +38,13 @@ const path = require('node:path');
       const dashboard = await page.request.get(new URL('/api/business/v1/dashboard', origin).href);
       assert.equal(dashboard.status(), 200);
       assert.equal((await dashboard.json()).stations, 1);
+      const exported = await page.request.get(new URL('/api/lab/v1/tests/exports/' + ownedJob + '/download', origin).href);
+      assert.equal(exported.status(), 200);
+      assert.match(exported.headers()['cache-control'], /no-store/i);
+      assert.equal((await exported.json()).PermitId, id);
+      const foreignExport = await page.request.get(new URL('/api/lab/v1/tests/exports/' + hiddenJob + '/download', origin).href);
+      assert.equal(foreignExport.status(), 404);
+      assert.equal((await foreignExport.body()).length, 0);
     }
     const signal = process.env.FDC_A10_REVOKE;
     await fs.writeFile(signal + '.publishing', 'revoke', { flag: 'wx' });
@@ -50,6 +58,9 @@ const path = require('node:path');
     await pageA.locator('#lab-status').getByText('Phiên đã hết hạn.').waitFor();
     assert.equal(await pageA.locator('#lab-detail').textContent(), '');
     assert.equal((await pageA.request.get(new URL('/api/lab/v1/tests/', origin).href)).status(), 401);
+    const revokedExport = await pageA.request.get(new URL('/api/lab/v1/tests/exports/' + jobA + '/download', origin).href);
+    assert.equal(revokedExport.status(), 401);
+    assert.equal((await revokedExport.body()).length, 0);
     assert.equal((await pageB.request.get(new URL('/api/lab/v1/tests/', origin).href)).status(), 200);
     await a.clearCookies();
     await a.addCookies([{ name: '__Host-FdcSession', value: process.env.FDC_A10_TOKEN_B, url: origin.origin,
@@ -64,7 +75,8 @@ const path = require('node:path');
       await fs.writeFile(path.join(process.env.FDC_UI_EVIDENCE, 'a10-cache-browser.json'), JSON.stringify({
         run: path.basename(process.env.FDC_UI_EVIDENCE), utc: new Date().toISOString(), commit: process.env.FDC_A5_COMMIT,
         reverseProxy: 'HTTPS loopback with shared URL cache', stationIsolation: true, revokedA: 401, unaffectedB: 200,
-        sensitiveDomCleared: true, browserSessionSwitch: 'B only', proofMaterial: 'omitted' }, null, 2));
+        sensitiveDomCleared: true, scopedAggregates: true, privateExportArtifacts: true,
+        foreignExportBytes: 0, revokedExportBytes: 0, browserSessionSwitch: 'B only', proofMaterial: 'omitted' }, null, 2));
     }
   } finally { await browser.close(); }
 })().catch(error => {

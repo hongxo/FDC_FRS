@@ -454,7 +454,9 @@ public sealed class A10LabWorkflowTests : A10IamSqlTest
             operations["demo.system-admin"] = [..operations["demo.system-admin"], BusinessReadOperation.CollectorBindingRead, BusinessReadOperation.CollectorBindingApply];
             operations["approver.other-station"] = [..operations["approver.other-station"], BusinessReadOperation.CollectorBindingRead, BusinessReadOperation.CollectorBindingApply];
             operations["demo.viewer"] = [..operations["demo.viewer"], BusinessReadOperation.Dashboard, BusinessReadOperation.Station, BusinessReadOperation.Ied];
-            operations["operator.other-station"] = [..operations["operator.other-station"], BusinessReadOperation.Dashboard, BusinessReadOperation.Station];
+            operations["demo.auditor"] = [..operations["demo.auditor"], BusinessReadOperation.Dashboard, BusinessReadOperation.Station];
+            operations["operator.other-station"] = [..operations["operator.other-station"], BusinessReadOperation.Dashboard, BusinessReadOperation.Station,
+                BusinessReadOperation.LabExport];
             foreach (var operation in operations.Values.SelectMany(value => value).Distinct())
             {
                 grantedOperations.Add(operation);
@@ -830,6 +832,14 @@ public sealed class A10LabWorkflowTests : A10IamSqlTest
         }
         public async Task RunCacheBrowserAsync(string a, string b)
         {
+            var jobA = await ExportRequest(Client("demo.auditor"), new(a, 1, "DRAFT", "", false));
+            var jobB = await ExportRequest(Client("operator.other-station"), new(b, 1, "DRAFT", "", false));
+            foreach (var id in new[] { jobA, jobB })
+            {
+                var worker = Guid.NewGuid();
+                Assert.True(await Prepare(id, worker));
+                Assert.True(await Release(id, worker));
+            }
             await using var proxy = await A10ReadProxy.StartAsync(origin, certificate);
             var root = Environment.GetEnvironmentVariable("FDC_UI_EVIDENCE") ?? throw new InvalidOperationException("Evidence directory required.");
             var signal = Path.Combine(root, "cache-revoke-" + Guid.NewGuid().ToString("N"));
@@ -839,8 +849,10 @@ public sealed class A10LabWorkflowTests : A10IamSqlTest
             start.Environment["FDC_A10_ORIGIN"] = proxy.Origin.ToString();
             start.Environment["FDC_A10_CACHE_A"] = a;
             start.Environment["FDC_A10_CACHE_B"] = b;
-            start.Environment["FDC_A10_TOKEN_A"] = actors["demo.viewer"].Raw;
+            start.Environment["FDC_A10_TOKEN_A"] = actors["demo.auditor"].Raw;
             start.Environment["FDC_A10_TOKEN_B"] = actors["operator.other-station"].Raw;
+            start.Environment["FDC_A10_JOB_A"] = jobA.ToString();
+            start.Environment["FDC_A10_JOB_B"] = jobB.ToString();
             start.Environment["FDC_A10_REVOKE"] = signal;
             using var process = System.Diagnostics.Process.Start(start)!;
             var stdout = process.StandardOutput.ReadToEndAsync();
@@ -853,7 +865,7 @@ public sealed class A10LabWorkflowTests : A10IamSqlTest
                     if (File.Exists(signal))
                     {
                         Assert.Equal("revoke", await ReadSignalAsync(signal, timeout.Token));
-                        await RevokeActor("demo.viewer");
+                        await RevokeActor("demo.auditor");
                         await File.WriteAllTextAsync(signal + ".done", "revoked", timeout.Token);
                         break;
                     }
@@ -864,7 +876,8 @@ public sealed class A10LabWorkflowTests : A10IamSqlTest
                 Assert.Equal(0, proxy.CacheEntries);
                 Assert.True(proxy.Forwarded > 10);
                 await WriteEvidence("a10-proxy-sql.json", new { proxy.Forwarded, proxy.CacheEntries,
-                    ViewerGrantVersionChanged = true, Sessions = "A/B test sessions, distinct cookies", Api = "Real HTTPS upstream with pinned certificate" });
+                    AuditorGrantVersionChanged = true, Sessions = "A/B test sessions, distinct cookies",
+                    ExportArtifacts = "Owned A/B downloads and cross-owner 404 verified", Api = "Real HTTPS upstream with pinned certificate" });
             }
             catch { if (!process.HasExited) process.Kill(true); throw; }
             finally { File.Delete(signal); File.Delete(signal + ".done"); }
