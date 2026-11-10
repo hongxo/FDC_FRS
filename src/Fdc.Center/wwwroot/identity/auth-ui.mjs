@@ -12,14 +12,29 @@ export function setAuthPolicy(value) {
     const controls = document.getElementById(id);
     controls.disabled = policy?.[feature] !== 'ACTIVE';
   }
+  for (const [container, feature] of [[login, 'login'], [mfa, 'mfa']]) {
+    const form = container.querySelector('form');
+    if (policy?.[feature] === 'ACTIVE' && !form) {
+      const activeForm = document.createElement('form');
+      activeForm.append(...container.childNodes);
+      container.append(activeForm);
+    } else if (policy?.[feature] !== 'ACTIVE' && form) {
+      form.replaceWith(...form.childNodes);
+    }
+  }
   logout.disabled = policy?.logout !== 'ACTIVE';
+}
+function reset(container) {
+  const form = container.querySelector('form');
+  if (form) form.reset();
+  else for (const input of container.querySelectorAll('input')) input.value = '';
 }
 function clear() {
   generation++;
   request?.abort();
   challenge = undefined;
-  login.reset();
-  mfa.reset();
+  reset(login);
+  reset(mfa);
   document.getElementById('authenticated-links').hidden = true;
 }
 onLogout(() => { clear(); status.textContent = 'Đang đăng xuất. Nội dung phiên đã được xóa.'; });
@@ -58,9 +73,9 @@ async function submit(form, feature, action) {
 login.addEventListener('submit', event => {
   event.preventDefault();
   submit(login, 'login', async (signal, current) => {
-    const username = login.elements.username.value;
-    const password = login.elements.password.value;
-    login.elements.password.value = '';
+    const username = login.querySelector('[name=username]').value;
+    const password = login.querySelector('[name=password]').value;
+    login.querySelector('[name=password]').value = '';
     challenge = undefined;
     const response = await post('login', { username, password }, signal);
     if (response.status !== 202) throw new Error();
@@ -70,7 +85,7 @@ login.addEventListener('submit', event => {
     challenge = data.challenge;
     location.hash = 'mfa';
     status.textContent = 'Nhập mã MFA để hoàn tất đăng nhập.';
-    mfa.elements.factor.focus();
+    mfa.querySelector('[name=factor]').focus();
   });
 });
 mfa.addEventListener('submit', event => {
@@ -78,13 +93,13 @@ mfa.addEventListener('submit', event => {
   if (!challenge) { status.textContent = 'Đăng nhập lại để nhận thử thách MFA mới.'; return; }
   submit(mfa, 'mfa', async (signal, current) => {
     const proof = challenge;
-    const factorResponse = mfa.elements.factor.value;
-    mfa.reset();
+    const factorResponse = mfa.querySelector('[name=factor]').value;
+    reset(mfa);
     const response = await post('mfa/verify', { challenge: proof, factorResponse }, signal);
     if (!current()) return;
     if (response.status !== 204) throw new Error();
     challenge = undefined;
-    login.reset();
+    reset(login);
     location.hash = 'profile';
     document.getElementById('authenticated-links').hidden = false;
     status.textContent = 'Đăng nhập thành công.';
