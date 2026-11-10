@@ -1,3 +1,4 @@
+import { setAuthPolicy } from './auth-ui.mjs';
 'use strict';
 const screens = new Map([
   ['login', ['Đăng nhập', 'Đăng nhập chưa được mở theo chính sách hiện tại.']],
@@ -24,8 +25,9 @@ function render() {
   for (const panel of ['login', 'mfa', 'profile'])
     document.getElementById(panel + '-controls').hidden = panel !== key;
   document.getElementById('screen-title').textContent = screen[0];
-  document.getElementById('policy-status').textContent = screen[1];
-  document.getElementById('runtime-status').textContent = policyStatus?.[key] === 'BLOCKED_BY_POLICY'
+  document.getElementById('policy-status').textContent = policyStatus?.[key] === 'ACTIVE' ? screen[0] : screen[1];
+  setAuthPolicy(policyStatus);
+  document.getElementById('runtime-status').textContent = policyStatus?.[key] === 'ACTIVE' ? 'Chức năng đã được máy chủ mở.' : policyStatus?.[key] === 'BLOCKED_BY_POLICY'
     ? blockedMessages.get(key) : 'Không xác nhận được chính sách từ máy chủ.';
 }
 function clearNavigation() {
@@ -56,6 +58,7 @@ async function loadNavigation() {
   } catch { /* No capability response means no navigation. */ }
 }
 addEventListener('hashchange', render);
+addEventListener('fdc-authenticated', loadNavigation);
 addEventListener('pageshow', async () => {
   try {
     const response = await fetch('/api/identity/v1/ui/auth-status', {

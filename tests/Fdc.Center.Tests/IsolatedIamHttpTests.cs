@@ -36,7 +36,14 @@ public sealed partial class CenterHttpsSqlLabTests
         await RunBrowserAsync(fixture);
     }
 
-    private static async Task RunBrowserAsync(A7BusinessFixture? business)
+    [A7BrowserFact]
+    public async Task Login_form_MFA_and_pending_logout_clear_business_tabs_against_disposable_SQL()
+    {
+        await using var fixture = await A7BusinessFixture.CreateAsync();
+        await RunBrowserAsync(fixture, ui: true);
+    }
+
+    private static async Task RunBrowserAsync(A7BusinessFixture? business, bool ui = false)
     {
         var connection = business?.Connection ?? A10IamSqlTest.Connection!;
         var target = new SqlConnectionStringBuilder(connection);
@@ -133,6 +140,13 @@ public sealed partial class CenterHttpsSqlLabTests
                 OnPrepareResponse = response => response.Context.Response.Headers.CacheControl = "no-store"
             });
             app.MapBusinessReadEndpoints();
+            app.MapGet("/identity/", () => Results.File(Path.GetFullPath(Path.Combine(
+                AppContext.BaseDirectory, "../../../../../src/Fdc.Center/wwwroot/identity/index.html")), "text/html"));
+            app.MapGet("/api/identity/v1/ui/auth-status", () => Results.Ok(new
+            {
+                login = "ACTIVE", mfa = "ACTIVE", profile = "ACTIVE", logout = "ACTIVE",
+                recovery = "BLOCKED_BY_POLICY"
+            }));
         }
         app.MapIdentityManagementQueries();
         app.MapIdentityRoleQueries();
@@ -150,7 +164,7 @@ public sealed partial class CenterHttpsSqlLabTests
         {
             await app.StartAsync();
             origin = new(app.Services.GetRequiredService<IServer>().Features.Get<IServerAddressesFeature>()!.Addresses.Single());
-            var script = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../tests/Fdc.Center.Tests/browser/isolated-iam.cjs"));
+            var script = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../tests/Fdc.Center.Tests/browser/", ui ? "a12-auth-ui.cjs" : "isolated-iam.cjs"));
             var start = new System.Diagnostics.ProcessStartInfo("node") { UseShellExecute = false, RedirectStandardError = true, RedirectStandardOutput = true };
             start.ArgumentList.Add(script);
             start.Environment["FDC_A5_ORIGIN"] = origin.ToString();
@@ -169,7 +183,7 @@ public sealed partial class CenterHttpsSqlLabTests
             using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(60));
             try
             {
-                if (business is not null) await business.RevokeWhenSignaledAsync(browser, timeout.Token);
+                if (business is not null && !ui) await business.RevokeWhenSignaledAsync(browser, timeout.Token);
                 await browser.WaitForExitAsync(timeout.Token);
             }
             catch { browser.Kill(entireProcessTree: true); throw; }
@@ -181,9 +195,9 @@ public sealed partial class CenterHttpsSqlLabTests
             Assert.NotNull(await db.Set<ChallengeRow>().AsNoTracking().Select(c => c.ConsumedAt).SingleAsync());
             var audit = await (from e in db.Set<SecurityEventRow>() join o in db.Set<AuditOutboxRow>() on e.Id equals o.EventId
                                orderby e.EventCode select e.EventCode).ToArrayAsync();
-            Assert.Equal(business is null ? ["fixture.login.mfa", "fixture.logout"] :
+            Assert.Equal(business is null || ui ? ["fixture.login.mfa", "fixture.logout"] :
                 ["business.record.download.prepared", "business.record.download.prepared", "fixture.login.mfa", "fixture.logout"], audit);
-            if (business is not null && Environment.GetEnvironmentVariable("FDC_UI_EVIDENCE") is { } businessEvidence)
+            if (business is not null && !ui && Environment.GetEnvironmentVariable("FDC_UI_EVIDENCE") is { } businessEvidence)
             {
                 using var artifact = System.Text.Json.JsonDocument.Parse(await File.ReadAllTextAsync(Path.Combine(businessEvidence, "a7-browser.json")));
                 var businessResult = artifact.RootElement.GetProperty("business");
