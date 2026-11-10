@@ -1,3 +1,4 @@
+import { onLogout } from './session-lifecycle.mjs';
 import { setAuthPolicy } from './auth-ui.mjs';
 'use strict';
 const screens = new Map([
@@ -59,7 +60,9 @@ async function loadNavigation() {
 }
 addEventListener('hashchange', render);
 addEventListener('fdc-authenticated', loadNavigation);
+onLogout(clearNavigation);
 addEventListener('pageshow', async () => {
+  policyStatus = undefined; render();
   try {
     const response = await fetch('/api/identity/v1/ui/auth-status', {
       credentials: 'omit', mode: 'same-origin', redirect: 'error', cache: 'no-store',

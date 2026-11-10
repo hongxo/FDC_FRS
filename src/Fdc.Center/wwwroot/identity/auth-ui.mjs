@@ -23,7 +23,7 @@ function clear() {
   document.getElementById('authenticated-links').hidden = true;
 }
 onLogout(() => { clear(); status.textContent = 'Đang đăng xuất. Nội dung phiên đã được xóa.'; });
-addEventListener('pagehide', clear);
+addEventListener('pagehide', () => { clear(); setAuthPolicy(undefined); });
 
 async function post(path, body, signal) {
   const proof = await fetch('/api/identity/v1/auth/csrf', {

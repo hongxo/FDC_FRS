@@ -102,7 +102,7 @@ async function run() {
         utc: new Date().toISOString(), commit: process.env.FDC_A5_COMMIT,
         login: 202, mfa: 204, logout: 204, pendingResponseIgnored: true,
         multiTabCleared: true, historyNoStaleContent: noStaleContent,
-        persistedBFCacheObserved: persisted, persistedBFCacheAcceptance: persisted ? 'PASS' : 'BLOCKED',
+        backNavigation, persistedBFCacheObserved: persisted, persistedBFCacheAcceptance: persisted ? 'PASS' : 'BLOCKED',
         revokedCookieReplay: replay, proofMaterial: 'omitted'
       }, null, 2));
     }
