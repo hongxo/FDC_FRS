@@ -37,6 +37,7 @@ public sealed class LabExportCoordinator(CenterDbContext center, LabWorkflowServ
 
     public async Task<bool> PrepareAsync(Guid id, Guid worker, string correlation, CancellationToken ct)
     {
+        // The caller supplies a fresh worker token for each claim attempt, including after restart.
         if (worker == Guid.Empty) throw new ArgumentException("Worker identity required.");
         await using var lookup = Context();
         var reference = await lookup.Exports.AsNoTracking().SingleAsync(row => row.Id == id, ct);
@@ -47,7 +48,8 @@ public sealed class LabExportCoordinator(CenterDbContext center, LabWorkflowServ
                 {
                     var job = await Locked(lab, id, token);
                     if (job.State == "Completed") return false;
-                    if (job.State == "Quarantined" || job.ExpiresUtc <= clock.GetUtcNow()) return false;
+                    if (job.State == "Quarantined") return false;
+                    if (job.ExpiresUtc <= clock.GetUtcNow()) throw new UnauthorizedAccessException();
                     if (job.State == "Preparing" && job.LeaseUntilUtc > clock.GetUtcNow()) return false;
                     if (!scope.Contains(job.StationId) || job.ActorUserId != snapshot.User.Id) throw new UnauthorizedAccessException();
                     var permit = await lab.Permits.AsNoTracking().SingleAsync(row => row.PermitId == job.PermitId &&
@@ -81,6 +83,8 @@ public sealed class LabExportCoordinator(CenterDbContext center, LabWorkflowServ
                     if (job.State != "Preparing" || job.LeaseOwner != worker || job.LeaseUntilUtc <= clock.GetUtcNow()) return false;
                     if (!scope.Contains(job.StationId) || job.ActorUserId != snapshot.User.Id || job.ExpiresUtc <= clock.GetUtcNow())
                         throw new UnauthorizedAccessException();
+                    if (job.Payload is null || Convert.ToHexStringLower(SHA256.HashData(job.Payload)) != job.PayloadDigest)
+                        throw new UnauthorizedAccessException();
                     job.State = "Completed";
                     job.LeaseOwner = null;
                     job.LeaseUntilUtc = null;
@@ -113,8 +117,10 @@ public sealed class LabExportCoordinator(CenterDbContext center, LabWorkflowServ
             await using var lab = Context();
             await lab.Database.UseTransactionAsync(iam.Database.CurrentTransaction!.GetDbTransaction(), token);
             var job = await Locked(lab, reference.Id, token);
+            var now = clock.GetUtcNow();
             if (job.State == "Completed" || job.State == "Quarantined" ||
-                (job.LeaseOwner is not null && job.LeaseOwner != worker)) return false;
+                (job.LeaseOwner is not null && job.LeaseOwner != worker &&
+                 job.LeaseUntilUtc > now && job.ExpiresUtc > now)) return false;
             job.State = "Quarantined";
             job.Payload = null;
             job.PayloadDigest = null;
