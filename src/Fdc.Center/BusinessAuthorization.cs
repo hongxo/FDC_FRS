@@ -36,6 +36,7 @@ public sealed record BusinessDownload(string Name, Stream Content);
 public sealed record BusinessPage(int Total, IReadOnlyList<BusinessObject> Items);
 public sealed record BusinessTrend(DateTimeOffset DayUtc, int Records);
 public sealed record BusinessAlert(DateTimeOffset CreatedAtUtc, string Code);
+public sealed record BusinessOverview(int Stations, int? Ieds, int? Collectors, int? Records);
 public sealed record CollectorHeartbeatView(DateTimeOffset ReceivedAtUtc, string Status, long QueueDepth);
 public sealed record CollectorTransferView(Guid RecordId, DateTimeOffset CreatedAtUtc, int Attempt, string Outcome, string? ErrorCode = null);
 public sealed record CollectorHistoryPage<T>(int Total, IReadOnlyList<T> Items);
@@ -64,6 +65,28 @@ public sealed class BusinessAuthorization(CenterDbContext db, IReviewedBusinessO
     public Task<int> DashboardAsync(string digest, CancellationToken ct) =>
         ReadAsync(digest, BusinessReadOperation.Dashboard, (iam, stations, _, token) =>
             iam.Set<StationRow>().CountAsync(row => stations.Contains(row.Id), token), ct);
+
+    public async Task<BusinessOverview> OverviewAsync(string digest, CancellationToken ct)
+    {
+        var stations = await DashboardAsync(digest, ct);
+        var ieds = await CountReadableAsync(BusinessReadOperation.Ied);
+        var collectors = await CountReadableAsync(BusinessReadOperation.Collector);
+        var records = await CountReadableAsync(BusinessReadOperation.Record);
+        return new(stations, ieds, collectors, records);
+
+        async Task<int?> CountReadableAsync(BusinessReadOperation operation)
+        {
+            try
+            {
+                return await ReadAsync(digest, operation, (iam, scope, _, token) =>
+                    Objects(iam, operation, scope, null).CountAsync(token), ct);
+            }
+            catch (Exception error) when (error is UnauthorizedAccessException or OwnerDecisionRequiredException)
+            {
+                return null;
+            }
+        }
+    }
 
     public async Task<IReadOnlyList<string>> NavigationAsync(string digest, CancellationToken ct)
     {

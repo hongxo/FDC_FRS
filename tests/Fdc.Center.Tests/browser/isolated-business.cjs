@@ -8,6 +8,9 @@ module.exports = async function verifyBusiness(page, call, expect, evidence) {
   const base = '/api/business/v1/';
   const dashboard = await expect('Dashboard only Station A', await call(base + 'dashboard'), 200);
   assert.equal(dashboard.stations, 1);
+  assert.equal(dashboard.ieds, 22);
+  assert.equal(dashboard.collectors, 1);
+  assert.equal(dashboard.records, 1);
   const trends = await expect('Scoped seven-day trends', await call(base + 'dashboard/trends'), 200);
   assert.equal(trends.length, 7);
   assert.equal(trends.reduce((total, row) => total + row.records, 0), 1);
@@ -55,6 +58,7 @@ module.exports = async function verifyBusiness(page, call, expect, evidence) {
     await businessPage.getByRole('button', { name: 'Tổng quan' }).click();
     await businessPage.getByRole('status').filter({ hasText: 'Số trạm trong phạm vi: 1' }).waitFor();
     await businessPage.locator('#object-detail').getByText(/FIXTURE-ALERT-A/).waitFor();
+    assert.deepEqual(await businessPage.locator('[aria-label="Thống kê nghiệp vụ"] dd').allTextContents(), ['22', '1', '1']);
     assert.equal(await businessPage.locator('#object-detail').getByText(/FIXTURE-ALERT-B/).count(), 0);
     await businessPage.getByRole('button', { name: 'Trạm', exact: true }).click();
     await businessPage.locator('#results li').filter({ hasText: 'A7-Station-A' }).waitFor();
@@ -165,6 +169,9 @@ module.exports = async function verifyBusiness(page, call, expect, evidence) {
   assert.equal(revoked.bytes.length, 0);
   const after = await expect('Dashboard after revoke', await call(base + 'dashboard'), 200);
   assert.equal(after.stations, 0);
+  assert.equal(after.ieds, 0);
+  assert.equal(after.collectors, 0);
+  assert.equal(after.records, 0);
   assert.deepEqual(await expect('Navigation hidden after grant revoke', await call(base + 'navigation'), 200), []);
   return { digest: ids.digestA, bytes: allowed.bytes.length, deniedBytes: [denied.bytes.length, revoked.bytes.length],
     correlation: allowed.correlation, cfgCorrelation: cfg.correlation, cfgDigest: ids.cfgDigestA, cfgBytes: cfg.bytes.length };

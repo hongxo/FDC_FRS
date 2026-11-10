@@ -17,7 +17,7 @@ public static class BusinessReadEndpoints
         group.MapGet("/navigation", (HttpContext h, BusinessAuthorization auth, CancellationToken ct) =>
             Guard(h, async digest => Results.Ok(await auth.NavigationAsync(digest, ct))));
         group.MapGet("/dashboard", (HttpContext h, BusinessAuthorization auth, CancellationToken ct) =>
-            Guard(h, async digest => Results.Ok(new { stations = await auth.DashboardAsync(digest, ct) })));
+            Guard(h, async digest => Results.Ok(await auth.OverviewAsync(digest, ct))));
         group.MapGet("/dashboard/trends", (HttpContext h, BusinessAuthorization auth, CancellationToken ct) =>
             Guard(h, async digest => Results.Ok(await auth.TrendsAsync(digest, ct))));
         group.MapGet("/dashboard/alerts", (HttpContext h, BusinessAuthorization auth, CancellationToken ct) =>

@@ -63,6 +63,11 @@ public sealed partial class CenterDatabaseSqlTests
             center.Add(record);
             await center.SaveChangesAsync();
             Assert.Equal(record.Id, Assert.Single(await service.ListAsync(digest, BusinessReadOperation.Record, null, 0, 50, default)).Id);
+            var overview = await service.OverviewAsync(digest, default);
+            Assert.Equal(new BusinessOverview(1, 1, 1, 1), overview);
+            var dashboardOnly = new BusinessAuthorization(center, new DashboardOnlyMapping(), new TestOnlyPermissionPolicy(),
+                new UnusedObjectResolver(), new PermissionEvaluator(), TimeProvider.System);
+            Assert.Equal(new BusinessOverview(1, null, null, null), await dashboardOnly.OverviewAsync(digest, default));
 
             var pending = new BusinessAuthorization(center, new PendingBusinessOperationPolicy(), new TestOnlyPermissionPolicy(),
                 new UnusedObjectResolver(), new PermissionEvaluator(), TimeProvider.System);
@@ -71,6 +76,7 @@ public sealed partial class CenterDatabaseSqlTests
             grant.Active = false;
             await iam.SaveChangesAsync();
             Assert.Equal(0, await service.DashboardAsync(digest, default));
+            Assert.Equal(new BusinessOverview(0, 0, 0, 0), await service.OverviewAsync(digest, default));
             Assert.Null(await service.DetailAsync(digest, BusinessReadOperation.Record, record.Id, default));
             Assert.Null(await service.DetailAsync(digest, BusinessReadOperation.Ied, fixture.Ied, default));
         }
@@ -83,6 +89,12 @@ public sealed partial class CenterDatabaseSqlTests
     private sealed class TestOnlyBusinessMapping : IReviewedBusinessOperationPolicy
     {
         public string DemandPermission(BusinessReadOperation operation, AuthorityVersion version) => "a6.synthetic.read";
+    }
+
+    private sealed class DashboardOnlyMapping : IReviewedBusinessOperationPolicy
+    {
+        public string DemandPermission(BusinessReadOperation operation, AuthorityVersion version) =>
+            operation == BusinessReadOperation.Dashboard ? "a6.synthetic.read" : throw new OwnerDecisionRequiredException("Unmapped fixture operation.");
     }
 
     private sealed class TestOnlyPermissionPolicy : IReviewedPermissionPolicy
