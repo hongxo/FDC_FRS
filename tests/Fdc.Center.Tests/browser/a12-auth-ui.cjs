@@ -84,9 +84,18 @@ async function run() {
     resumeLogout();
     await page.getByText('Đã đăng xuất.', { exact: true }).waitFor();
 
-    await history.goBack();
-    await history.waitForFunction(() => !document.querySelector('#object-detail').childElementCount &&
-      !document.querySelector('#results').childElementCount);
+    let backNavigation = 'completed';
+    let backStatus = null;
+    history.on('response', response => {
+      if (new URL(response.url()).pathname === '/identity/business.html') backStatus = response.status();
+    });
+    try { await history.goBack(); }
+    catch (error) {
+      if (backStatus !== 401) throw error;
+      backNavigation = 'protected navigation refused';
+    }
+    await history.waitForFunction(() => !document.querySelector('#object-detail')?.childElementCount &&
+      !document.querySelector('#results')?.childElementCount);
     const persisted = await history.evaluate(() => window.a12Persisted === true);
     const noStaleContent = await history.locator('body').evaluate(body => !body.textContent.includes('A7-Station-A'));
     assert.equal(noStaleContent, true);
@@ -102,7 +111,7 @@ async function run() {
         utc: new Date().toISOString(), commit: process.env.FDC_A5_COMMIT,
         login: 202, mfa: 204, logout: 204, pendingResponseIgnored: true,
         multiTabCleared: true, historyNoStaleContent: noStaleContent,
-        backNavigation, persistedBFCacheObserved: persisted, persistedBFCacheAcceptance: persisted ? 'PASS' : 'BLOCKED',
+        backNavigation, backStatus, persistedBFCacheObserved: persisted, persistedBFCacheAcceptance: persisted ? 'PASS' : 'BLOCKED',
         revokedCookieReplay: replay, proofMaterial: 'omitted'
       }, null, 2));
     }
