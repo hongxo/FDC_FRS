@@ -17,7 +17,7 @@ public static class BusinessReadEndpoints
         group.MapGet("/navigation", (HttpContext h, BusinessAuthorization auth, CancellationToken ct) =>
             Guard(h, async digest => Results.Ok(await auth.NavigationAsync(digest, ct))));
         group.MapGet("/dashboard", (HttpContext h, BusinessAuthorization auth, CancellationToken ct) =>
-            Guard(h, async digest => Results.Ok(new { stations = await auth.DashboardAsync(digest, ct) })));
+            Guard(h, async digest => Results.Ok(await auth.OverviewAsync(digest, ct))));
         group.MapGet("/dashboard/trends", (HttpContext h, BusinessAuthorization auth, CancellationToken ct) =>
             Guard(h, async digest => Results.Ok(await auth.TrendsAsync(digest, ct))));
         group.MapGet("/dashboard/alerts", (HttpContext h, BusinessAuthorization auth, CancellationToken ct) =>
@@ -57,6 +57,10 @@ public static class BusinessReadEndpoints
             }));
         group.MapGet("/records/{id:guid}/downloadable-files", (HttpContext h, BusinessAuthorization auth, Guid id, CancellationToken ct) =>
             Guard(h, async digest => Results.Ok(await auth.DownloadableFilesAsync(digest, id, ct))));
+        group.MapGet("/records/{id:guid}/waveform", (HttpContext h, BusinessAuthorization auth,
+            IReviewedBusinessFileSource storage, Guid id, CancellationToken ct) =>
+            Guard(h, async digest => await auth.WaveformAsync(digest, id, storage, h.TraceIdentifier, ct) is { } preview
+                ? Results.Ok(preview) : Results.NotFound()));
         group.MapGet("/record-files/{id:guid}/download", (HttpContext h, BusinessAuthorization auth,
             IReviewedBusinessFileSource storage, Guid id, CancellationToken ct) =>
             Guard(h, async digest => await auth.DownloadAsync(digest, id, storage, h.TraceIdentifier, ct) is { } file
@@ -88,6 +92,9 @@ public static class BusinessReadEndpoints
         try { return await action(digest); }
         catch (UnauthorizedAccessException) { return Results.Forbid(); }
         catch (ArgumentException) { return Results.BadRequest(new { code = "INVALID_QUERY" }); }
+        catch (Exception error) when (error is InvalidDataException or NotSupportedException)
+        { return Results.Json(new { code = "COMTRADE_PREVIEW_UNAVAILABLE" }, statusCode: 422); }
+        catch (IOException) { return Results.Json(new { code = "STORAGE_UNAVAILABLE" }, statusCode: 503); }
         catch (OwnerDecisionRequiredException) { return Results.Json(new { code = "BUSINESS_POLICY_REQUIRED" }, statusCode: 503); }
         catch (Exception error) when (error is DbException or AuthorityUnavailableException)
         { return Results.Json(new { code = "AUTHORITY_UNAVAILABLE" }, statusCode: 503); }

@@ -6,6 +6,27 @@ namespace Fdc.Collector.Pilot.Tests;
 
 public sealed class ComtradeParserTests
 {
+    [Theory]
+    [InlineData("ASCII")]
+    [InlineData("BINARY")]
+    [InlineData("BINARY32")]
+    [InlineData("FLOAT32")]
+    public void Verified_stream_preview_matches_file_preview_and_preserves_caller_streams(string format)
+    {
+        using var fixture = new PilotFiles(format);
+        using var cfg = new MemoryStream(File.ReadAllBytes(fixture.Cfg));
+        using var dat = new MemoryStream(File.ReadAllBytes(fixture.Dat));
+        var expected = BoundedComtradeReader.Read(fixture.Cfg, fixture.Dat, PilotFiles.Limits, "UTF-8");
+        var actual = BoundedComtradeReader.Read(cfg, dat, PilotFiles.Limits, "UTF-8");
+        Assert.Equal(expected.Samples, actual.Samples);
+        Assert.Equal(expected.Points.Select(point => point.TimeMs), actual.Points.Select(point => point.TimeMs));
+        Assert.Equal(expected.Points.SelectMany(point => point.Analog), actual.Points.SelectMany(point => point.Analog));
+        Assert.Equal(expected.Points.SelectMany(point => point.Digital), actual.Points.SelectMany(point => point.Digital));
+        Assert.True(cfg.CanRead);
+        Assert.True(dat.CanRead);
+        Assert.Throws<ArgumentException>(() => BoundedComtradeReader.Read(cfg, dat, PilotFiles.Limits, "UTF-8"));
+    }
+
     [Fact] public void Utf8_dat_bom_supported_and_bytes_preserved()
     {
         using var f = new PilotFiles();

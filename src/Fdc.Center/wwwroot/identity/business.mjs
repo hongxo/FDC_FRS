@@ -1,4 +1,5 @@
 import { onLogout } from './session-lifecycle.mjs';
+import { appendWaveform } from './waveform.mjs';
 const status = document.getElementById('status');
 const results = document.getElementById('results');
 const controls = document.getElementById('filters');
@@ -166,6 +167,7 @@ async function openObject(id, objectView = view) {
       return;
     }
     if (objectView !== 'records') return;
+    appendWaveform(detail, id, read, current.signal, invalidate);
     const files = await read('records/' + encodeURIComponent(id) + '/downloadable-files', current.signal);
     if (current.signal.aborted) return;
     if (!files.length) detail.append('Không có file được phép tải.');
@@ -197,6 +199,17 @@ async function load() {
     if (current.signal.aborted) return;
     if (view === 'dashboard' && Number.isSafeInteger(data.stations)) {
       status.textContent = 'Số trạm trong phạm vi: ' + data.stations;
+      const totals = document.createElement('dl');
+      totals.setAttribute('aria-label', 'Thống kê nghiệp vụ');
+      for (const [key, label] of [['ieds', 'IED được phép xem'], ['collectors', 'Collector được phép xem'], ['records', 'Bản ghi COMTRADE được phép xem']]) {
+        if (!Number.isSafeInteger(data[key])) continue;
+        const title = document.createElement('dt');
+        title.textContent = label;
+        const value = document.createElement('dd');
+        value.textContent = String(data[key]);
+        totals.append(title, value);
+      }
+      detail.append(totals);
       for (const [endpoint, title, describe] of [
         ['trends', 'Bản ghi theo ngày UTC', item => item.dayUtc.slice(0, 10) + ' · ' + item.records],
         ['alerts', 'Sự kiện vận hành', item => item.createdAtUtc + ' · ' + item.code]

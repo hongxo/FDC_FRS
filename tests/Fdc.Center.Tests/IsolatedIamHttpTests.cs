@@ -196,7 +196,8 @@ public sealed partial class CenterHttpsSqlLabTests
             var audit = await (from e in db.Set<SecurityEventRow>() join o in db.Set<AuditOutboxRow>() on e.Id equals o.EventId
                                orderby e.EventCode select e.EventCode).ToArrayAsync();
             Assert.Equal(business is null || ui ? ["fixture.login.mfa", "fixture.logout"] :
-                ["business.record.download.prepared", "business.record.download.prepared", "fixture.login.mfa", "fixture.logout"], audit);
+                ["business.record.download.prepared", "business.record.download.prepared", "business.record.waveform.prepared",
+                    "fixture.login.mfa", "fixture.logout"], audit);
             if (ui && Environment.GetEnvironmentVariable("FDC_UI_EVIDENCE") is { } uiEvidence)
             {
                 var paired = await (from e in db.Set<SecurityEventRow>()
