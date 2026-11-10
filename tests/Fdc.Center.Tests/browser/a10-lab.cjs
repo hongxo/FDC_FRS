@@ -101,7 +101,8 @@ const path = require('node:path');
     await responseHeld;
     if (evidence) await viewer.screenshot({ path: path.join(evidence, 'a10-lab-completed.png'), fullPage: true });
     const signal = process.env.FDC_A10_EXPIRE;
-    await fs.writeFile(signal, scenario, { flag: 'wx' });
+    await fs.writeFile(signal + '.publishing', scenario, { flag: 'wx' });
+    await fs.rename(signal + '.publishing', signal);
     for (let i = 0;; i++) {
       try { await fs.access(signal + '.done'); break; }
       catch { if (i > 200) throw new Error('Test clock did not advance'); }

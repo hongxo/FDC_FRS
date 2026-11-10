@@ -39,7 +39,8 @@ const path = require('node:path');
       assert.equal((await dashboard.json()).stations, 1);
     }
     const signal = process.env.FDC_A10_REVOKE;
-    await fs.writeFile(signal, 'revoke', { flag: 'wx' });
+    await fs.writeFile(signal + '.publishing', 'revoke', { flag: 'wx' });
+    await fs.rename(signal + '.publishing', signal);
     for (let i = 0;; i++) {
       try { await fs.access(signal + '.done'); break; }
       catch { if (i > 200) throw new Error('SQL revoke did not complete'); }

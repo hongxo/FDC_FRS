@@ -791,7 +791,7 @@ public sealed class A10LabWorkflowTests : A10IamSqlTest
                 {
                     if (File.Exists(signal))
                     {
-                        Assert.Equal(scenario, await File.ReadAllTextAsync(signal, timeout.Token));
+                        Assert.Equal(scenario, await ReadSignalAsync(signal, timeout.Token));
                         if (scenario == "idle") Clock.Advance(TimeSpan.FromMinutes(46));
                         else if (scenario == "mfa") Clock.Advance(TimeSpan.FromMinutes(6));
                         else
@@ -852,7 +852,7 @@ public sealed class A10LabWorkflowTests : A10IamSqlTest
                 {
                     if (File.Exists(signal))
                     {
-                        Assert.Equal("revoke", await File.ReadAllTextAsync(signal, timeout.Token));
+                        Assert.Equal("revoke", await ReadSignalAsync(signal, timeout.Token));
                         await RevokeActor("demo.viewer");
                         await File.WriteAllTextAsync(signal + ".done", "revoked", timeout.Token);
                         break;
@@ -887,6 +887,20 @@ public sealed class A10LabWorkflowTests : A10IamSqlTest
             Assert.True(process.ExitCode == 0, (await output) + (await error));
             using var result = JsonDocument.Parse(await File.ReadAllTextAsync(Path.Combine(root, "a10-binding-browser.json")));
             return result.RootElement.GetProperty("request").GetGuid();
+        }
+        private static async Task<string> ReadSignalAsync(string path, CancellationToken ct)
+        {
+            while (true)
+            {
+                ct.ThrowIfCancellationRequested();
+                try { return await File.ReadAllTextAsync(path, ct); }
+                catch (IOException error) when ((error.HResult & 0xffff) is 32 or 33)
+                {
+                    // Windows can briefly retain the publishing handle. The explicit marker and ACK,
+                    // not this retry interval, establish the test barrier ordering.
+                    await Task.Delay(10, ct);
+                }
+            }
         }
         public async ValueTask DisposeAsync()
         {
