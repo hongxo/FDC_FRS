@@ -28,7 +28,7 @@ using Microsoft.Extensions.Logging;
 namespace Fdc.Center.Tests;
 
 [Collection("Center database lab")]
-public sealed class A10LabWorkflowTests : A10IamSqlTest
+public sealed partial class A10LabWorkflowTests : A10IamSqlTest
 {
     [A10Fact]
     public async Task Expired_export_claim_can_be_recovered_and_previous_owner_is_fenced()
@@ -432,6 +432,28 @@ public sealed class A10LabWorkflowTests : A10IamSqlTest
                 }
             }
             await SeedAsync();
+            await StartAsync(Connection!);
+        }
+
+        internal static async Task<Host> StartWorkerAsync(string connection, bool expiredLease)
+        {
+            var worker = new Host();
+            worker.grantedOperations.Add(BusinessReadOperation.LabExport);
+            if (expiredLease) worker.Clock.Advance(TimeSpan.FromSeconds(61));
+            try
+            {
+                await worker.StartAsync(connection);
+                return worker;
+            }
+            catch
+            {
+                await worker.DisposeAsync();
+                throw;
+            }
+        }
+
+        private async Task StartAsync(string connection)
+        {
             using var key = RSA.Create(2048);
             var request = new CertificateRequest("CN=localhost", key, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
             var san = new SubjectAlternativeNameBuilder(); san.AddIpAddress(IPAddress.Loopback); request.CertificateExtensions.Add(san.Build());
@@ -440,8 +462,8 @@ public sealed class A10LabWorkflowTests : A10IamSqlTest
             var builder = WebApplication.CreateBuilder(new WebApplicationOptions { Args = [], EnvironmentName = "Testing" });
             builder.Logging.ClearProviders();
             builder.WebHost.ConfigureKestrel(options => options.Listen(IPAddress.Loopback, 0, listener => listener.UseHttps(certificate)));
-            builder.Services.AddDbContextFactory<IamDbContext>(options => options.UseSqlServer(Connection));
-            builder.Services.AddDbContext<CenterDbContext>(options => options.UseSqlServer(Connection));
+            builder.Services.AddDbContextFactory<IamDbContext>(options => options.UseSqlServer(connection));
+            builder.Services.AddDbContext<CenterDbContext>(options => options.UseSqlServer(connection));
             builder.Services.AddSingleton<TimeProvider>(Clock);
             builder.Services.AddScoped<IHumanSessionAuthorityReader, SqlSessionAuthorityReader>();
             builder.Services.AddAuthentication("Fdc.Human").AddScheme<AuthenticationSchemeOptions, HumanSessionHandler>("Fdc.Human", _ => { });
