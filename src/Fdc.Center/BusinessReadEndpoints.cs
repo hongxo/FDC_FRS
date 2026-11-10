@@ -14,13 +14,25 @@ public static class BusinessReadEndpoints
             return Results.Stream(stream, "text/html; charset=utf-8");
         }).RequireAuthorization("Fdc.Human");
         var group = app.MapGroup("/api/business/v1").RequireAuthorization("Fdc.Human");
+        group.MapGet("/navigation", (HttpContext h, BusinessAuthorization auth, CancellationToken ct) =>
+            Guard(h, async digest => Results.Ok(await auth.NavigationAsync(digest, ct))));
         group.MapGet("/dashboard", (HttpContext h, BusinessAuthorization auth, CancellationToken ct) =>
             Guard(h, async digest => Results.Ok(new { stations = await auth.DashboardAsync(digest, ct) })));
+        group.MapGet("/dashboard/trends", (HttpContext h, BusinessAuthorization auth, CancellationToken ct) =>
+            Guard(h, async digest => Results.Ok(await auth.TrendsAsync(digest, ct))));
+        group.MapGet("/dashboard/alerts", (HttpContext h, BusinessAuthorization auth, CancellationToken ct) =>
+            Guard(h, async digest => Results.Ok(await auth.AlertsAsync(digest, ct))));
 
         MapObjects("/stations", BusinessReadOperation.Station);
         MapObjects("/ieds", BusinessReadOperation.Ied);
         MapObjects("/records", BusinessReadOperation.Record);
         MapObjects("/collectors", BusinessReadOperation.Collector);
+        group.MapGet("/stations/{id:guid}/ieds", (HttpContext h, BusinessAuthorization auth, Guid id, CancellationToken ct) =>
+            Guard(h, async digest => Results.Ok(await auth.IedsForStationAsync(digest, id, ct))));
+        group.MapGet("/ieds/{id:guid}/collectors", (HttpContext h, BusinessAuthorization auth, Guid id, CancellationToken ct) =>
+            Guard(h, async digest => Results.Ok(await auth.CollectorsForIedAsync(digest, id, ct))));
+        group.MapGet("/collectors/{id:guid}/records", (HttpContext h, BusinessAuthorization auth, Guid id, CancellationToken ct) =>
+            Guard(h, async digest => Results.Ok(await auth.RecordsForCollectorAsync(digest, id, ct))));
         group.MapGet("/collectors/{id:guid}/heartbeat", (HttpContext h, BusinessAuthorization auth, Guid id, int? offset, int? limit, CancellationToken ct) =>
             Guard(h, async digest => await auth.CollectorHeartbeatAsync(digest, id, offset ?? 0, limit ?? 50, ct) is { } rows
                 ? Results.Ok(rows) : Results.NotFound()));
@@ -38,8 +50,10 @@ public static class BusinessReadEndpoints
 
         void MapObjects(string path, BusinessReadOperation operation)
         {
-            group.MapGet(path, (HttpContext h, BusinessAuthorization auth, Guid? station, int? offset, int? limit, string? search, CancellationToken ct) =>
-                Guard(h, async digest => Results.Ok(await auth.ListAsync(digest, operation, station, offset ?? 0, limit ?? 50, ct, search))));
+            group.MapGet(path, (HttpContext h, BusinessAuthorization auth, Guid? station, int? offset, int? limit, string? search, bool? paged, CancellationToken ct) =>
+                Guard(h, async digest => paged == true
+                    ? Results.Ok(await auth.PageAsync(digest, operation, station, offset ?? 0, limit ?? 50, ct, search))
+                    : Results.Ok(await auth.ListAsync(digest, operation, station, offset ?? 0, limit ?? 50, ct, search))));
             group.MapGet(path + "/{id:guid}", (HttpContext h, BusinessAuthorization auth, Guid id, CancellationToken ct) =>
                 Guard(h, async digest => await auth.DetailAsync(digest, operation, id, ct) is { } row
                     ? Results.Ok(row) : Results.NotFound()));

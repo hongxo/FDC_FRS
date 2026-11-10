@@ -15,7 +15,8 @@ public sealed class TransactionalAuthoritySqlTests
     [CenterFoundationFact]
     public async Task Borrowed_authority_read_observes_transaction_local_revoke_and_never_commits_fixture()
     {
-        await using var db = await OpenGuarded();
+        await using var disposable = A9DisposableSql.Enabled ? await A9DisposableSql.CreateAsync() : null;
+        await using var db = await OpenGuarded(disposable);
         var userId = Guid.NewGuid();
         await using (var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable))
         {
@@ -55,7 +56,8 @@ public sealed class TransactionalAuthoritySqlTests
     [CenterFoundationFact]
     public async Task Missing_session_read_does_not_consume_or_dispose_borrowed_transaction()
     {
-        await using var db = await OpenGuarded();
+        await using var disposable = A9DisposableSql.Enabled ? await A9DisposableSql.CreateAsync() : null;
+        await using var db = await OpenGuarded(disposable);
         await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
         var reader = new SqlTransactionalAuthorityReader(new PendingPermissionPolicy(), new SameTransactionResource(db, tx), TimeProvider.System);
         Assert.Null(await reader.ReadAsync(db, new string('A', 64), null, default));
@@ -67,8 +69,10 @@ public sealed class TransactionalAuthoritySqlTests
     [AuthorityProfileFact]
     public async Task Empty_lab_session_miss_profile_is_not_login_or_capacity_acceptance()
     {
-        await using var guarded = await OpenGuarded();
-        var options = new DbContextOptionsBuilder<IamDbContext>().UseSqlServer(guarded.Database.GetConnectionString()).Options;
+        await using var disposable = A9DisposableSql.Enabled ? await A9DisposableSql.CreateAsync() : null;
+        await using var guarded = await OpenGuarded(disposable);
+        var options = (disposable?.Options<IamDbContext>() ??
+            new DbContextOptionsBuilder<IamDbContext>().UseSqlServer(guarded.Database.GetConnectionString())).Options;
         var reader = new SqlSessionAuthorityReader(new ProfileFactory(options));
         var digest = new string('A', 64);
         for (var i = 0; i < 5; i++) Assert.Null(await reader.ReadAsync(digest, default));
@@ -97,7 +101,9 @@ public sealed class TransactionalAuthoritySqlTests
         await File.WriteAllTextAsync(Path.Combine(output, "authority-miss-profile.json"), System.Text.Json.JsonSerializer.Serialize(new
         {
             Scope = "Actual SqlSessionAuthorityReader negative lookup only; empty local lab, not successful login/MFA, protected API, full authorization, D09, SLA or fleet capacity acceptance",
-            Environment = "Windows; local SQL Server 2022; FDC_Center_Lab; one testhost; pooled connections",
+            Environment = disposable is null
+                ? "Windows; local SQL Server 2022; named lab; one testhost"
+                : "Windows; local SQL Server 2022; owned disposable database; one testhost; pooling disabled",
             TimestampUtc = DateTimeOffset.UtcNow, Dataset = "0 users, 0 sessions, 0 configured authority; nonexistent digest; no writes", Warmup = 5,
             Workloads = workloads, ProcessCpuMs = (process.TotalProcessorTime - cpuBefore).TotalMilliseconds,
             ProcessWorkingSetBefore = memoryBefore, ProcessWorkingSetAfter = process.WorkingSet64,
@@ -110,8 +116,9 @@ public sealed class TransactionalAuthoritySqlTests
         public IamDbContext CreateDbContext() => new(options);
     }
 
-    private static async Task<IamDbContext> OpenGuarded()
+    private static async Task<IamDbContext> OpenGuarded(A9DisposableSql? disposable)
     {
+        if (disposable is not null) return new IamDbContext(disposable.Options<IamDbContext>().Options);
         var connection = Environment.GetEnvironmentVariable("FDC_CENTER_LAB_CONNECTION") ?? throw new InvalidOperationException("Explicit lab connection required.");
         var settings = new SqlConnectionStringBuilder(connection);
         if (settings.DataSource != "lpc:." || settings.InitialCatalog != "FDC_Center_Lab") throw new InvalidOperationException("Unexpected lab target.");
@@ -144,7 +151,7 @@ internal sealed class AuthorityProfileFactAttribute : FactAttribute
 {
     public AuthorityProfileFactAttribute()
     {
-        if (Environment.GetEnvironmentVariable("FDC_CENTER_CONFIRMED_LAB") != "FDC_Center_Lab" ||
+        if ((!A9DisposableSql.Enabled && Environment.GetEnvironmentVariable("FDC_CENTER_CONFIRMED_LAB") != "FDC_Center_Lab") ||
             Environment.GetEnvironmentVariable("FDC_RUN_AUTHORITY_PROFILE") != "1" ||
             string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("FDC_CENTER_EVIDENCE")))
             Skip = "Explicit disposable Lab and negative-lookup profile/evidence opt-in required.";

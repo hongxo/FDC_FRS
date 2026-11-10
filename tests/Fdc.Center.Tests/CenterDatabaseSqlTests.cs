@@ -87,15 +87,26 @@ public sealed partial class CenterDatabaseSqlTests
  private sealed class FailOutbox:SaveChangesInterceptor {public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData e,InterceptionResult<int> r,CancellationToken ct=default){if(e.Context!.ChangeTracker.Entries<ProcessingOutbox>().Any(x=>x.State==EntityState.Added))throw new InvalidOperationException("SYNTHETIC required outbox failure");return base.SavingChangesAsync(e,r,ct);} }
  private sealed class Fixture:IAsyncDisposable
  {
+  private A9DisposableSql? disposable;
   public string Connection=Environment.GetEnvironmentVariable("FDC_CENTER_LAB_CONNECTION")!;public Guid Algorithm=Guid.NewGuid(),Corporation=Guid.NewGuid(),Unit=Guid.NewGuid(),Station=Guid.NewGuid(),OtherStation=Guid.NewGuid(),Ied=Guid.NewGuid(),Collector=Guid.NewGuid();public string StationCode="SYNTHETIC-"+Guid.NewGuid().ToString("N");public string Root=Path.Combine(Path.GetTempPath(),"FdcCenter-SYNTHETIC-"+Guid.NewGuid().ToString("N"));
-  public CenterDbContext Db(IInterceptor? interceptor=null){var b=new DbContextOptionsBuilder<CenterDbContext>().UseSqlServer(Connection);if(interceptor!=null)b.AddInterceptors(interceptor);return new(b.Options);}
+  public CenterDbContext Db(IInterceptor? interceptor=null){var b=disposable?.Options<CenterDbContext>() ?? new DbContextOptionsBuilder<CenterDbContext>().UseSqlServer(Connection);if(interceptor!=null)b.AddInterceptors(interceptor);return new(b.Options);}
   public static async Task<Fixture> Create()
   {
-   var f=new Fixture();var settings=new Microsoft.Data.SqlClient.SqlConnectionStringBuilder(f.Connection);if(settings.DataSource!="lpc:."||settings.InitialCatalog!="FDC_Center_Lab")throw new InvalidOperationException("Unexpected lab.");
-   await using var db=f.Db();Assert.Equal(1,await db.Database.SqlQueryRaw<int>("SELECT CASE WHEN CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) THEN 1 ELSE 0 END AS [Value]").SingleAsync());
-   await using(var iam=new IamDbContext(new DbContextOptionsBuilder<IamDbContext>().UseSqlServer(f.Connection).Options))
+   var f=new Fixture();
+   if(A9DisposableSql.Enabled)f.disposable=await A9DisposableSql.CreateAsync();
+   try
+   {
+   if(f.disposable is null)
+   {
+   var settings=new Microsoft.Data.SqlClient.SqlConnectionStringBuilder(f.Connection);if(settings.DataSource!="lpc:."||settings.InitialCatalog!="FDC_Center_Lab")throw new InvalidOperationException("Unexpected lab.");
+   await using var guardDb=f.Db();Assert.Equal(1,await guardDb.Database.SqlQueryRaw<int>("SELECT CASE WHEN CONVERT(nvarchar(128),SERVERPROPERTY('MachineName'))=N'XOTH-ETC-2' AND EXISTS(SELECT 1 FROM sys.extended_properties WHERE class=0 AND name=N'Fdc.Disposable' AND TRY_CONVERT(bit,value)=1) THEN 1 ELSE 0 END AS [Value]").SingleAsync());
+   }
+   await using var db=f.Db();
+   await using(var iam=new IamDbContext((f.disposable?.Options<IamDbContext>() ?? new DbContextOptionsBuilder<IamDbContext>().UseSqlServer(f.Connection)).Options))
    {Assert.False(await iam.Set<UserRow>().AnyAsync());var now=DateTimeOffset.UtcNow;iam.AddRange(new CorporationRow{Id=f.Corporation,Code=f.StationCode,CreatedAt=now},new ManagementUnitRow{Id=f.Unit,CorporationId=f.Corporation,Code=f.StationCode,CreatedAt=now},new StationRow{Id=f.Station,ManagementUnitId=f.Unit,Code=f.StationCode,HierarchyVersion=1,CreatedAt=now},new StationRow{Id=f.OtherStation,ManagementUnitId=f.Unit,Code=f.StationCode+"-B",HierarchyVersion=1,CreatedAt=now});await iam.SaveChangesAsync();}
    db.AddRange(new IedDevice{Id=f.Ied,StationId=f.Station,Code="IED-SYNTHETIC",DisplayName="SYNTHETIC protection IED",IsSynthetic=true},new CollectorRegistration{Id=f.Collector,StationId=f.Station,Code=f.StationCode,Active=true,BindingStatus="Bound",IsSynthetic=true},new CollectorIed{CollectorId=f.Collector,IedId=f.Ied,StationId=f.Station,Active=true,IsSynthetic=true});await db.SaveChangesAsync();return f;
+   }
+   catch { if(f.disposable is not null)await f.disposable.DisposeAsync(); throw; }
   }
   public async Task<VerifiedRecordPackage> Package()
   {
@@ -104,6 +115,12 @@ public sealed partial class CenterDatabaseSqlTests
   }
   public async ValueTask DisposeAsync()
   {
+   if(disposable is not null)
+   {
+    try { await disposable.DisposeAsync(); }
+    finally { DeleteFixtureFiles(); }
+    return;
+   }
    await using var db=Db();await using var tx=await db.Database.BeginTransactionAsync();
 #pragma warning disable EF1003 // Source-only fixed table allowlist; both station IDs remain SQL parameters.
    await db.Database.ExecuteSqlInterpolatedAsync($"DELETE FROM ops.AnalysisResult WHERE JobId IN (SELECT Id FROM ops.AnalysisJob WHERE StationId={Station} OR StationId={OtherStation})");
@@ -111,18 +128,22 @@ public sealed partial class CenterDatabaseSqlTests
     await db.Database.ExecuteSqlRawAsync("DELETE FROM "+table+" WHERE StationId IN ({0},{1})",Station,OtherStation);
 #pragma warning restore EF1003
    await db.Database.ExecuteSqlInterpolatedAsync($"DELETE FROM ops.AnalysisAlgorithm WHERE Id={Algorithm}; DELETE FROM catalog.Station WHERE Id={Station} OR Id={OtherStation}; DELETE FROM catalog.ManagementUnit WHERE Id={Unit}; DELETE FROM catalog.Corporation WHERE Id={Corporation}");await tx.CommitAsync();
+   DeleteFixtureFiles();
+  }
+  private void DeleteFixtureFiles()
+  {
    if(Directory.Exists(Root)&&Path.GetFullPath(Root).StartsWith(Path.GetFullPath(Path.GetTempPath()),StringComparison.OrdinalIgnoreCase)&&Path.GetFileName(Root).StartsWith("FdcCenter-SYNTHETIC-",StringComparison.Ordinal))Directory.Delete(Root,true);
   }
  }
 }
 internal sealed class CenterFoundationFactAttribute:FactAttribute
 {
- public CenterFoundationFactAttribute(){if(Environment.GetEnvironmentVariable("FDC_CENTER_CONFIRMED_LAB")!="FDC_Center_Lab"||string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("FDC_CENTER_LAB_CONNECTION")))Skip="Explicit new Center disposable lab required.";}
+ public CenterFoundationFactAttribute(){if(!A9DisposableSql.Enabled && (Environment.GetEnvironmentVariable("FDC_CENTER_CONFIRMED_LAB")!="FDC_Center_Lab"||string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("FDC_CENTER_LAB_CONNECTION"))))Skip="Explicit new Center disposable lab required.";}
 }
 
 
 
 internal sealed class CenterProfileFactAttribute:FactAttribute
 {
- public CenterProfileFactAttribute(){if(Environment.GetEnvironmentVariable("FDC_CENTER_CONFIRMED_LAB")!="FDC_Center_Lab"||string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("FDC_CENTER_LAB_CONNECTION"))||string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("FDC_CENTER_EVIDENCE")))Skip="Explicit Center lab and local profile evidence directory required.";}
+ public CenterProfileFactAttribute(){if((!A9DisposableSql.Enabled && (Environment.GetEnvironmentVariable("FDC_CENTER_CONFIRMED_LAB")!="FDC_Center_Lab"||string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("FDC_CENTER_LAB_CONNECTION"))))||string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("FDC_CENTER_EVIDENCE")))Skip="Explicit Center lab and local profile evidence directory required.";}
 }

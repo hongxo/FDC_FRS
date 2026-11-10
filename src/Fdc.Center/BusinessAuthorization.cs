@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Fdc.Center;
 
-public enum BusinessReadOperation { Dashboard, Station, Ied, Record, RecordDownload, Collector, CollectorHeartbeat, CollectorTransfer }
+public enum BusinessReadOperation { Dashboard, Station, Ied, Record, RecordDownload, Collector, CollectorHeartbeat, CollectorTransfer, DashboardTrend, DashboardAlert }
 
 public interface IReviewedBusinessOperationPolicy
 {
@@ -30,6 +30,9 @@ public sealed class BusinessObject
     public required string Label { get; init; }
 }
 public sealed record BusinessDownload(string Name, Stream Content);
+public sealed record BusinessPage(int Total, IReadOnlyList<BusinessObject> Items);
+public sealed record BusinessTrend(DateTimeOffset DayUtc, int Records);
+public sealed record BusinessAlert(DateTimeOffset CreatedAtUtc, string Code);
 public sealed record CollectorHeartbeatView(DateTimeOffset ReceivedAtUtc, string Status, long QueueDepth);
 public sealed record CollectorTransferView(Guid RecordId, DateTimeOffset CreatedAtUtc, int Attempt, string Outcome);
 public sealed class BusinessFile { public Guid Id { get; init; } public required string Name { get; init; } public long SizeBytes { get; init; } }
@@ -55,6 +58,48 @@ public sealed class BusinessAuthorization(CenterDbContext db, IReviewedBusinessO
         ReadAsync(digest, BusinessReadOperation.Dashboard, (iam, stations, _, token) =>
             iam.Set<StationRow>().CountAsync(row => stations.Contains(row.Id), token), ct);
 
+    public async Task<IReadOnlyList<string>> NavigationAsync(string digest, CancellationToken ct)
+    {
+        var visible = new List<string>();
+        foreach (var (route, operation) in new (string, BusinessReadOperation)[]
+        {
+            ("dashboard", BusinessReadOperation.Dashboard), ("stations", BusinessReadOperation.Station),
+            ("ieds", BusinessReadOperation.Ied), ("records", BusinessReadOperation.Record),
+            ("collectors", BusinessReadOperation.Collector)
+        })
+        {
+            try
+            {
+                if (await ReadAsync(digest, operation, (_, stations, _, _) => Task.FromResult(stations.Length != 0), ct))
+                    visible.Add(route);
+            }
+            catch (Exception error) when (error is UnauthorizedAccessException or OwnerDecisionRequiredException)
+            {
+                // A missing operation mapping or effective grant never exposes a module.
+            }
+        }
+        return visible;
+    }
+
+    public Task<List<BusinessTrend>> TrendsAsync(string digest, CancellationToken ct) =>
+        ReadAsync(digest, BusinessReadOperation.DashboardTrend, async (_, stations, _, token) =>
+        {
+            var start = new DateTimeOffset(clock.GetUtcNow().UtcDateTime.Date.AddDays(-6), TimeSpan.Zero);
+            var end = start.AddDays(7);
+            var counts = await db.Set<DisturbanceRecord>().AsNoTracking()
+                .Where(row => stations.Contains(row.StationId) && row.CollectedAtUtc >= start && row.CollectedAtUtc < end)
+                .GroupBy(row => EF.Functions.DateDiffDay(start, row.CollectedAtUtc))
+                .Select(bucket => new { Day = bucket.Key, Records = bucket.Count() })
+                .ToDictionaryAsync(bucket => bucket.Day, bucket => bucket.Records, token);
+            return Enumerable.Range(0, 7).Select(day => new BusinessTrend(start.AddDays(day), counts.GetValueOrDefault(day))).ToList();
+        }, ct);
+
+    public Task<List<BusinessAlert>> AlertsAsync(string digest, CancellationToken ct) =>
+        ReadAsync(digest, BusinessReadOperation.DashboardAlert, (_, stations, _, token) =>
+            db.Set<OperationalEvent>().AsNoTracking().Where(row => stations.Contains(row.StationId))
+                .OrderByDescending(row => row.CreatedAtUtc).ThenBy(row => row.Id).Take(20)
+                .Select(row => new BusinessAlert(row.CreatedAtUtc, row.Code)).ToListAsync(token), ct);
+
     public Task<List<BusinessObject>> ListAsync(string digest, BusinessReadOperation operation, Guid? station, int offset, int limit,
         CancellationToken ct, string? search = null)
     {
@@ -62,15 +107,57 @@ public sealed class BusinessAuthorization(CenterDbContext db, IReviewedBusinessO
         if (search?.Length > 80 || search?.Any(char.IsControl) == true) throw new ArgumentException("Invalid search.");
         return ReadAsync(digest, operation, (iam, stations, _, token) =>
         {
-            var rows = Objects(iam, operation, stations, station);
-            if (!string.IsNullOrWhiteSpace(search)) rows = rows.Where(row => row.Label.Contains(search));
+            var rows = FilterObjects(iam, operation, stations, station, search);
             return rows.OrderBy(row => row.Id).Skip(offset).Take(limit).ToListAsync(token);
         }, ct);
+    }
+
+    public Task<BusinessPage> PageAsync(string digest, BusinessReadOperation operation, Guid? station, int offset, int limit,
+        CancellationToken ct, string? search)
+    {
+        if (offset < 0 || limit is < 1 or > 100) throw new ArgumentException("Invalid page.");
+        if (search?.Length > 80 || search?.Any(char.IsControl) == true) throw new ArgumentException("Invalid search.");
+        return ReadAsync(digest, operation, async (iam, stations, _, token) =>
+        {
+            var rows = FilterObjects(iam, operation, stations, station, search);
+            var count = await rows.CountAsync(token);
+            var items = await rows.OrderBy(row => row.Id).Skip(offset).Take(limit).ToListAsync(token);
+            return new BusinessPage(count, items);
+        }, ct);
+    }
+
+    private IQueryable<BusinessObject> FilterObjects(IamDbContext iam, BusinessReadOperation operation,
+        Guid[] stations, Guid? station, string? search)
+    {
+        var rows = Objects(iam, operation, stations, station);
+        return string.IsNullOrWhiteSpace(search) ? rows : rows.Where(row => row.Label.Contains(search));
     }
 
     public Task<BusinessObject?> DetailAsync(string digest, BusinessReadOperation operation, Guid id, CancellationToken ct) =>
         ReadAsync(digest, operation, (iam, stations, _, token) =>
             Objects(iam, operation, stations, null).SingleOrDefaultAsync(row => row.Id == id, token), ct);
+
+    public Task<List<BusinessObject>> IedsForStationAsync(string digest, Guid station, CancellationToken ct) =>
+        ReadAsync(digest, BusinessReadOperation.Ied, (iam, stations, _, token) =>
+            Objects(iam, BusinessReadOperation.Ied, stations, station)
+                .OrderBy(row => row.Id).Take(50).ToListAsync(token), ct, BusinessReadOperation.Station);
+
+    public Task<List<BusinessObject>> CollectorsForIedAsync(string digest, Guid ied, CancellationToken ct) =>
+        ReadAsync(digest, BusinessReadOperation.Collector, (iam, stations, _, token) =>
+            (from collector in Objects(iam, BusinessReadOperation.Collector, stations, null)
+             join binding in db.Set<CollectorIed>().AsNoTracking()
+                on new { collector.StationId, CollectorId = collector.Id } equals new { binding.StationId, binding.CollectorId }
+             where binding.IedId == ied && binding.Active
+             orderby collector.Id
+             select collector).Take(50).ToListAsync(token), ct, BusinessReadOperation.Ied);
+
+    public Task<List<BusinessObject>> RecordsForCollectorAsync(string digest, Guid collector, CancellationToken ct) =>
+        ReadAsync(digest, BusinessReadOperation.Record, (_, stations, _, token) =>
+            db.Set<DisturbanceRecord>().AsNoTracking()
+                .Where(row => row.CollectorId == collector && stations.Contains(row.StationId))
+                .OrderBy(row => row.Id).Take(50)
+                .Select(row => new BusinessObject { Id = row.Id, StationId = row.StationId, Label = row.ManifestId })
+                .ToListAsync(token), ct, BusinessReadOperation.Collector);
 
     public Task<List<CollectorHeartbeatView>?> CollectorHeartbeatAsync(string digest, Guid collectorId,
         int offset, int limit, CancellationToken ct) =>
@@ -171,7 +258,8 @@ public sealed class BusinessAuthorization(CenterDbContext db, IReviewedBusinessO
     }
 
     private async Task<T> ReadAsync<T>(string digest, BusinessReadOperation operation,
-        Func<IamDbContext, Guid[], AuthorizationSnapshot, CancellationToken, Task<T>> query, CancellationToken ct)
+        Func<IamDbContext, Guid[], AuthorizationSnapshot, CancellationToken, Task<T>> query, CancellationToken ct,
+        BusinessReadOperation? relatedOperation = null)
     {
         var existing = db.Database.CurrentTransaction;
         await using var owned = existing is null ? await db.Database.BeginTransactionAsync(IsolationLevel.Serializable, ct) : null;
@@ -186,7 +274,10 @@ public sealed class BusinessAuthorization(CenterDbContext db, IReviewedBusinessO
         if (current is null) throw new UnauthorizedAccessException();
         var snapshot = current.Value.Snapshot;
         var code = operations.DemandPermission(operation, snapshot.CurrentVersion);
-        if (!snapshot.Permissions.Any(permission => permission.Code == code && permission.Approved && permission.Implemented))
+        var relatedCode = relatedOperation is { } related ? operations.DemandPermission(related, snapshot.CurrentVersion) : code;
+        bool Registered(string value) => snapshot.Permissions.Any(permission =>
+            permission.Code == value && permission.Approved && permission.Implemented);
+        if (!Registered(code) || !Registered(relatedCode))
             throw new UnauthorizedAccessException();
 
         // Query only grant candidates. Ancestor-unit inheritance is deliberately excluded until reviewed.
@@ -197,8 +288,12 @@ public sealed class BusinessAuthorization(CenterDbContext db, IReviewedBusinessO
                                 join unit in iam.Set<ManagementUnitRow>().AsNoTracking() on station.ManagementUnitId equals unit.Id
                                 where stationIds.Contains(station.Id) || unitIds.Contains(unit.Id) || corporationIds.Contains(unit.CorporationId)
                                 select new { station.Id, Unit = unit.Id, unit.CorporationId, station.HierarchyVersion }).ToListAsync(ct);
-        Guid[] ScopeAt(DateTimeOffset now) => candidates.Where(row => evaluator.Evaluate(snapshot, new AccessRequest(code, CredentialKind.HumanSession,
-                new TrustedResource(row.Id.ToString("D"), row.CorporationId.ToString("D"), row.Unit.ToString("D"), row.HierarchyVersion, [])), now).Allowed)
+        Guid[] ScopeAt(DateTimeOffset now) => candidates.Where(row =>
+        {
+            var resource = new TrustedResource(row.Id.ToString("D"), row.CorporationId.ToString("D"), row.Unit.ToString("D"), row.HierarchyVersion, []);
+            bool Allows(string value) => evaluator.Evaluate(snapshot, new AccessRequest(value, CredentialKind.HumanSession, resource), now).Allowed;
+            return Allows(code) && (code == relatedCode || Allows(relatedCode));
+        })
             .Select(row => row.Id).ToArray();
         var scope = ScopeAt(clock.GetUtcNow());
         var result = await query(iam, scope, snapshot, ct);

@@ -9,6 +9,7 @@
   <ItemGroup>
     <EmbeddedResource Include="IdentityUi/management.html" />
     <EmbeddedResource Include="IdentityUi/business.html" />
+    <InternalsVisibleTo Include="Fdc.Center.Tests" />
   </ItemGroup>
 
   <PropertyGroup>
