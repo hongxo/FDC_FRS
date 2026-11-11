@@ -70,10 +70,13 @@ public static class BusinessReadEndpoints
 
         void MapObjects(string path, BusinessReadOperation operation)
         {
-            group.MapGet(path, (HttpContext h, BusinessAuthorization auth, Guid? station, int? offset, int? limit, string? search, bool? paged, CancellationToken ct) =>
+            group.MapGet(path, (HttpContext h, BusinessAuthorization auth, Guid? station, int? offset, int? limit, string? search,
+                Guid? iedId, DateTimeOffset? collectedFromUtc, DateTimeOffset? collectedToUtc, bool? paged, CancellationToken ct) =>
                 Guard(h, async digest => paged == true
-                    ? Results.Ok(await auth.PageAsync(digest, operation, station, offset ?? 0, limit ?? 50, ct, search))
-                    : Results.Ok(await auth.ListAsync(digest, operation, station, offset ?? 0, limit ?? 50, ct, search))));
+                    ? Results.Ok(await auth.PageAsync(digest, operation, station, offset ?? 0, limit ?? 50, ct, search,
+                        new(iedId, collectedFromUtc, collectedToUtc)))
+                    : Results.Ok(await auth.ListAsync(digest, operation, station, offset ?? 0, limit ?? 50, ct, search,
+                        new(iedId, collectedFromUtc, collectedToUtc)))));
             group.MapGet(path + "/{id:guid}", (HttpContext h, BusinessAuthorization auth, Guid id, CancellationToken ct) =>
                 Guard(h, async digest => await auth.DetailAsync(digest, operation, id, ct) is { } row
                     ? Results.Ok(row) : Results.NotFound()));

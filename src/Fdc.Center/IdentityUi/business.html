@@ -12,6 +12,12 @@
 <button type="button" data-view="bindings">Yêu cầu binding</button>
 </nav><p id="status" role="status">Chọn phân hệ để tải dữ liệu.</p><div id="filters" hidden><label for="business-search">Tìm theo tên hoặc mã</label>
 <input id="business-search" maxlength="80" autocomplete="off">
+<fieldset id="record-filters" hidden><legend>Lọc bản ghi COMTRADE</legend>
+<p id="record-ied-label">Tất cả IED trong phạm vi.</p>
+<p>Để chọn IED, mở chi tiết IED và chọn “Xem bản ghi của IED”.</p>
+<label for="record-from">Thu thập từ (UTC, bao gồm)</label><input id="record-from" type="datetime-local" step="1">
+<label for="record-to">Thu thập đến trước (UTC)</label><input id="record-to" type="datetime-local" step="1">
+<button id="record-clear" type="button">Bỏ bộ lọc COMTRADE</button></fieldset>
 <button type="button" id="business-find">Tìm</button><button type="button" id="business-first" disabled>Đầu</button>
 <button type="button" id="business-prev" disabled>Trước</button>
 <button type="button" id="business-next" disabled>Sau</button><button type="button" id="business-last" disabled>Cuối</button>
