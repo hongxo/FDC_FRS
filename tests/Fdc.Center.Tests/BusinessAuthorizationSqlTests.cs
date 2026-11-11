@@ -74,6 +74,12 @@ public sealed partial class CenterDatabaseSqlTests
                 Code = "SECOND-STATION-COLLECTOR", IsSynthetic = true };
             center.AddRange(otherIed, otherCollector);
             await center.SaveChangesAsync();
+            center.AddRange(
+                new CollectorIed { StationId = fixture.Station, CollectorId = fixture.Collector,
+                    IedId = otherIed.Id, Active = true, IsSynthetic = true },
+                new CollectorIed { StationId = fixture.OtherStation, CollectorId = otherCollector.Id,
+                    IedId = hidden.Id, Active = true, IsSynthetic = true });
+            await center.SaveChangesAsync();
             DisturbanceRecord Sample(Guid stationId, Guid iedId, Guid collectorId, DateTimeOffset collected) => new()
             {
                 StationId = stationId, IedId = iedId, CollectorId = collectorId,

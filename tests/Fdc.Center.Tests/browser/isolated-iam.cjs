@@ -87,6 +87,10 @@ async function run() {
   } finally { await browser.close(); }
 }
 run().catch(error => {
+  let message = String(error.message);
+  for (const secret of [process.env.FDC_A5_PASSWORD, process.env.FDC_A5_FACTOR])
+    if (secret) message = message.replaceAll(secret, '[redacted]');
+  console.error(message.replace(/[A-Za-z0-9_-]{40,}/g, '[redacted]'));
   const location = String(error.stack).split('\n').find(line => /isolated-(iam|business)\.cjs:\d+/.test(line));
   console.error('Isolated browser assertion failed.', location ?? '');
   process.exitCode = 1;
