@@ -31,6 +31,22 @@ public sealed class BusinessObject
     public Guid Id { get; init; }
     public Guid StationId { get; init; }
     public required string Label { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public DateTimeOffset? CollectedAtUtc { get; init; }
+}
+public sealed record RecordSearch(Guid? IedId, DateTimeOffset? CollectedFromUtc, DateTimeOffset? CollectedToUtc)
+{
+    public bool HasCriteria => IedId is not null || CollectedFromUtc is not null || CollectedToUtc is not null;
+    public void Validate(BusinessReadOperation operation)
+    {
+        if (operation != BusinessReadOperation.Record && HasCriteria)
+            throw new ArgumentException("Record filters apply only to records.");
+        if (IedId == Guid.Empty || CollectedFromUtc is { Offset: var fromOffset } && fromOffset != TimeSpan.Zero ||
+            CollectedToUtc is { Offset: var toOffset } && toOffset != TimeSpan.Zero)
+            throw new ArgumentException("A valid IED and UTC collection timestamps are required.");
+        if (CollectedFromUtc is { } from && CollectedToUtc is { } to && from >= to)
+            throw new ArgumentException("Collection end must be after start.");
+    }
 }
 public sealed record BusinessDownload(string Name, Stream Content);
 public sealed record BusinessPage(int Total, IReadOnlyList<BusinessObject> Items);
@@ -132,25 +148,27 @@ public sealed class BusinessAuthorization(CenterDbContext db, IReviewedBusinessO
                 .Select(row => new BusinessAlert(row.CreatedAtUtc, row.Code)).ToListAsync(token), ct);
 
     public Task<List<BusinessObject>> ListAsync(string digest, BusinessReadOperation operation, Guid? station, int offset, int limit,
-        CancellationToken ct, string? search = null)
+        CancellationToken ct, string? search = null, RecordSearch? recordSearch = null)
     {
         if (offset is < 0 or > 10000 || limit is < 1 or > 100) throw new ArgumentException("Invalid page.");
         if (search?.Length > 80 || search?.Any(char.IsControl) == true) throw new ArgumentException("Invalid search.");
+        recordSearch?.Validate(operation);
         return ReadAsync(digest, operation, (iam, stations, _, token) =>
         {
-            var rows = FilterObjects(iam, operation, stations, station, search);
+            var rows = FilterObjects(iam, operation, stations, station, search, recordSearch);
             return rows.OrderBy(row => row.Id).Skip(offset).Take(limit).ToListAsync(token);
         }, ct);
     }
 
     public Task<BusinessPage> PageAsync(string digest, BusinessReadOperation operation, Guid? station, int offset, int limit,
-        CancellationToken ct, string? search)
+        CancellationToken ct, string? search, RecordSearch? recordSearch = null)
     {
         if (offset < 0 || limit is < 1 or > 100) throw new ArgumentException("Invalid page.");
         if (search?.Length > 80 || search?.Any(char.IsControl) == true) throw new ArgumentException("Invalid search.");
+        recordSearch?.Validate(operation);
         return ReadAsync(digest, operation, async (iam, stations, _, token) =>
         {
-            var rows = FilterObjects(iam, operation, stations, station, search);
+            var rows = FilterObjects(iam, operation, stations, station, search, recordSearch);
             var count = await rows.CountAsync(token);
             var items = await rows.OrderBy(row => row.Id).Skip(offset).Take(limit).ToListAsync(token);
             return new BusinessPage(count, items);
@@ -158,9 +176,17 @@ public sealed class BusinessAuthorization(CenterDbContext db, IReviewedBusinessO
     }
 
     private IQueryable<BusinessObject> FilterObjects(IamDbContext iam, BusinessReadOperation operation,
-        Guid[] stations, Guid? station, string? search)
+        Guid[] stations, Guid? station, string? search, RecordSearch? recordSearch)
     {
         var rows = Objects(iam, operation, stations, station);
+        if (operation == BusinessReadOperation.Record && recordSearch is { HasCriteria: true })
+        {
+            var records = db.Set<DisturbanceRecord>().AsNoTracking();
+            if (recordSearch.IedId is { } ied) records = records.Where(row => row.IedId == ied);
+            if (recordSearch.CollectedFromUtc is { } from) records = records.Where(row => row.CollectedAtUtc >= from);
+            if (recordSearch.CollectedToUtc is { } to) records = records.Where(row => row.CollectedAtUtc < to);
+            rows = rows.Where(row => records.Select(record => record.Id).Contains(row.Id));
+        }
         return string.IsNullOrWhiteSpace(search) ? rows : rows.Where(row => row.Label.Contains(search));
     }
 
@@ -366,7 +392,7 @@ public sealed class BusinessAuthorization(CenterDbContext db, IReviewedBusinessO
             BusinessReadOperation.Ied => db.Set<IedDevice>().AsNoTracking().Where(row => stations.Contains(row.StationId))
                 .Select(row => new BusinessObject { Id = row.Id, StationId = row.StationId, Label = row.DisplayName }),
             BusinessReadOperation.Record => db.Set<DisturbanceRecord>().AsNoTracking().Where(row => stations.Contains(row.StationId))
-                .Select(row => new BusinessObject { Id = row.Id, StationId = row.StationId, Label = row.ManifestId }),
+                .Select(row => new BusinessObject { Id = row.Id, StationId = row.StationId, Label = row.ManifestId, CollectedAtUtc = row.CollectedAtUtc }),
             BusinessReadOperation.Collector => db.Set<CollectorRegistration>().AsNoTracking().Where(row => stations.Contains(row.StationId))
                 .Select(row => new BusinessObject { Id = row.Id, StationId = row.StationId, Label = row.Code }),
             _ => throw new ArgumentOutOfRangeException(nameof(operation))

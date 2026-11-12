@@ -68,6 +68,53 @@ public sealed partial class CenterDatabaseSqlTests
             var dashboardOnly = new BusinessAuthorization(center, new DashboardOnlyMapping(), new TestOnlyPermissionPolicy(),
                 new UnusedObjectResolver(), new PermissionEvaluator(), TimeProvider.System);
             Assert.Equal(new BusinessOverview(1, null, null, null), await dashboardOnly.OverviewAsync(digest, default));
+            var otherIed = new IedDevice { StationId = fixture.Station, Code = "SECOND-IED",
+                DisplayName = "Second scoped IED", IsSynthetic = true };
+            var otherCollector = new CollectorRegistration { StationId = fixture.OtherStation,
+                Code = "SECOND-STATION-COLLECTOR", IsSynthetic = true };
+            center.AddRange(otherIed, otherCollector);
+            await center.SaveChangesAsync();
+            center.AddRange(
+                new CollectorIed { StationId = fixture.Station, CollectorId = fixture.Collector,
+                    IedId = otherIed.Id, Active = true, IsSynthetic = true },
+                new CollectorIed { StationId = fixture.OtherStation, CollectorId = otherCollector.Id,
+                    IedId = hidden.Id, Active = true, IsSynthetic = true });
+            await center.SaveChangesAsync();
+            DisturbanceRecord Sample(Guid stationId, Guid iedId, Guid collectorId, DateTimeOffset collected) => new()
+            {
+                StationId = stationId, IedId = iedId, CollectorId = collectorId,
+                ManifestId = Guid.NewGuid().ToString("N") + new string('c', 32), ManifestSha256 = new string('d', 64),
+                RemoteIdentity = "SEARCH-SYNTHETIC", TimeSource = "fixture", CorrelationId = "SEARCH-SYNTHETIC",
+                CollectedAtUtc = collected, IsSynthetic = true
+            };
+            var endBoundary = Sample(fixture.Station, fixture.Ied, fixture.Collector, now.AddHours(1));
+            center.AddRange(
+                Sample(fixture.Station, fixture.Ied, fixture.Collector, now.AddHours(-1)),
+                endBoundary,
+                Sample(fixture.Station, otherIed.Id, fixture.Collector, now),
+                Sample(fixture.OtherStation, hidden.Id, otherCollector.Id, now));
+            await center.SaveChangesAsync();
+            var filter = new RecordSearch(fixture.Ied, now, now.AddHours(1));
+            var selected = await service.PageAsync(digest, BusinessReadOperation.Record, null, 0, 1, default, null, filter);
+            Assert.Equal(1, selected.Total);
+            Assert.Equal(record.Id, Assert.Single(selected.Items).Id);
+            Assert.Equal(now, selected.Items[0].CollectedAtUtc);
+            Assert.Empty((await service.PageAsync(digest, BusinessReadOperation.Record, null, 1, 1, default, null, filter)).Items);
+            var secondWindow = await service.ListAsync(digest, BusinessReadOperation.Record, null, 0, 10, default,
+                recordSearch: new(fixture.Ied, now.AddHours(1), now.AddHours(2)));
+            Assert.Equal(endBoundary.Id, Assert.Single(secondWindow).Id);
+            var allIeds = new RecordSearch(null, now, now.AddHours(1));
+            var firstPage = await service.PageAsync(digest, BusinessReadOperation.Record, null, 0, 1, default, null, allIeds);
+            var secondPage = await service.PageAsync(digest, BusinessReadOperation.Record, null, 1, 1, default, null, allIeds);
+            Assert.Equal(2, firstPage.Total);
+            Assert.Equal(2, secondPage.Total);
+            Assert.NotEqual(Assert.Single(firstPage.Items).Id, Assert.Single(secondPage.Items).Id);
+            Assert.Empty(await service.ListAsync(digest, BusinessReadOperation.Record, null, 0, 10, default,
+                recordSearch: new(hidden.Id, null, null)));
+            await Assert.ThrowsAsync<ArgumentException>(() => service.PageAsync(digest, BusinessReadOperation.Record,
+                null, 0, 10, default, null, new(null, now, now)));
+            await Assert.ThrowsAsync<ArgumentException>(() => service.ListAsync(digest, BusinessReadOperation.Record,
+                null, 0, 10, default, recordSearch: new(null, now.ToOffset(TimeSpan.FromHours(7)), null)));
 
             var pending = new BusinessAuthorization(center, new PendingBusinessOperationPolicy(), new TestOnlyPermissionPolicy(),
                 new UnusedObjectResolver(), new PermissionEvaluator(), TimeProvider.System);
@@ -79,6 +126,8 @@ public sealed partial class CenterDatabaseSqlTests
             Assert.Equal(new BusinessOverview(0, 0, 0, 0), await service.OverviewAsync(digest, default));
             Assert.Null(await service.DetailAsync(digest, BusinessReadOperation.Record, record.Id, default));
             Assert.Null(await service.DetailAsync(digest, BusinessReadOperation.Ied, fixture.Ied, default));
+            Assert.Equal(0, (await service.PageAsync(digest, BusinessReadOperation.Record, null, 0, 1,
+                default, null, filter)).Total);
         }
         finally
         {

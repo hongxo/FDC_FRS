@@ -11,10 +11,30 @@ const first = document.getElementById('business-first');
 const last = document.getElementById('business-last');
 const count = document.getElementById('business-count');
 const navigation = document.getElementById('business-navigation');
+const recordFilters = document.getElementById('record-filters');
+const recordFrom = document.getElementById('record-from');
+const recordTo = document.getElementById('record-to');
+let selectedIed;
 const views = [...navigation.querySelectorAll('[data-view]')];
 const pageSize = 20;
 let request, sessionCheck, view = 'dashboard', offset = 0, lastOffset = 0, expired = false;
 let sessionView;
+
+function resetRecordFilters() {
+  selectedIed = undefined;
+  recordFrom.value = recordTo.value = '';
+  document.getElementById('record-ied-label').textContent = 'Tất cả IED trong phạm vi.';
+}
+
+function recordQuery(query) {
+  if (selectedIed) query.set('iedId', selectedIed.id);
+  const from = recordFrom.value ? new Date(recordFrom.value + 'Z') : null;
+  const to = recordTo.value ? new Date(recordTo.value + 'Z') : null;
+  if (from && !Number.isFinite(from.getTime()) || to && !Number.isFinite(to.getTime()) || from && to && from >= to)
+    throw Object.assign(new Error(), { status: 400 });
+  if (from) query.set('collectedFromUtc', from.toISOString());
+  if (to) query.set('collectedToUtc', to.toISOString());
+}
 
 function clear() {
   request?.abort();
@@ -45,6 +65,7 @@ async function read(path, signal) {
 
 function invalidate(error) {
   clear();
+  resetRecordFilters();
   search.value = '';
   status.textContent = message(error);
   navigation.hidden = true;
@@ -74,6 +95,7 @@ async function checkSession() {
   }
 }
 const message = error => ({ 401: 'Phiên đăng nhập đã hết hạn.', 403: 'Không có quyền truy cập.',
+  400: 'Bộ lọc chưa hợp lệ. Kiểm tra thời gian UTC và bảo đảm mốc kết thúc sau mốc bắt đầu.',
   404: 'Không tìm thấy dữ liệu trong phạm vi.', 503: 'Chưa thể xác minh chính sách hoặc quyền truy cập.' })[error.status]
   ?? 'Không tải được dữ liệu.';
 
@@ -125,6 +147,25 @@ async function openObject(id, objectView = view) {
     const heading = document.createElement('h2');
     heading.textContent = row.label;
     detail.append(heading);
+    if (row.collectedAtUtc) {
+      const time = document.createElement('p');
+      time.textContent = 'Thời gian thu thập UTC: ' + row.collectedAtUtc;
+      detail.append(time);
+    }
+    if (objectView === 'ieds') {
+      const records = document.createElement('button');
+      records.type = 'button';
+      records.textContent = 'Xem bản ghi của IED';
+      records.addEventListener('click', () => {
+        view = 'records';
+        selectedIed = { id: row.id, label: row.label };
+        offset = 0;
+        search.value = '';
+        document.getElementById('record-ied-label').textContent = 'IED: ' + selectedIed.label;
+        load();
+      });
+      detail.append(records);
+    }
     const related = { stations: ['ieds', 'IED thuộc trạm'], ieds: ['collectors', 'Collector được liên kết'],
       collectors: ['records', 'Bản ghi COMTRADE'] }[objectView];
     if (related) {
@@ -193,8 +234,10 @@ async function load() {
   const current = request = new AbortController();
   status.textContent = 'Đang kiểm tra quyền…';
   controls.hidden = view === 'dashboard';
+  recordFilters.hidden = view !== 'records';
   try {
     const query = new URLSearchParams({ paged: 'true', offset: String(offset), limit: String(pageSize), search: search.value.trim() });
+    if (view === 'records') recordQuery(query);
     const data = await read(view === 'dashboard' ? view : view + '?' + query, current.signal);
     if (current.signal.aborted) return;
     if (view === 'dashboard' && Number.isSafeInteger(data.stations)) {
@@ -247,6 +290,11 @@ async function load() {
         button.textContent = row.label;
         button.addEventListener('click', () => openObject(row.id));
         item.append(button);
+        if (row.collectedAtUtc) {
+          const time = document.createElement('p');
+          time.textContent = 'Thu thập UTC: ' + row.collectedAtUtc;
+          item.append(time);
+        }
         results.append(item);
       }
       first.disabled = previous.disabled = offset === 0;
@@ -268,17 +316,24 @@ for (const button of views) button.addEventListener('click', () => {
     return;
   }
   view = button.dataset.view;
+  resetRecordFilters();
   offset = 0;
   search.value = '';
   load();
 });
 document.getElementById('business-find').addEventListener('click', () => { offset = 0; load(); });
+document.getElementById('record-clear').addEventListener('click', () => { resetRecordFilters(); offset = 0; load(); });
+controls.addEventListener('keydown', event => {
+  if (event.key === 'Enter' && event.target instanceof HTMLInputElement) {
+    event.preventDefault(); offset = 0; load();
+  }
+});
 previous.addEventListener('click', () => { offset = Math.max(0, offset - pageSize); load(); });
 next.addEventListener('click', () => { offset += pageSize; load(); });
 first.addEventListener('click', () => { offset = 0; load(); });
 last.addEventListener('click', () => { offset = lastOffset; load(); });
 onLogout(() => { sessionCheck?.abort(); invalidate({ status: 401 }); });
-addEventListener('pagehide', () => { sessionCheck?.abort(); clear(); });
+addEventListener('pagehide', () => { sessionCheck?.abort(); clear(); resetRecordFilters(); });
 addEventListener('pageshow', checkSession);
 checkSession();
 setInterval(checkSession, 15000);
@@ -286,6 +341,7 @@ document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     sessionCheck?.abort();
     clear();
+    resetRecordFilters();
     if (!expired) status.textContent = 'Chọn phân hệ để kiểm tra lại quyền.';
   } else checkSession();
 });

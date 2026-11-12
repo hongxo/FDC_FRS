@@ -28,6 +28,17 @@ module.exports = async function verifyBusiness(page, call, expect, evidence) {
     assert.ok(rows.every(row => row.stationId === ids.stationA));
     assert.deepEqual(await expect(parent + ' relationship B hidden', await call(base + parent + '/' + idB + '/' + child), 200), []);
   }
+  const recordQuery = values => base + 'records?' + new URLSearchParams({ paged: 'true', ...values });
+  const recordsA = await expect('IED A record filter', await call(recordQuery({ iedId: ids.iedA })), 200);
+  assert.equal(recordsA.total, 1);
+  assert.equal(recordsA.items[0].id, ids.recordA);
+  const collected = recordsA.items[0].collectedAtUtc;
+  assert.equal(typeof collected, 'string');
+  assert.equal((await expect('Collection lower boundary included', await call(recordQuery({ collectedFromUtc: collected })), 200)).total, 1);
+  assert.equal((await expect('Collection upper boundary excluded', await call(recordQuery({ collectedToUtc: collected })), 200)).total, 0);
+  assert.equal((await expect('Out-of-scope IED filter remains empty', await call(recordQuery({ iedId: ids.iedB })), 200)).total, 0);
+  await expect('Invalid UTC interval denied', await call(recordQuery({ collectedFromUtc: collected, collectedToUtc: collected })), 400);
+  await expect('Invalid IED filter denied', await call(recordQuery({ iedId: 'not-a-guid' })), 400);
   for (const [route, visible, hidden] of [
     ['stations', ids.stationA, ids.stationB], ['ieds', ids.iedA, ids.iedB],
     ['records', ids.recordA, ids.recordB], ['collectors', ids.collectorA, ids.collectorB]
@@ -67,6 +78,30 @@ module.exports = async function verifyBusiness(page, call, expect, evidence) {
     await businessPage.locator('#object-detail h2').filter({ hasText: 'A7-Station-A' }).waitFor();
     if (evidence) await businessPage.screenshot({ path: path.join(evidence, 'a7-stations.png') });
     await businessPage.locator('#object-detail').getByRole('button', { name: 'A7-IED-A', exact: true }).click();
+    await businessPage.getByRole('button', { name: 'Xem bản ghi của IED', exact: true }).click();
+    await businessPage.getByText('IED: A7-IED-A', { exact: true }).waitFor();
+    await businessPage.locator('#business-count').getByText('Tổng trong phạm vi: 1', { exact: true }).waitFor();
+    await businessPage.locator('#record-from').fill('2000-01-01T00:00');
+    await businessPage.locator('#record-to').fill('2100-01-01T00:00');
+    await businessPage.locator('#business-find').click();
+    await businessPage.locator('#results li').getByText(/Thu thập UTC/).waitFor();
+    if (evidence) await businessPage.screenshot({ path: path.join(evidence, 'business-record-search.png'), fullPage: true });
+    await businessPage.locator('#record-from').fill('2100-01-01T00:00');
+    await businessPage.locator('#record-to').fill('2101-01-01T00:00');
+    await businessPage.locator('#business-find').click();
+    await businessPage.getByRole('status').filter({ hasText: 'Không có dữ liệu trong phạm vi.' }).waitFor();
+    assert.equal(await businessPage.locator('#results li').count(), 0);
+    await businessPage.locator('#record-to').fill('2000-01-01T00:00');
+    await businessPage.locator('#business-find').click();
+    await businessPage.getByRole('status').filter({ hasText: 'Bộ lọc chưa hợp lệ.' }).waitFor();
+    await businessPage.locator('#record-clear').click();
+    await businessPage.locator('#business-count').getByText('Tổng trong phạm vi: 1', { exact: true }).waitFor();
+    assert.equal(await businessPage.locator('#record-from').inputValue(), '');
+    assert.equal(await businessPage.locator('#record-to').inputValue(), '');
+    await businessPage.getByRole('button', { name: 'IED', exact: true }).click();
+    await businessPage.locator('#business-search').fill('A7-IED-A');
+    await businessPage.locator('#business-find').click();
+    await businessPage.getByRole('button', { name: 'A7-IED-A', exact: true }).click();
     await businessPage.locator('#object-detail').getByRole('button', { name: 'A7-Collector-A', exact: true }).click();
     await businessPage.locator('#object-detail').getByRole('button', { name: /^[a-f0-9]{64}$/ }).click();
     await businessPage.locator('#object-detail').getByRole('link', { name: /fixture\.dat/ }).waitFor();
@@ -168,6 +203,7 @@ module.exports = async function verifyBusiness(page, call, expect, evidence) {
   await expect('Previously authorized file denied after SQL revoke', revoked, 404);
   assert.equal(revoked.bytes.length, 0);
   const after = await expect('Dashboard after revoke', await call(base + 'dashboard'), 200);
+  assert.equal((await expect('IED record filter rechecks revoke', await call(recordQuery({ iedId: ids.iedA })), 200)).total, 0);
   assert.equal(after.stations, 0);
   assert.equal(after.ieds, 0);
   assert.equal(after.collectors, 0);
